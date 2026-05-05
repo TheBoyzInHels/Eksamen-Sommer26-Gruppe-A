@@ -2,7 +2,7 @@
 
 ---Medlemmer---
 
-Christopher Christensen (Hold B)
-Gabriel Marcussen (Hold B)
-Nicolai Fællesgaard (Hold A)
+Christopher Christensen (Hold B),
+Gabriel Marcussen (Hold B),
+Nicolai Faellesgaard (Hold A),
 Peter Maersk (Hold A)
