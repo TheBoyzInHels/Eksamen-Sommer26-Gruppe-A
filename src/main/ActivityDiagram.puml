@@ -1,0 +1,44 @@
+@startuml
+
+skinparam shadowing false
+skinparam dpi 150
+
+|Kunde|
+start
+:Vælg egne mål;
+
+if (Skur?) then (Ja)
+  :Vælg mål;
+endif
+
+:Se pris;
+:Indsend forespørgsel;
+
+|Shop|
+:Alle forespørgsler;
+
+|Sælger|
+:Se forespørgsel;
+:Se stykliste med pris;
+
+if (Problem?) then (Ja)
+
+  |Mail|
+  :Kontakt;
+
+  |Sælger|
+  :Afvent svar;
+
+endif
+
+:Ændre status;
+
+|Shop|
+:Status: Klar til betaling;
+
+|Kunde|
+:Se status;
+:Betal;
+
+stop
+@enduml
