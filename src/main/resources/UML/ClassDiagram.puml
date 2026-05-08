@@ -1,0 +1,108 @@
+@startuml
+'https://plantuml.com/class-diagram
+package entities{
+class User{
+-int id
+-String eMail
+-String password
+-String firstName
+-String lastName
+-String phoneNumber
+-boolean isAdmin
+
++User(int userId)
++User()
+}
+
+class Carport{
+-int carportId
+-int amountOfCars
+-int length
+-int width
+-boolean hasShed
+-int shedWidth
+-int shedLength
+-boolean hasGutter
+
++Carport(int carportId)
++Carport()
+    }
+
+class Inquiry{
+-int InquiryId
+-String status
+-User user
+-Carport carport
+-Date date
+-int price
+
++setInquiryStatus(String status)
+}
+}
+
+package Service{
+class CarportService{
+
++carportToSVGString(Carport, SVGType)
++generatePartsList(Carport)
++generatePrice(Carport)
++generateInvoice(Carport)
+    }
+}
+
+package controllers{
+class UserController{
++addRoutes(Javalin, ConnectionPool)
++connectToMapper(Context, ConnectionPool, String action)
++login(Context, ConnectionPool)
++register(Context, ConnectionPool)
+}
+class AdminController{
++addRoutes(Javalin, ConnectionPool)
++connectToInquiryMapper(Context, ConnectionPool, String action)
++seeAllInquiries(ConnectionPool)
++updateInquiryStatus(Context, ConnectionPool)
++deleteInquiry(Context, ConnectionPool)
+}
+
+class CarportController{
++addRoutes(Javalin, ConnectionPool)
++connectToMapper(Context, ConnectionPool, String action)
++seeAllCarports(ConnectionPool)
++createCarport(Context, ConnectionPool)
++editCarport(Context, ConnectionPool)
++deleteCarport(Context, ConnectionPool)
+}
+
+class InvoiceController{
++addRoutes(Javalin, ConnectionPool)
++connectToMapper(Context, ConnectionPool, String action)
++createInvoice(Context, Connection)
+}
+}
+
+package persistence {
+class UserMapper{
++login(ConnectionPool, User)
++createUser(ConnectionPool, User)
+}
+
+class CarportMapper{
++listCarports(ConnectionPool)
++actionCarports(ConnectionPool, String action)
++findCarport(ConnectionPool, Carport)
++editCarport(ConnectionPool, Carport)
++deleteCarport(ConnectionPool, Carport)
+}
+
+class InvoiceMapper{
++listInvoice(ConnectionPool)
++actionInvoice(ConnectionPool, String action)
++findInvoice(ConnectionPool, Invoice)
++editInvoice(ConnectionPool, Invoice)
++deleteInvoice(ConnectionPool, Invoice)
+}
+
+
+}
+@enduml
