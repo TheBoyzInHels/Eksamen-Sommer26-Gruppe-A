@@ -1,0 +1,48 @@
+@startuml
+
+class Customer{
+CustomerId
+Name
+Email
+Tlf
+Password
+}
+class Carport{
+CarportId
+Carport specifications
+Material
+
+}
+class Inquiry{
+InquiryId
+Price
+Carport
+Dato
+}
+class Seller{
+SellerId
+Email
+Password
+}
+class Invoice{
+InvoiceId
+Price
+Parts list
+Carport
+}
+class Payment{
+PaymentId
+}
+
+
+Customer "1" --> "*" Inquiry
+
+Inquiry "*" --> "1" Seller
+
+Inquiry "1" --> "1" Carport
+
+Inquiry "1" --> "0..1" Invoice
+
+Customer "1" --> "*" Invoice
+
+@enduml
