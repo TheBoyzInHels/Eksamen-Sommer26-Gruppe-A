@@ -20,4 +20,20 @@ CREATE TABLE IF NOT EXISTS public.users
     is_admin boolean DEFAULT false,
     PRIMARY KEY (user_id)
     );
+
+CREATE TABLE public.carport
+(
+    carport_id bigserial NOT NULL,
+    amount_of_cars bigint NOT NULL DEFAULT 1,
+    length character varying NOT NULL,
+    width character varying NOT NULL,
+    has_shed boolean,
+    shed_width character varying,
+    shed_length character varying,
+    has_gutter boolean,
+    PRIMARY KEY (carport_id)
+);
+
+ALTER TABLE IF EXISTS public.carport
+    OWNER to postgres;
 END;
