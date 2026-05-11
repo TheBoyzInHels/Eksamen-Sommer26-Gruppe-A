@@ -87,6 +87,15 @@
             </div>
 
             <div class="form-group">
+                <label>Tagrende</label>
+                <select th:field="@{tagrende}">
+                    <option value="">Vil du have tagrende?</option>
+                    <option value="Ja">Ja</option>
+                    <option value="Nej">Nej</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label>Bemærkninger</label>
                 <textarea th:field="@{notes}" placeholder="Skriv eventuelle bemærkninger..."></textarea>
             </div>
