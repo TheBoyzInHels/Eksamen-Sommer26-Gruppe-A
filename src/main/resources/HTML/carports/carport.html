@@ -34,39 +34,41 @@
             <h2>Carport med fladt tag</h2>
 
             <div class="form-group">
+                <label>Antal biler</label>
+                <select id="amountOfCars" th:field="@{amountOfCars}">
+                    <option value="">Vælg antal biler</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label>Carport bredde</label>
-                <select th:field="@{width}">
+                <select id="width" th:field="@{width}">
                     <option value="">Vælg bredde</option>
-                    <option value="300">300 cm</option>
-                    <option value="360">360 cm</option>
-                    <option value="420">420 cm</option>
-                    <option value="480">480 cm</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Carport længde</label>
-                <select th:field="@{length}">
+                <select id="length" th:field="@{length}">
                     <option value="">Vælg længde</option>
-                    <option value="480">480 cm</option>
-                    <option value="540">540 cm</option>
-                    <option value="600">600 cm</option>
-                    <option value="720">720 cm</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Redskabsskur</label>
-                <select th:field="@{skur}">
-                    <option value="">Vil du have skur?</option>
+                <select id="shed" th:field="@{shed}">
+                    <option value="">Vælg om du vil have skur</option>
                     <option value="Ja">Ja</option>
                     <option value="Nej">Nej</option>
                 </select>
             </div>
 
+            <div id="shedOptions">
             <div class="form-group">
                 <label>Redskabsskur bredde</label>
-                <select th:field="@{shedWidth}">
+                <select id="shedWidth" th:field="@{shedWidth}">
                     <option value="">Vælg bredde</option>
                     <option value="150">150 cm</option>
                     <option value="180">180 cm</option>
@@ -77,7 +79,7 @@
 
             <div class="form-group">
                 <label>Redskabsskur længde</label>
-                <select th:field="@{shedLength}">
+                <select id="shedLength" th:field="@{shedLength}">
                     <option value="">Vælg længde</option>
                     <option value="150">150 cm</option>
                     <option value="240">240 cm</option>
@@ -86,10 +88,12 @@
                 </select>
             </div>
 
+                </div>
+
             <div class="form-group">
                 <label>Tagrende</label>
-                <select th:field="@{tagrende}">
-                    <option value="">Vil du have tagrende?</option>
+                <select th:field="@{gutter}">
+                    <option value="">Vælg om du vil have tagrende</option>
                     <option value="Ja">Ja</option>
                     <option value="Nej">Nej</option>
                 </select>
@@ -104,11 +108,76 @@
                 Send forespørgsel
             </button>
 
+            <button class="sidebar-save-btn" type="submit">
+                Gem carport
+            </button>
+
         </div>
 
     </form>
 
 </main>
+<script>
 
+    const amountOfCars = document.getElementById("amountOfCars");
+    const widthSelect = document.getElementById("width");
+    const lengthSelect = document.getElementById("length");
+
+    const shedSelect = document.getElementById("shed");
+    const shedOptions = document.getElementById("shedOptions");
+
+    function updateCarportOptions() {
+
+        const cars = amountOfCars.value;
+
+        widthSelect.innerHTML = "";
+        lengthSelect.innerHTML = "";
+
+        widthSelect.innerHTML += `<option value="">Vælg bredde</option>`;
+        lengthSelect.innerHTML += `<option value="">Vælg længde</option>`;
+
+
+        if (cars === "1") {
+            widthSelect.innerHTML += `
+                <option value="300">300 cm</option>
+                <option value="360">360 cm</option>
+            `;
+
+            lengthSelect.innerHTML += `
+                <option value="480">480 cm</option>
+                <option value="540">540 cm</option>
+            `;
+        }
+
+
+        else if (cars === "2") {
+            widthSelect.innerHTML += `
+                <option value="420">420 cm</option>
+                <option value="480">480 cm</option>
+            `;
+
+            lengthSelect.innerHTML += `
+                <option value="600">600 cm</option>
+                <option value="720">720 cm</option>
+            `;
+        }
+    }
+
+    // Shows and hides shed width and length
+    function toggleShedOptions() {
+
+        if (shedSelect.value === "Ja") {
+            shedOptions.style.display = "block";
+        } else {
+            shedOptions.style.display = "none";
+        }
+    }
+
+    amountOfCars.addEventListener("change", updateCarportOptions);
+    shedSelect.addEventListener("change", toggleShedOptions);
+
+    toggleShedOptions();
+
+</script>
 </body>
 </html>

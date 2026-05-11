@@ -37,8 +37,17 @@ select, textarea {
     border: 1px solid #cfcfcf;
 }
 
-/* BUTTON */
+/* Button to send inquiry */
 .sidebar-btn {
+    padding: 16px;
+    background: #003b7a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Button to save carport for later */
+.sidebar-save-btn {
     padding: 16px;
     background: #003b7a;
     color: white;
