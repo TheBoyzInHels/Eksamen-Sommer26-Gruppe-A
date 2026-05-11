@@ -1,0 +1,47 @@
+
+/* Infobox with FOG message */
+.info-box {
+    max-width: 500px;
+    background: #f5f5f5;
+    padding: 30px;
+    border-radius: 8px;
+    margin: 40px 0 40px 80px;
+}
+
+/* Sidebar inquiry */
+.carport-sidebar {
+    position: absolute;
+    top: 160px;
+    right: 160px;
+    width: 500px;
+
+    background: #d9e1df;
+    padding: 30px;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* FORM */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+select, textarea {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #cfcfcf;
+}
+
+/* BUTTON */
+.sidebar-btn {
+    padding: 16px;
+    background: #003b7a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

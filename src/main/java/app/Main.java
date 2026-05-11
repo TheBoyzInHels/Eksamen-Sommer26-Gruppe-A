@@ -26,6 +26,7 @@ public class Main {
         }).start(7070);
 
         // Routing
+        app.get("/carport", ctx ->  ctx.render("/carports/carport.html"));
         UserController.addRoutes(app,connectionPool);
     }
 }

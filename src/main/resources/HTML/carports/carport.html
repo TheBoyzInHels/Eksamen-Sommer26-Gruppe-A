@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fog - Carport</title>
+
+    <link rel="stylesheet" th:href="@{/css/carport.css}" />
+</head>
+
+
+<main class="content-placeholder">
+
+    <div class="info-box">
+        <h1>Bestil Quick-Byg tilbud - carport med fladt tag</h1>
+
+        <h3>
+            Med et specialudviklet computerprogram kan vi lynhurtigt
+            beregne prisen og udskrive en skitsetegning på en
+            carport indenfor vores standardprogram. 
+            Tilbud og skitsetegning fremsendes på mail hurtigst
+            muligt. 
+            Ved bestilling medfølger standardbyggevejledning.
+
+            Udfyld formularen omhyggeligt og klik på "Bestil tilbud". 
+            Felter markeret med * SKAL udfyldes!
+        </h3>
+    </div>
+
+    <form th:action="@{/carport/submit}" th:object="${carportForm}" method="post">
+
+        <div class="carport-sidebar">
+
+            <h2>Carport med fladt tag</h2>
+
+            <div class="form-group">
+                <label>Carport bredde</label>
+                <select th:field="@{width}">
+                    <option value="">Vælg bredde</option>
+                    <option value="300">300 cm</option>
+                    <option value="360">360 cm</option>
+                    <option value="420">420 cm</option>
+                    <option value="480">480 cm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Carport længde</label>
+                <select th:field="@{length}">
+                    <option value="">Vælg længde</option>
+                    <option value="480">480 cm</option>
+                    <option value="540">540 cm</option>
+                    <option value="600">600 cm</option>
+                    <option value="720">720 cm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Redskabsskur</label>
+                <select th:field="@{skur}">
+                    <option value="">Vil du have skur?</option>
+                    <option value="Ja">Ja</option>
+                    <option value="Nej">Nej</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Redskabsskur bredde</label>
+                <select th:field="@{shedWidth}">
+                    <option value="">Vælg bredde</option>
+                    <option value="150">150 cm</option>
+                    <option value="180">180 cm</option>
+                    <option value="210">210 cm</option>
+                    <option value="240">240 cm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Redskabsskur længde</label>
+                <select th:field="@{shedLength}">
+                    <option value="">Vælg længde</option>
+                    <option value="150">150 cm</option>
+                    <option value="240">240 cm</option>
+                    <option value="300">300 cm</option>
+                    <option value="360">360 cm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Bemærkninger</label>
+                <textarea th:field="@{notes}" placeholder="Skriv eventuelle bemærkninger..."></textarea>
+            </div>
+
+            <button class="sidebar-btn" type="submit">
+                Send forespørgsel
+            </button>
+
+        </div>
+
+    </form>
+
+</main>
+
+</body>
+</html>
