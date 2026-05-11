@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Side</title>
+    <link href="../public/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="login-box">
+    <h2>Login</h2>
+
+    <form id="registerForm" th:action="@{/register}" method="post">
+        <div class="input-group">
+            <label for="reg-email">E-Mail-Adresse</label>
+            <input type="email" id="reg-email" name="email" placeholder="Indtast e-mail" required />
+        </div>
+
+        <div class="input-group">
+            <label for="reg-password">Adgangskode</label>
+            <input type="password" id="reg-password" name="password" minlength="5" placeholder="Indtast adgangskode" required />
+        </div>
+
+        <div class="input-group">
+            <label for="reg-password-repeat">Gentag Adgangskode</label>
+            <input type="password" id="reg-password-repeat" name="password" minlength="5" placeholder="Gentag adgangskode" required>
+        </div>
+
+        <div class="input-group">
+            <label for="first-name">Fornavn</label>
+            <input type="text" id="first-name" name="firstName" placeholder="Indtast fornavn" required />
+        </div>
+
+        <div class="input-group">
+            <label for="last-name">Efternavn</label>
+            <input type="text" id="last-name" name="lastName" placeholder="Indtast efternavn" required />
+        </div>
+
+        <div class="input-group">
+            <label for="phone-number">Telefonnummer</label>
+            <input type="number" id="phone-number" name="phoneNUmber" placeholder="Indtast telefonnummer" required />
+        </div>
+
+        <button type="submit" class="login-btn">Registrer</button>
+    </form>
+    <script src="/js/validateUser.js"></script>
+
+    <div class="message" th:if="${message}" th:text="${message}"></div>
+
+    <div class="message" th:if="${session.username}">
+        Du er logget ind som: <span th:text="${session.username}"></span>
+    </div>
+</div>
+</body>
+</html>

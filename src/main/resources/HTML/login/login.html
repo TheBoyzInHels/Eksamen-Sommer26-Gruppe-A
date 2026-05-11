@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Side</title>
+    <link href="../public/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="login-box">
+    <h2>Login</h2>
+
+    <form th:action="@{/login}" method="post">
+        <div class="input-group">
+            <label for="email">E-Mail-Adresse</label>
+            <input type="email" id="email" name="email" placeholder="Indtast e-mail" required />
+        </div>
+
+        <div class="input-group">
+            <label for="password">Adgangskode</label>
+            <input type="password" id="password" name="password" placeholder="Indtast adgangskode" required />
+        </div>
+
+        <button type="submit" class="login-btn">Log ind</button>
+
+        <div class="register-link">
+            <a th:href="@{/register}">
+                Ikke registreret endnu? Opret en konto
+            </a>
+        </div>
+    </form>
+
+    <div class="message" th:if="${message}" th:text="${message}"></div>
+
+    <div class="message" th:if="${session.username}">
+        Du er logget ind som: <span th:text="${session.username}"></span>
+    </div>
+</div>
+</body>
+</html>
