@@ -103,6 +103,7 @@ class InvoiceMapper{
 +deleteInvoice(ConnectionPool, Invoice)
 }
 
+controllers --> persistence
 
 }
 @enduml
