@@ -29,7 +29,7 @@ public class UserController {
         try {
             User user = UserMapper.login(email, password, connectionPool);
             ctx.sessionAttribute("currentUser", user);
-            ctx.render("/carports/test.html");
+            ctx.render("/carports/carport.html");
         } catch (DatabaseException e) {
             ctx.attribute("msg", e.getMessage());
             ctx.render("login.html");
@@ -46,6 +46,6 @@ public class UserController {
         User user = new User(email,password,firstName,lastName,phoneNumber);
         UserMapper.createUser(user, connectionPool);
         ctx.sessionAttribute("currentUser", user);
-        ctx.render("/carports/test.html");
+        ctx.render("/carports/carport.html");
     }
 }
