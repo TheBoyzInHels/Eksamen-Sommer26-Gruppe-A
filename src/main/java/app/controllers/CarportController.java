@@ -62,6 +62,15 @@ public class CarportController {
     }
 
     public void deleteCarport(Context ctx, ConnectionPool connectionPool) {
+        int carportId = Integer.parseInt(ctx.formParam("selectCarportId"));
+        try {
+            CarportMapper.deleteCarport(connectionPool, ctx, carportId);
 
+            ctx.redirect("/saved");
+
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
+     }
     }
-}
+

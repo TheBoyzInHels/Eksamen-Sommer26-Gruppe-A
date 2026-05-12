@@ -27,7 +27,21 @@ public class CarportMapper {
 
     }
 
-    public void deleteCarport (ConnectionPool connectionPool, Carport carport) {
+    public static void deleteCarport (ConnectionPool connectionPool, Context ctx, int carportId) throws DatabaseException{
+    String deleteSql = "DELETE FROM carports WHERE carport_id = ?";
+
+        try
+                (
+                        Connection connection = connectionPool.getConnection();
+                        PreparedStatement ps = connection.prepareStatement(deleteSql);
+                ) {
+            ps.setInt(1, carportId);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error with saveCarport", e.getMessage());
+        }
 
     }
 
