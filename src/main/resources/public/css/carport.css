@@ -5,13 +5,13 @@
     background: #f5f5f5;
     padding: 30px;
     border-radius: 8px;
-    margin: 40px 0 40px 80px;
+    margin: 100px 0 40px 80px;
 }
 
 /* Sidebar inquiry */
 .carport-sidebar {
     position: absolute;
-    top: 160px;
+    top: 100px;
     right: 160px;
     width: 500px;
 
@@ -37,8 +37,17 @@ select, textarea {
     border: 1px solid #cfcfcf;
 }
 
-/* BUTTON */
+/* Button to send inquiry */
 .sidebar-btn {
+    padding: 16px;
+    background: #003b7a;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Button to save carport for later */
+.sidebar-save-btn {
     padding: 16px;
     background: #003b7a;
     color: white;
