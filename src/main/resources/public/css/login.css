@@ -1,16 +1,14 @@
-* {
-    box-sizing: border-box;
+.login-page-body {
     margin: 0;
-    padding: 0;
+    background: linear-gradient(135deg, #013D7A, #013D7A);
     font-family: Arial, sans-serif;
 }
 
-body {
+.login-page-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #013D7A, #013D7A);
+    min-height: calc(100vh - 120px);
 }
 
 .login-box {
@@ -18,7 +16,7 @@ body {
     padding: 40px;
     border-radius: 4px;
     width: 320px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .login-box h2 {
@@ -27,18 +25,18 @@ body {
     color: #333;
 }
 
-.input-group {
+.login-input-group {
     margin-bottom: 18px;
 }
 
-.input-group label {
+.login-input-group label {
     display: block;
     margin-bottom: 6px;
     color: #555;
     font-size: 14px;
 }
 
-.input-group input {
+.login-input-group input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -62,7 +60,7 @@ body {
     background: #013D7A;
 }
 
-.message {
+.login-message {
     margin-top: 16px;
     text-align: center;
     font-size: 14px;

@@ -1,35 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="/public/css/header.css">
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<nav th:fragment="header" class="site-header">
 
-<nav class="header">
-    <img class="icon" src="/public/images/FOG%20logo.jpg">
+    <img class="site-header-logo"
+         th:src="@{/images/FOG_logo.png}">
 
-    <span class="headerText">Bolig & design</span>
-    <span class="headerText">Byggematerialer</span>
-    <span class="headerText">El & belysning</span>
-    <span class="headerText">Have & fritid</span>
-    <span class="headerText">Værktøj</span>
-    <span class="headerText">Mærker</span>
-    <span class="headerText">Tilbud</span>
-    <span class="headerText">Fog Pro</span>
-    <span class="headerText">Byg Carport</span>
-    <div class="searchBar">
-        <img class="searchIcon" src="/public/images/FOG_Search_Logo.png">
-        <input type="text" placeholder=" Søgning">
+    <span class="site-header-text">Bolig & design</span>
+    <span class="site-header-text">Byggematerialer</span>
+    <span class="site-header-text">El & belysning</span>
+    <span class="site-header-text">Have & fritid</span>
+    <span class="site-header-text">Værktøj</span>
+    <span class="site-header-text">Mærker</span>
+    <span class="site-header-text">Tilbud</span>
+    <span class="site-header-text">Fog Pro</span>
+    <span class="site-header-text">Byg Carport</span>
+
+    <div class="site-header-search">
+
+        <img class="site-header-search-icon"
+             th:src="@{/images/FOG_Search_Logo.png}">
+
+        <input type="text" placeholder="Søgning">
 
     </div>
 
-        <img class="profileIcon" src="/public/images/Profile.jpg">
-        <img class="locationIcon" src="/public/images/Location%20icon.png">
-        <img class="cartIcon" src="/public/images/Shopping_cart.png">
+    <img class="site-header-profile-icon"
+         th:src="@{/images/Profile.png}">
+
+    <img class="site-header-location-icon"
+         th:src="@{/images/Location_icon.png}">
+
+    <img class="site-header-cart-icon"
+         th:src="@{/images/Shopping_cart.png}">
 
 </nav>
-
-</body>
-</html>

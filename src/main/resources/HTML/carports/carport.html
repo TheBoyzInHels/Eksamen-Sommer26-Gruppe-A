@@ -6,7 +6,11 @@
     <title>Fog - Carport</title>
 
     <link rel="stylesheet" th:href="@{/css/carport.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
 </head>
+
+<div th:replace="~{templates/header.html :: header}"></div>
 
 
 <main class="content-placeholder">
@@ -180,4 +184,9 @@
 
 </script>
 </body>
+
+<footer>
+    <div th:replace="~{templates/footer.html :: footer}"></div>
+</footer>
+
 </html>
