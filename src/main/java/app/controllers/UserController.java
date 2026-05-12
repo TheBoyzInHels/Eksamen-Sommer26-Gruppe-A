@@ -32,7 +32,7 @@ public class UserController {
             ctx.render("/carports/carport.html");
         } catch (DatabaseException e) {
             ctx.attribute("msg", e.getMessage());
-            ctx.render("login.html");
+            ctx.render("/login/login.html");
         }
     }
 
