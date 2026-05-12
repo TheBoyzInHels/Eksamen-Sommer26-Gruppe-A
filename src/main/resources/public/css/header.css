@@ -8,7 +8,7 @@ h1 {
     font-size: 3rem;
 }
 
-.topMenu {
+.header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -57,7 +57,7 @@ h1 {
     height: 30px;
 }
 
-.topMenuText {
+.headerText {
     font-family: "Verdana", sans-serif;
     color: rgb(16, 24, 32);
     font-size: 14px;

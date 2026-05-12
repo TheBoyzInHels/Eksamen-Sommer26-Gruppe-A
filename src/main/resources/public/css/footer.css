@@ -1,0 +1,33 @@
+.footer {
+    display: flex;
+    gap: 80px;
+
+    padding: 40px;
+
+    background-color: #f5f5f5;
+}
+
+.footerSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footerSection h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footerSection a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+.icon{
+    margin: 0;
+    width: 70px;
+    height: 70px;
+}
+p{
+    margin: 0;
+}
