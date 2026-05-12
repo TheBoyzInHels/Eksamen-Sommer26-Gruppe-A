@@ -22,4 +22,5 @@ public class InquiryMapper {
     public void deleteInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
 
     }
+
 }

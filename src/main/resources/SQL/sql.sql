@@ -33,6 +33,12 @@ CREATE TABLE public.carport
     has_gutter boolean,
     PRIMARY KEY (carport_id)
 );
+ALTER TABLE IF EXISTS public.carport
+    ADD CONSTRAINT user_id FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+       ON DELETE NO ACTION
+    NOT VALID;
 
 ALTER TABLE IF EXISTS public.carport
     OWNER to postgres;
