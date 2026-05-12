@@ -6,11 +6,18 @@ import io.javalin.http.Context;
 
 public class CarportController {
 
-    public void addRoutes(Javalin javalin, ConnectionPool connectionPool) {
+    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+
+        app.get("/saved", ctx -> seeSavedCarports(ctx, connectionPool));
 
     }
 
     public void connectToMapper(Context ctx, ConnectionPool connectionPool) {
+
+    }
+
+    public static void seeSavedCarports(Context ctx, ConnectionPool connectionPool) {
+        ctx.render("/carports/saved.html");
 
     }
 
