@@ -21,25 +21,26 @@ CREATE TABLE IF NOT EXISTS public.users
     PRIMARY KEY (user_id)
     );
 
-CREATE TABLE public.carport
+CREATE TABLE public.carports
 (
     carport_id bigserial NOT NULL,
     amount_of_cars bigint NOT NULL DEFAULT 1,
-    length character varying NOT NULL,
-    width character varying NOT NULL,
-    has_shed boolean,
-    shed_width character varying,
+    carport_length character varying NOT NULL,
+    carport_width bigint NOT NULL,
+    has_shed boolean DEFAULT false,
     shed_length character varying,
-    has_gutter boolean,
-    PRIMARY KEY (carport_id)
+    shed_width character varying,
+    has_gutter boolean DEFAULT false,
+    user_id bigint,
+    PRIMARY KEY (carport_id),
+    CONSTRAINT user_id FOREIGN KEY (user_id)
+        REFERENCES public.users (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
 );
-ALTER TABLE IF EXISTS public.carport
-    ADD CONSTRAINT user_id FOREIGN KEY (user_id)
-    REFERENCES public.users (user_id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-       ON DELETE NO ACTION
-    NOT VALID;
 
-ALTER TABLE IF EXISTS public.carport
+ALTER TABLE IF EXISTS public.carports
     OWNER to postgres;
+
 END;

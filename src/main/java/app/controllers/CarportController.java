@@ -22,7 +22,7 @@ public class CarportController {
     }
 
     public static void seeSavedCarports(Context ctx, ConnectionPool connectionPool) {
-        ctx.render("/carports/saved.html");
+        ctx.render("carports/saved.html");
 
     }
 
