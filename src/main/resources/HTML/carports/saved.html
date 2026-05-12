@@ -6,11 +6,53 @@
 
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/myCarports.css}">
 </head>
 
 <div th:replace="~{templates/header.html :: header}"></div>
 
 <body>
+<h1>Mine Carporte</h1>
+
+<!-- Hvis listen er tom -->
+<div th:if="${#lists.isEmpty(session.carportList)}" class="empty-message">
+    Ingen carporte fundet.
+</div>
+
+<!-- Grid med carporte -->
+<div class="carport-grid" th:if="${not #lists.isEmpty(session.carportList)}">
+
+    <div class="carport-card"
+         th:each="carport : ${session.carportList}">
+
+        <div class="carport-title"
+             th:text="${carport.carportId}">
+            Carport navn
+        </div>
+
+        <div class="carport-info">
+            <strong>Bredde:</strong>
+            <span th:text="${carport.length}">600</span> cm
+        </div>
+
+        <div class="carport-info">
+            <strong>Længde:</strong>
+            <span th:text="${carport.width}">780</span> cm
+        </div>
+
+        <form th:action="@{/deleteCarport}" method="post">
+            <input type="hidden"
+                   name="selectedCarportId"
+                   th:value="${carport.carportId}" />
+
+            <button type="submit" class="delete-btn">
+                Slet carport
+            </button>
+        </form>
+
+    </div>
+
+</div>
 
 </body>
 

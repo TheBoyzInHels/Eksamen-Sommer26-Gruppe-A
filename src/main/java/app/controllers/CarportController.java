@@ -4,16 +4,21 @@ import app.entities.Carport;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
+import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class CarportController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/carport", ctx -> ctx.render("/carports/carport.html"));
         app.post("/submit", ctx -> submitCarport(ctx, connectionPool));
+        app.get("/saved", ctx -> myCarports(ctx, connectionPool));
         app.post("/saved", ctx -> saveCarport(ctx, connectionPool));
+        app.post("/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
     }
 
 
@@ -26,8 +31,16 @@ public class CarportController {
 
     }
 
-    public void seeAllCarports(ConnectionPool connectionPool) {
+    public void allCarports(ConnectionPool connectionPool) {
 
+
+    }
+
+    public static void myCarports(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        List<Carport> carports = CarportMapper.listCarports(connectionPool, UserService.currentUser(ctx));
+
+        ctx.sessionAttribute("carportList", carports);
+        ctx.render("carports/saved.html");
     }
 
     public static void submitCarport(Context ctx, ConnectionPool connectionPool) {
@@ -49,7 +62,7 @@ public class CarportController {
 
             CarportMapper.saveCarport(connectionPool, carport, ctx);
 
-            ctx.render("carports/saved.html");
+            ctx.redirect("/saved");
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         } catch (DatabaseException e) {
@@ -61,10 +74,10 @@ public class CarportController {
 
     }
 
-    public void deleteCarport(Context ctx, ConnectionPool connectionPool) {
-        int carportId = Integer.parseInt(ctx.formParam("selectCarportId"));
+    public static void deleteCarport(Context ctx, ConnectionPool connectionPool) {
+        int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
         try {
-            CarportMapper.deleteCarport(connectionPool, ctx, carportId);
+            CarportMapper.deleteCarport(connectionPool, carportId);
 
             ctx.redirect("/saved");
 

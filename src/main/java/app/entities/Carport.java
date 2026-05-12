@@ -8,12 +8,25 @@ public class Carport {
     int length;
     int width;
     boolean hasShed;
-    int shedWidth;
     int shedLength;
+    int shedWidth;
     boolean hasGutter;
+    int userId;
 
     /* v Constructors v */
-    public Carport(int carportId, int amountOfCars, int length, int width, boolean hasShed, int shedWidth, int shedLength, boolean hasGutter) {
+    public Carport(int carportId, int amountOfCars, int length, int width, boolean hasShed, int shedLength, int shedWidth, boolean hasGutter, int userId) {
+        this.carportId = carportId;
+        this.amountOfCars = amountOfCars;
+        this.length = length;
+        this.width = width;
+        this.hasShed = hasShed;
+        this.shedWidth = shedWidth;
+        this.shedLength = shedLength;
+        this.hasGutter = hasGutter;
+        this.userId = userId;
+    }
+
+    public Carport(int carportId, int amountOfCars, int length, int width, boolean hasShed, int shedLength, int shedWidth, boolean hasGutter) {
         this.carportId = carportId;
         this.amountOfCars = amountOfCars;
         this.length = length;
@@ -24,7 +37,7 @@ public class Carport {
         this.hasGutter = hasGutter;
     }
 
-    public Carport(int amountOfCars, int length, int width, boolean hasShed, int shedWidth, int shedLength, boolean hasGutter) {
+    public Carport(int amountOfCars, int length, int width, boolean hasShed, int shedLength, int shedWidth, boolean hasGutter) {
         this.amountOfCars = amountOfCars;
         this.length = length;
         this.width = width;
