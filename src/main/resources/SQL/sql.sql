@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS public.carports
 (
     carport_id bigserial NOT NULL,
     amount_of_cars bigint NOT NULL DEFAULT 1,
-    length bigint NOT NULL,
-    width bigint NOT NULL,
+    carport_length bigint NOT NULL,
+    carport_width bigint NOT NULL,
     has_shed boolean NOT NULL DEFAULT false,
     shed_width bigint,
     shed_length bigint,
