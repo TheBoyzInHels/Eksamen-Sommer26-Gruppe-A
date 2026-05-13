@@ -31,28 +31,104 @@
         </div>
 
         <div class="carport-info">
-            <strong>Bredde:</strong>
+            <strong>Længde:</strong>
             <span th:text="${carport.length}">600</span> cm
         </div>
 
         <div class="carport-info">
-            <strong>Længde:</strong>
+            <strong>Bredde:</strong>
             <span th:text="${carport.width}">780</span> cm
         </div>
 
-        <form th:action="@{/deleteCarport}" method="post">
-            <input type="hidden"
-                   name="selectedCarportId"
-                   th:value="${carport.carportId}" />
+        <div class="button-group">
 
-            <button type="submit" class="delete-btn">
-                Slet carport
+            <!-- Edit knap -->
+            <form th:action="@{/editCarport}" method="get">
+                <input type="hidden"
+                       name="selectedCarportId"
+                       th:value="${carport.carportId}"/>
+
+                <button type="button"
+                        class="edit-btn"
+                        th:onclick="'openPopup('
+        + ${carport.carportId} + ','
+        + ${carport.width} + ','
+        + ${carport.length} + ')'">
+                    Edit
+                </button>
+            </form>
+
+            <!-- Delete knap -->
+            <form th:action="@{/deleteCarport}" method="post">
+                <input type="hidden"
+                       name="selectedCarportId"
+                       th:value="${carport.carportId}"/>
+
+                <button type="submit" class="delete-btn">
+                    Slet carport
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div id="editPopup" class="popup-overlay">
+
+    <div class="popup-content">
+
+        <span class="close-btn" onclick="closePopup()">
+            &times;
+        </span>
+
+        <h2>Edit Carport</h2>
+
+        <form th:action="@{/editCarport}" method="post">
+
+            <input type="hidden"
+                   id="popupCarportId"
+                   name="carportId">
+
+            <label>Bredde</label>
+
+            <input type="text"
+                   id="popupWidth"
+                   name="width">
+
+            <label>Længde</label>
+
+            <input type="text"
+                   id="popupLength"
+                   name="length">
+
+            <button type="submit">
+                Gem ændringer
             </button>
+
         </form>
 
     </div>
 
 </div>
+
+<script>
+
+    function openPopup(id, width, length) {
+
+        document.getElementById("popupCarportId").value = id;
+        document.getElementById("popupWidth").value = width;
+        document.getElementById("popupLength").value = length;
+
+        document.getElementById("editPopup").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("editPopup").style.display = "none";
+    }
+
+</script>
 
 </body>
 

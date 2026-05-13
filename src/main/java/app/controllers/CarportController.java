@@ -19,6 +19,7 @@ public class CarportController {
         app.get("/saved", ctx -> myCarports(ctx, connectionPool));
         app.post("/saved", ctx -> saveCarport(ctx, connectionPool));
         app.post("/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
+        app.post("/editCarport", ctx -> editCarport(ctx, connectionPool));
     }
 
 
@@ -70,8 +71,28 @@ public class CarportController {
         }
     }
 
-    public void editCarport(Context ctx, ConnectionPool connectionPool) {
+    public static void editCarport(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        int carportId = Integer.parseInt(ctx.formParam("carportId"));
 
+        try {
+            Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+            ctx.sessionAttribute("selectedCarport", carport);
+
+            int length = Integer.parseInt(ctx.formParam("length"));
+            int width = Integer.parseInt(ctx.formParam("width"));
+
+            carport.setLength(length);
+            carport.setWidth(width);
+
+            CarportMapper.editCarport(connectionPool, carport);
+
+            ctx.redirect("/saved");
+
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void deleteCarport(Context ctx, ConnectionPool connectionPool) {
