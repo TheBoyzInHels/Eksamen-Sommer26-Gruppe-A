@@ -1,46 +1,57 @@
-CREATE DATABASE "CarportDB"
-    WITH
-    OWNER = postgres
-    ENCODING = 'UTF8'
-    LOCALE_PROVIDER = 'libc'
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
-
 BEGIN;
-
 
 CREATE TABLE IF NOT EXISTS public.users
 (
-    user_id bigserial,
-    email character varying,
-    password character varying,
-    first_name character varying,
-    last_name character varying,
-    phone_number character varying,
+    user_id bigserial NOT NULL,
+    email character varying COLLATE pg_catalog."default",
+    password character varying COLLATE pg_catalog."default",
+    first_name character varying COLLATE pg_catalog."default",
+    last_name character varying COLLATE pg_catalog."default",
+    phone_number character varying COLLATE pg_catalog."default",
     is_admin boolean DEFAULT false,
-    PRIMARY KEY (user_id)
+    CONSTRAINT users_pkey PRIMARY KEY (user_id)
     );
 
-CREATE TABLE public.carports
+CREATE TABLE IF NOT EXISTS public.carports
 (
     carport_id bigserial NOT NULL,
     amount_of_cars bigint NOT NULL DEFAULT 1,
-    carport_length character varying NOT NULL,
-    carport_width bigint NOT NULL,
-    has_shed boolean DEFAULT false,
-    shed_length character varying,
-    shed_width character varying,
-    has_gutter boolean DEFAULT false,
-    user_id bigint,
-    PRIMARY KEY (carport_id),
-    CONSTRAINT user_id FOREIGN KEY (user_id)
-        REFERENCES public.users (user_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID
+    length bigint NOT NULL,
+    width bigint NOT NULL,
+    has_shed boolean,
+    shed_width bigint,
+    shed_length bigint,
+    has_gutter boolean,
+    user_id bigint NOT NULL,
+    CONSTRAINT carport_pkey PRIMARY KEY (carport_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    );
+
+CREATE TABLE IF NOT EXISTS public.inquiries
+(
+    inquiry_id bigserial NOT NULL,
+    status character varying NOT NULL,
+    user_id bigint NOT NULL,
+    carport_id bigint NOT NULL,
+    date date NOT NULL,
+    price bigint,
+    PRIMARY KEY (inquiry_id),
+
+    CONSTRAINT fk_inquiry_user
+    FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id),
+
+    CONSTRAINT fk_inquiry_carport
+    FOREIGN KEY (carport_id)
+    REFERENCES public.carports (carport_id)
+    );
+
+CREATE TABLE IF NOT EXISTS public.part
+(
+    part_id bigserial NOT NULL,
+    part_name character varying NOT NULL,
+    part_price bigint
 );
 
-ALTER TABLE IF EXISTS public.carports
-    OWNER to postgres;
 
 END;
