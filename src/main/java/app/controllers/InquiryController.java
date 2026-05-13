@@ -6,7 +6,7 @@ import io.javalin.http.Context;
 
 public class InquiryController {
 
-    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+    public static void addRoutes(Javalin javalin, ConnectionPool connectionPool) {
 
     }
 
@@ -14,7 +14,7 @@ public class InquiryController {
 
     }
 
-    public static void createInquiry(Context ctx, ConnectionPool connectionPool) {
+    public void createInquiry(Context ctx, ConnectionPool connectionPool) {
 
     }
 }
