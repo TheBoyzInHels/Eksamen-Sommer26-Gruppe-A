@@ -1,30 +1,33 @@
 package app.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.sql.Date;
 
 public class Inquiry {
     private int id;
     private String status;
+    private int userId;
     private User user;
+    private int carportId;
     private Carport carport;
-    private Date date;
+    private Date creationDate;
     private int price;
 
 
-    public Inquiry(int id, String status, User user, Carport carport, Date date, int price){
+    public Inquiry(int id, String status, int userId, int carportId, Date creationDate, int price){
         this.id = id;
         this.status = status;
-        this.user = user;
-        this.carport = carport;
-        this.date = date;
+        this.userId = userId;
+        this.carportId = carportId;
+        this.creationDate = creationDate;
         this.price = price;
     }
 
-    public Inquiry(String status, User user, Carport carport, Date date, int price) {
+    public Inquiry(String status, User user, Carport carport, Date creationDate, int price) {
         this.status = status;
         this.user = user;
         this.carport = carport;
-        this.date = date;
+        this.creationDate = creationDate;
         this.price = price;
     }
 
@@ -60,12 +63,10 @@ public class Inquiry {
         this.carport = carport;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    public Date getDate() {return creationDate;}
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public int getPrice() {
