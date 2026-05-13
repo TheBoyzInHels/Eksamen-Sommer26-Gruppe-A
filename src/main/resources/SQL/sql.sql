@@ -1,5 +1,4 @@
 BEGIN;
-
 CREATE TABLE IF NOT EXISTS public.users
 (
     user_id bigserial NOT NULL,
@@ -52,6 +51,4 @@ CREATE TABLE IF NOT EXISTS public.part
     part_name character varying NOT NULL,
     part_price bigint
 );
-
-
 END;
