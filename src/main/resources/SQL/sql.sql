@@ -49,11 +49,14 @@ CREATE TABLE IF NOT EXISTS public.inquiries
     REFERENCES public.carports (carport_id)
     );
 
-CREATE TABLE IF NOT EXISTS public.part
+CREATE TABLE IF NOT EXISTS public.parts
 (
     part_id bigserial NOT NULL,
     part_name character varying NOT NULL,
     part_price numeric,
     PRIMARY KEY (part_id)
     );
+
+INSERT INTO parts (part_name, Part_price) VALUES ('Spærtræ',479.70)
+
 END;
