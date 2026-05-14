@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fog - Mine Forespørgsler</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/myInquiries.css}">
+</head>
+
+<div th:replace="~{templates/header.html :: header}"></div>
+
+<body>
+<h1>Mine Forespørgsler</h1>
+
+<!-- Hvis listen er tom -->
+<div th:if="${#lists.isEmpty(session.inquiryList)}" class="empty-message">
+    Ingen forespørgsler fundet.
+</div>
+
+<!-- Grid med carporte -->
+<div class="inquiry-grid" th:if="${not #lists.isEmpty(session.inquiryList)}">
+
+    <div class="inquiry-card"
+         th:each="carport : ${session.inquiryList}">
+
+        <div class="inquiry-title"
+             th:text="${inquiry.inquiryId}">
+            Foresprøgsel navn
+        </div>
+
+        <div class="inquiry-info">
+            <strong>Status:</strong>
+            <span th:text="${inquiry.status}">null</span>
+        </div>
+
+        <div class="inquiry-info">
+            <strong>Udkast dato:</strong>
+            <span th:text="${inquiry.date}">xx-xx-xxxx</span>
+        </div>
+
+        <form th:action="@{/deleteInquiry}" method="post">
+            <input type="hidden"
+                   name="selectedCarportId"
+                   th:value="${inquiry.inquiryId}" />
+
+            <button type="submit" class="delete-btn">
+                Slet inquiry
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+<footer>
+    <div th:replace="~{templates/footer.html :: footer}"></div>
+</footer>
+
+</html>

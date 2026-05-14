@@ -5,8 +5,8 @@ import app.exceptions.DatabaseException;
 import java.sql.*;
 
 public class UserMapper {
-    
-    public static User login (String email, String password, ConnectionPool connectionPool) throws DatabaseException {
+
+    public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT * FROM users where email = ? AND password = ?";
 
         try (
@@ -25,16 +25,16 @@ public class UserMapper {
                 boolean administrator = rs.getBoolean("is_admin");
 
 
-                return new User (id, email, password, firstName, lastName, phoneNumber, administrator);
+                return new User(id, email, password, firstName, lastName, phoneNumber, administrator);
             } else {
-                throw new DatabaseException ("User doesn't match DB");
+                throw new DatabaseException("User doesn't match DB");
             }
         } catch (SQLException e) {
-            throw new DatabaseException ("Connection to DB doesn't work", e.getMessage());
+            throw new DatabaseException("Connection to DB doesn't work", e.getMessage());
         }
     }
-    
-    public static User createUser(User user,ConnectionPool connectionPool) throws DatabaseException {
+
+    public static User createUser(User user, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "INSERT INTO users (email, password, first_name, last_name, phone_number) VALUES (?, ?, ?, ?, ?)";
 
         try (
@@ -51,7 +51,7 @@ public class UserMapper {
 
             return login(user.getEmail(), user.getPassword(), connectionPool);
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DatabaseException("Error with database", e.getMessage());
         }
     }
