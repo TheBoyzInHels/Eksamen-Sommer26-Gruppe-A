@@ -21,7 +21,7 @@ public class InquiryController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
     app.get("/inquiries", ctx -> ctx.render("/inquiries/inquiry.html"));
-    app.post("submit", ctx -> submitInquiry(ctx, connectionPool));
+    app.post("/inquiry", ctx -> createInquiry(ctx, connectionPool));
     app.get("/inquiry", ctx -> myInquiries(ctx, connectionPool));
     app.post("/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
     }
@@ -45,19 +45,12 @@ public class InquiryController {
         ctx.render("inquiries/inquiry.html");
     }
 
-    public void createInquiry(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+    public static void createInquiry(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
 
-        int amountOfCars = Integer.parseInt(ctx.formParam("amountOfCars"));
-        int width = Integer.parseInt(ctx.formParam("width"));
-        int length = Integer.parseInt(ctx.formParam("length"));
-        boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
-        int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
-        int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
-        boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
+        CarportController.saveCarport(ctx, connectionPool);
+        Carport carport = ctx.sessionAttribute("newestCarport");
 
-        Carport carport = new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter);
-
-        String status = "Udkast";
+        String status = "pending";
 
         User user = ctx.sessionAttribute("currentUser");
 
@@ -69,6 +62,7 @@ public class InquiryController {
             Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
             InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
 
+            myInquiries(ctx,connectionPool);
             ctx.redirect("/inquiry");
         } catch (RuntimeException e) {
             throw new DatabaseException("Fejl ved createInquiry eller Databse" + e.getMessage());

@@ -56,7 +56,7 @@ public class CarportMapper {
 
     }
 
-    public static Carport findCarport(ConnectionPool connectionPool, int carportId) throws DatabaseException{
+    public static Carport findCarport(ConnectionPool connectionPool, int carportId) throws DatabaseException {
         Carport carport = null;
         String findSQL = "SELECT * FROM carports WHERE carport_id = ?";
 
@@ -89,7 +89,7 @@ public class CarportMapper {
         return carport;
     }
 
-    public static void editCarport(ConnectionPool connectionPool, Carport carport) throws DatabaseException{
+    public static void editCarport(ConnectionPool connectionPool, Carport carport) throws DatabaseException {
         String editSQL = " UPDATE carports SET carport_length = ?, carport_width = ? WHERE carport_id = ?";
 
         try
@@ -125,6 +125,37 @@ public class CarportMapper {
             throw new DatabaseException("Error with saveCarport", e.getMessage());
         }
 
+    }
+
+    public static Carport findNewestCarport(ConnectionPool connectionPool, Context ctx) throws DatabaseException {
+        Carport carport = null;
+        String findSQL = "SELECT * FROM carports ORDER BY carport_id DESC LIMIT 1;";
+
+        try
+                (
+                        Connection connection = connectionPool.getConnection();
+                        PreparedStatement ps = connection.prepareStatement(findSQL);
+                ) {
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("carport_id");
+                int amountOfCars = rs.getInt("amount_of_cars");
+                int carportLength = Integer.parseInt(rs.getString("carport_length"));
+                int carportWidth = Integer.parseInt(rs.getString("carport_width"));
+                boolean hasShed = rs.getBoolean("has_shed");
+                int shedLength = Integer.parseInt(rs.getString("shed_length"));
+                int shedWidth = Integer.parseInt(rs.getString("shed_width"));
+                boolean hasGutter = rs.getBoolean("has_gutter");
+                int userId = rs.getInt("user_id");
+
+
+                carport = new Carport(id, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error with saveCarport", e.getMessage());
+        }
+        return carport;
     }
 
     public static void saveCarport(ConnectionPool connectionPool, Carport carport, Context ctx) throws DatabaseException {

@@ -62,6 +62,8 @@ public class CarportController {
             Carport carport = new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter);
 
             CarportMapper.saveCarport(connectionPool, carport, ctx);
+            Carport newestCarport = CarportMapper.findNewestCarport(connectionPool, ctx);
+            ctx.sessionAttribute("newestCarport", newestCarport);
 
             ctx.redirect("/saved");
         } catch (NumberFormatException e) {

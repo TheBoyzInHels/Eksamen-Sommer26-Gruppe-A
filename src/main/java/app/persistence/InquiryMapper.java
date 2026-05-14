@@ -74,7 +74,7 @@ public class InquiryMapper {
     }
 
     public static void createInquiry(ConnectionPool connectionPool, Inquiry inquiry, Carport carport, User user) throws DatabaseException {
-        String sql = "INSERT INTO inquiries( status, user_id, carport_id, date, price, parts_list_id) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO inquiries( status, user_id, carport_id, date, price) VALUES (?,?,?,?,?)";
 
         try(
                 Connection connection = connectionPool.getConnection();

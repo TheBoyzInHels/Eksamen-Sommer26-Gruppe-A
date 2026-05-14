@@ -1,10 +1,9 @@
 package app.entities;
 
-import java.time.LocalDate;
 import java.sql.Date;
 
 public class Inquiry {
-    private int id;
+    private int inquiryId;
     private String status;
     private int userId;
     private User user;
@@ -15,7 +14,7 @@ public class Inquiry {
 
 
     public Inquiry(int id, String status, int userId, int carportId, Date creationDate, int price){
-        this.id = id;
+        this.inquiryId = id;
         this.status = status;
         this.userId = userId;
         this.carportId = carportId;
@@ -31,12 +30,12 @@ public class Inquiry {
         this.price = price;
     }
 
-    public int getId() {
-        return id;
+    public int getInquiryId() {
+        return inquiryId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setInquiryId(int inquiryId) {
+        this.inquiryId = inquiryId;
     }
 
     public String getStatus() {

@@ -23,7 +23,7 @@
 <div class="inquiry-grid" th:if="${not #lists.isEmpty(session.inquiryList)}">
 
     <div class="inquiry-card"
-         th:each="carport : ${session.inquiryList}">
+         th:each="inquiry : ${session.inquiryList}">
 
         <div class="inquiry-title"
              th:text="${inquiry.inquiryId}">
@@ -42,7 +42,7 @@
 
         <form th:action="@{/deleteInquiry}" method="post">
             <input type="hidden"
-                   name="selectedCarportId"
+                   name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
 
             <button type="submit" class="delete-btn">
