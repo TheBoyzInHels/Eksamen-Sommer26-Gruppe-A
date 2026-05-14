@@ -20,6 +20,7 @@ public class CarportController {
         app.post("/saved", ctx -> saveCarport(ctx, connectionPool));
         app.post("/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
         app.post("/editCarport", ctx -> editCarport(ctx, connectionPool));
+        app.post("/generatePartsList", ctx -> generatePartsList(ctx, connectionPool));
     }
 
 
@@ -105,6 +106,16 @@ public class CarportController {
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
-     }
     }
+
+    public static void generatePartsList(Context ctx, ConnectionPool connectionPool) {
+        int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
+        try {
+            Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+
+        }catch(DatabaseException e){
+            throw new RuntimeException(e);
+        }
+    }
+}
 

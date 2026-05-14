@@ -56,7 +56,7 @@ public class CarportMapper {
 
     }
 
-    public static Carport findCarport(ConnectionPool connectionPool, int carportId) throws DatabaseException{
+    public static Carport findCarport(ConnectionPool connectionPool, int carportId) throws DatabaseException {
         Carport carport = null;
         String findSQL = "SELECT * FROM carports WHERE carport_id = ?";
 
@@ -89,7 +89,7 @@ public class CarportMapper {
         return carport;
     }
 
-    public static void editCarport(ConnectionPool connectionPool, Carport carport) throws DatabaseException{
+    public static void editCarport(ConnectionPool connectionPool, Carport carport) throws DatabaseException {
         String editSQL = " UPDATE carports SET carport_length = ?, carport_width = ? WHERE carport_id = ?";
 
         try
