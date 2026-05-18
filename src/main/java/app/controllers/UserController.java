@@ -45,7 +45,6 @@ public class UserController {
 
         User user = new User(email,password,firstName,lastName,phoneNumber);
         UserMapper.createUser(user, connectionPool);
-        ctx.sessionAttribute("currentUser", user);
-        ctx.render("/carports/carport.html");
+        login(ctx, connectionPool);
     }
 }
