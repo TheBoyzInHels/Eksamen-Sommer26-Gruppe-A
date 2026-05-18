@@ -13,9 +13,8 @@ public class CarportService {
 
    public static ArrayList<Part> generatePartsList (Carport carport) {
        ArrayList<Part> partsList = new ArrayList<>();
-       while(carport.getLength()){
 
-       }
+
        return partsList;
    }
 

@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <body>
 <form th:action="@{/generateCarportPartsList}" method="post">
     <input type="hidden"
            name="selectedCarportId"
            th:value="${carport.carportId}"/>
-    <button type="submit" class="delete-btn">
+    <button type="submit">
         generer stykliste
     </button>
     </form>
