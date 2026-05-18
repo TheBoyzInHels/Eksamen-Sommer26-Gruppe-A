@@ -1,6 +1,9 @@
 package app.service;
 
 import app.entities.Carport;
+import app.entities.Part;
+
+import java.util.ArrayList;
 
 public class CarportService {
 
@@ -8,8 +11,12 @@ public class CarportService {
 
    }
 
-   public void generatePartsList (Carport carport) {
+   public static ArrayList<Part> generatePartsList (Carport carport) {
+       ArrayList<Part> partsList = new ArrayList<>();
+       while(carport.getLength()){
 
+       }
+       return partsList;
    }
 
    public double generatePrice (Carport carport) {

@@ -1,14 +1,17 @@
 package app.controllers;
 
 import app.entities.Carport;
+import app.entities.Part;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
+import app.service.CarportService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarportController {
@@ -112,6 +115,7 @@ public class CarportController {
         int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
         try {
             Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+            ArrayList<Part> partsList = CarportService.generatePartsList(carport);
 
         }catch(DatabaseException e){
             throw new RuntimeException(e);
