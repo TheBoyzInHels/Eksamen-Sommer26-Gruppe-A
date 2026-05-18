@@ -40,7 +40,10 @@
             <span th:text="${inquiry.date}">xx-xx-xxxx</span>
         </div>
 
-        <form th:action="@{/deleteInquiry}" method="post">
+        <div class="delete-payment-btn-group">
+        <form   th:if="${inquiry.status == 'accepted'}"
+                th:action="@{/deleteInquiry}"
+                method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
@@ -49,6 +52,19 @@
                 Slet inquiry
             </button>
         </form>
+
+        <form   th:if="${inquiry.status == 'accepted'}"
+                th:action="@{/completeInquiryPayment}"
+                method="post">
+            <input type="hidden"
+                   name="selectedInquiryId"
+                   th:value="${inquiry.inquiryId}" />
+
+            <button type="submit" class="payment-btn">
+                Betal
+            </button>
+        </form>
+        </div>
 
     </div>
 
