@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Min profil</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/myCarports.css}">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{templates/header.html :: header}"></div>
+
+<h1>Min profil</h1>
+
+<div class="carport-grid">
+
+    <!-- Bruger info card -->
+    <div class="carport-card">
+
+        <div class="carport-title">
+            Brugerinformation
+        </div>
+
+        <div class="carport-info">
+            <strong>Fornavn:</strong>
+            <span th:text="${session.currentUser.firstName}">Fornavn</span>
+        </div>
+
+        <div class="carport-info">
+            <strong>Efternavn:</strong>
+            <span th:text="${session.currentUser.lastName}">Efternavn</span>
+        </div>
+
+        <div class="carport-info">
+            <strong>Email:</strong>
+            <span th:text="${session.currentUser.email}">email@mail.dk</span>
+        </div>
+
+        <div class="carport-info">
+            <strong>Telefon:</strong>
+            <span th:text="${session.currentUser.phoneNumber}">12345678</span>
+        </div>
+
+
+        <!-- Knapper -->
+        <div class="button-group">
+
+            <form th:action="@{/user/saved}" method="get">
+                <button type="submit" class="edit-btn">
+                    Gemte carporte
+                </button>
+            </form>
+
+            <form th:action="@{/user/inquiries}" method="get">
+                <button type="submit" class="edit-btn">
+                    Mine forespørgsler
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    <div th:replace="~{templates/footer.html :: footer}"></div>
+</footer>
+
+</body>
+</html>

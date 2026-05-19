@@ -40,7 +40,8 @@
                        placeholder="Indtast adgangskode"
                        required/>
             </div>
-
+            <p th:if="${error != null}" th:text="${error}" class="error-message"></p>
+            
             <button type="submit" class="login-btn">
                 Log ind
             </button>

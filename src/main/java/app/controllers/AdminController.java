@@ -6,7 +6,7 @@ import io.javalin.http.Context;
 
 public class AdminController {
 
-    public void addRoutes(Javalin javalin, ConnectionPool connectionPool) {
+    public void addRoutes(Javalin app, ConnectionPool connectionPool) {
 
     }
 

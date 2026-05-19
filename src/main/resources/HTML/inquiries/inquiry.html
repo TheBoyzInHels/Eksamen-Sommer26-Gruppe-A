@@ -40,7 +40,7 @@
             <span th:text="${inquiry.date}">xx-xx-xxxx</span>
         </div>
 
-        <form th:action="@{/deleteInquiry}" method="post">
+        <form th:action="@{/user/deleteInquiry}" method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />

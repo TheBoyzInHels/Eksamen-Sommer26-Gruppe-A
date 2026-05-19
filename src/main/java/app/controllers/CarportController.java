@@ -14,12 +14,12 @@ import java.util.List;
 public class CarportController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/carport", ctx -> ctx.render("/carports/carport.html"));
-        app.post("/submit", ctx -> submitCarport(ctx, connectionPool));
-        app.get("/saved", ctx -> myCarports(ctx, connectionPool));
-        app.post("/saved", ctx -> saveCarport(ctx, connectionPool));
-        app.post("/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
-        app.post("/editCarport", ctx -> editCarport(ctx, connectionPool));
+        app.get("/user/carport", ctx -> ctx.render("/carports/carport.html"));
+        app.post("/user/submit", ctx -> submitCarport(ctx, connectionPool));
+        app.get("/user/saved", ctx -> myCarports(ctx, connectionPool));
+        app.post("/user/saved", ctx -> saveCarport(ctx, connectionPool));
+        app.post("/user/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
+        app.post("/user/editCarport", ctx -> editCarport(ctx, connectionPool));
     }
 
 

@@ -20,10 +20,10 @@ import java.util.List;
 public class InquiryController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-    app.get("/inquiries", ctx -> ctx.render("/inquiries/inquiry.html"));
-    app.post("/inquiry", ctx -> createInquiry(ctx, connectionPool));
-    app.get("/inquiry", ctx -> myInquiries(ctx, connectionPool));
-    app.post("/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
+    app.get("/user/inquiries", ctx -> myInquiries(ctx, connectionPool));
+    app.post("/user/inquiry", ctx -> createInquiry(ctx, connectionPool));
+    app.get("/user/inquiry", ctx -> myInquiries(ctx, connectionPool));
+    app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
     }
 
     public void connectToMapper(Context ctx, ConnectionPool connectionPool, String action) {
@@ -63,7 +63,7 @@ public class InquiryController {
             InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
 
             myInquiries(ctx,connectionPool);
-            ctx.redirect("/inquiry");
+            ctx.redirect("/user/inquiry");
         } catch (RuntimeException e) {
             throw new DatabaseException("Fejl ved createInquiry eller Databse" + e.getMessage());
         }
@@ -74,7 +74,7 @@ public class InquiryController {
         try {
             InquiryMapper.deleteInquiry(connectionPool, inquiryId);
 
-            ctx.redirect("/inquiry");
+            ctx.redirect("/user/inquiry");
 
         } catch (DatabaseException e) {
             throw new RuntimeException(e);

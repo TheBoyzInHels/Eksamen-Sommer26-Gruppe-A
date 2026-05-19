@@ -37,7 +37,7 @@
 }
 
 .login-input-group input {
-    width: 100%;
+    width: 90%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -76,4 +76,17 @@
     font-size: 13px;
     color: #013D7A;
     text-decoration: none;
+}
+
+.error-message {
+    width: 90%;
+    color: #d93025;
+    background-color: #fce8e6;
+    border: 1px solid #f5c2c0;
+    padding: 10px 12px;
+    border-radius: 2px;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
 }

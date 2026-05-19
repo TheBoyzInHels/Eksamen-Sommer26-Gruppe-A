@@ -43,7 +43,7 @@
         <div class="button-group">
 
             <!-- Edit knap -->
-            <form th:action="@{/editCarport}" method="get">
+            <form th:action="@{/user/editCarport}" method="get">
                 <input type="hidden"
                        name="selectedCarportId"
                        th:value="${carport.carportId}"/>
@@ -59,7 +59,7 @@
             </form>
 
             <!-- Delete knap -->
-            <form th:action="@{/deleteCarport}" method="post">
+            <form th:action="@{/user/deleteCarport}" method="post">
                 <input type="hidden"
                        name="selectedCarportId"
                        th:value="${carport.carportId}"/>
@@ -85,7 +85,7 @@
 
         <h2>Edit Carport</h2>
 
-        <form th:action="@{/editCarport}" method="post">
+        <form th:action="@{/user/editCarport}" method="post">
 
             <input type="hidden"
                    id="popupCarportId"

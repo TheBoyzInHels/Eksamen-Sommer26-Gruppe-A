@@ -6,6 +6,7 @@ import app.controllers.CarportController;
 import app.controllers.InquiryController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
+import app.service.AccessManager;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -28,6 +29,7 @@ public class Main {
         }).start(7070);
 
         // Routing
+        AccessManager.configureAccess(app);
         UserController.addRoutes(app,connectionPool);
         CarportController.addRoutes(app,connectionPool);
         InquiryController.addRoutes(app,connectionPool);
