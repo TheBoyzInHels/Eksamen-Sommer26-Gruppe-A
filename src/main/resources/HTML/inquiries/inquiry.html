@@ -19,7 +19,7 @@
     Ingen forespørgsler fundet.
 </div>
 
-<!-- Grid med carporte -->
+<!-- Grid med forspørgelser -->
 <div class="inquiry-grid" th:if="${not #lists.isEmpty(session.inquiryList)}">
 
     <div class="inquiry-card"
@@ -41,7 +41,7 @@
         </div>
 
         <div class="delete-payment-btn-group">
-        <form   th:if="${inquiry.status == 'accepted'}"
+        <form   th:if="${inquiry.status == 'accepteret'}"
                 th:action="@{/deleteInquiry}"
                 method="post">
             <input type="hidden"
@@ -49,23 +49,35 @@
                    th:value="${inquiry.inquiryId}" />
 
             <button type="submit" class="delete-btn">
-                Slet inquiry
+                Slet
             </button>
         </form>
 
-        <form   th:if="${inquiry.status == 'accepted'}"
+        <form   th:if="${inquiry.status == 'accepteret'}"
                 th:action="@{/completeInquiryPayment}"
                 method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
+            <input type="hidden"
+                   name="status"
+                   th:value="betalt" />
 
             <button type="submit" class="payment-btn">
                 Betal
             </button>
         </form>
         </div>
-
+        <form th:if="${inquiry.status == 'betalt'}"
+              th:action="@{/createInvoice}"
+              method="post">
+            <input type="hidden"
+                   name="selectedInquiryId"
+                   th:value="${inquiry.inquiryId}"/>
+            <button type="submit" class="invoice-btn">
+                Se Faktura
+            </button>
+        </form>
     </div>
 
 </div>

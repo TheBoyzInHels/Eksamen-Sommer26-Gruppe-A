@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fog - Betaling Gennemført</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/payment.css}">
+</head>
+
+<div th:replace="~{templates/header.html :: header}"></div>
+
+<body>
+<h1>Betaling Gennemført</h1>
+<p>Tak for din bestilling af carport!</p>
+<p>Du bliver sendt videre om 10 sekunder..</p>
+
+
+<script src="/js/redirect.js"></script>
+</body>
+
+<footer>
+    <div th:replace="~{templates/footer.html :: footer}"></div>
+</footer>
+
+</html>

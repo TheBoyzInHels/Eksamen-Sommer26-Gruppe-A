@@ -7,6 +7,7 @@ import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.InquiryMapper;
+import app.service.InquiryService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -24,6 +25,7 @@ public class InquiryController {
     app.post("/inquiry", ctx -> createInquiry(ctx, connectionPool));
     app.get("/inquiry", ctx -> myInquiries(ctx, connectionPool));
     app.post("/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
+    app.post("/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
     }
 
     public void connectToMapper(Context ctx, ConnectionPool connectionPool, String action) {
@@ -50,7 +52,7 @@ public class InquiryController {
         CarportController.saveCarport(ctx, connectionPool);
         Carport carport = ctx.sessionAttribute("newestCarport");
 
-        String status = "pending";
+        String status = "venter";
 
         User user = ctx.sessionAttribute("currentUser");
 
@@ -80,4 +82,28 @@ public class InquiryController {
             throw new RuntimeException(e);
         }
     }
+
+    public static void completeInquiryPayment(Context ctx, ConnectionPool connectionPool) {
+        int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
+        String status = ctx.formParam("status");
+        try {
+            InquiryMapper.changeInquiryStatus(connectionPool, inquiryId, status);
+
+            ctx.render("inquiries/paymentComplete");
+
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /*public static void createInvoice(Context ctx, ConnectionPool connectionPool) {
+        int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
+        User user = ctx.sessionAttribute("currentUser");
+
+        try {
+            InquiryService.createInvoice(inquiryId, user);
+        }
+
+    }*/
 }
