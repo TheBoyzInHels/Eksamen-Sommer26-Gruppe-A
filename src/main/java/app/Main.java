@@ -2,6 +2,7 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.controllers.AdminController;
 import app.controllers.CarportController;
 import app.controllers.InquiryController;
 import app.controllers.UserController;
@@ -30,8 +31,9 @@ public class Main {
 
         // Routing
         AccessManager.configureAccess(app);
-        UserController.addRoutes(app,connectionPool);
-        CarportController.addRoutes(app,connectionPool);
-        InquiryController.addRoutes(app,connectionPool);
+        UserController.addRoutes(app, connectionPool);
+        CarportController.addRoutes(app, connectionPool);
+        InquiryController.addRoutes(app, connectionPool);
+        AdminController.addRoutes(app, connectionPool);
     }
 }

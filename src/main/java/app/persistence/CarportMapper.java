@@ -52,10 +52,6 @@ public class CarportMapper {
     }
 
 
-    public void actionCarport(ConnectionPool connectionPool, String action) {
-
-    }
-
     public static Carport findCarport(ConnectionPool connectionPool, int carportId) throws DatabaseException {
         Carport carport = null;
         String findSQL = "SELECT * FROM carports WHERE carport_id = ?";

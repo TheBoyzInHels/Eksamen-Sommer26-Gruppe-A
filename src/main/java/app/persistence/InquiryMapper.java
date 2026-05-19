@@ -24,7 +24,9 @@ public class InquiryMapper {
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(listUserSQL);
         ) {
-            ps.setInt(1, user.getId());
+            if(user != null) {
+                ps.setInt(1, user.getId());
+            }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -43,9 +45,6 @@ public class InquiryMapper {
         return inquiries;
     }
 
-    public void actionInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
-
-    }
 
     public void findInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
 

@@ -13,38 +13,5 @@ public class UserService {
     public static User currentUser(Context ctx) {
         return ctx.sessionAttribute("currentUser");
     }
-
-    public static void userAuthentication(Javalin app, String controllerName) {
-        app.before("//*", ctx -> {
-            if (ctx.sessionAttribute("currentUser") == null) {
-                ctx.redirect("/");
-            }
-        });
-        app.before("/" + controllerName + "/*", ctx -> {
-            if (ctx.sessionAttribute("currentUser") == null) {
-                ctx.redirect("/");
-            }
-        });
-        app.before("/" + controllerName + "/*", ctx -> {
-            if (ctx.sessionAttribute("currentUser") == null) {
-                ctx.redirect("/");
-            }
-        });
-    }
-
-    public static void adminAuthentication(Javalin app) {
-        app.before("/admin/*", ctx -> {
-            if (currentUser(ctx) == null || !currentUser(ctx).isAdmin()) {
-                ctx.redirect("/");
-            }
-        });
-    }
-
-    public static void isLoggedIn(Context ctx) {
-        User currentUser = ctx.sessionAttribute("currentUser");
-        if (currentUser == null) {
-            ctx.redirect("/");
-        }
-    }
 }
 

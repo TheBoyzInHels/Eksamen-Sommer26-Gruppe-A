@@ -9,11 +9,11 @@
     <link rel="stylesheet" th:href="@{/css/myInquiries.css}">
 </head>
 
-<div th:replace="~{templates/header.html :: header}"></div>
 
 <body>
+<div th:replace="~{templates/header.html :: header}"></div>
 
-<h1>Mine Forespørgsler</h1>
+<h1>Alle Forespørgsler</h1>
 
 <!-- Hvis listen er tom -->
 <div th:if="${#lists.isEmpty(session.inquiryList)}" class="empty-message">
@@ -41,7 +41,7 @@
             <span th:text="${inquiry.date}">xx-xx-xxxx</span>
         </div>
 
-        <form th:action="@{/user/deleteInquiry}" method="post">
+        <form th:action="@{/admin/deleteInquiry}" method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
@@ -49,11 +49,44 @@
             <button type="submit" class="delete-btn">
                 Slet inquiry
             </button>
+
+        </form>
+
+        <form th:action="@{/admin/seeCustomerEmail}" method="post">
+            <input type="hidden"
+                   name="selectedInquiryId"
+                   th:value="${inquiry.inquiryId}" />
+
+            <button type="submit" class="email-btn">
+                Vis email
+            </button>
         </form>
 
     </div>
 
 </div>
+
+<div id="emailModal" class="modal" th:if="${session.customerEmail != null}">
+    <div class="modal-content">
+        <h2>Brugerens email</h2>
+
+        <p th:text="${session.customerEmail}"></p>
+
+        <button onclick="closeModal()" class="modal-close-btn">
+            Luk
+        </button>
+    </div>
+</div>
+
+<script th:if="${session.customerEmail != null}">
+    function closeModal() {
+        document.getElementById("emailModal").style.display = "none";
+    }
+
+    window.onload = function () {
+        document.getElementById("emailModal").style.display = "flex";
+    };
+</script>
 
 </body>
 

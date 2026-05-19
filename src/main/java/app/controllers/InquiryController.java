@@ -26,16 +26,12 @@ public class InquiryController {
     app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
     }
 
-    public void connectToMapper(Context ctx, ConnectionPool connectionPool, String action) {
 
-    }
+    public static void seeSubmittedInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        List<Inquiry> inquiries = InquiryMapper.listInquiry(connectionPool, null);
 
-    public static void submitInquiry(Context ctx, ConnectionPool connectionPool) {
-
-    }
-
-    public static void seeSubmittedInquiries(Context ctx, ConnectionPool connectionPool) {
-        ctx.render("inquiries/inquiry");
+        ctx.sessionAttribute("inquiryList", inquiries);
+        ctx.render("inquiries/allinquiries");
     }
 
     public static void myInquiries (Context ctx, ConnectionPool connectionPool) throws DatabaseException {

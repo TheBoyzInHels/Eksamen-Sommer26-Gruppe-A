@@ -62,6 +62,14 @@
                 </button>
             </form>
 
+            <div th:if="${session.currentUser.isAdmin}">
+                <form th:action="@{/admin/inquiries}" method="get">
+                    <button type="submit" class="edit-btn">
+                        Alle forespørgsler
+                    </button>
+                </form>
+            </div>
+
         </div>
 
     </div>

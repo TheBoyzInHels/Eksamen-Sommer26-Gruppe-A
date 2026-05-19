@@ -1,6 +1,7 @@
 package app.controllers;
-
+import app.entities.Carport;
 import app.exceptions.DatabaseException;
+import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.InquiryMapper;
 import io.javalin.Javalin;
@@ -8,16 +9,27 @@ import io.javalin.http.Context;
 
 public class AdminController {
 
-    public void addRoutes(Javalin app, ConnectionPool connectionPool) {
+    public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
+        app.get("/admin/inquiries", ctx -> seeAllInquiries(ctx, connectionPool));
         app.post("/admin/seeCustomerEmail", ctx -> seeCustomerEmail(ctx, connectionPool));
         app.post("/admin/setInquiryStatus", ctx -> setInquiryStatus(ctx, connectionPool));
+        app.post("/admin/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
+        app.post("/admin/seeCarportUnderInquiries", ctx -> seeCarportUnderInquiries(ctx, connectionPool));
     }
 
-    public void connectToInquiryMapper(Context ctx, ConnectionPool connectionPool, String actiom) {
 
+    public static void seeAllInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        InquiryController.seeSubmittedInquiries(ctx, connectionPool);
     }
 
-    public void seeAllInquiries(ConnectionPool connectionPool) {
+    public static void seeCarportUnderInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+        int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
+
+       Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+
+        ctx.sessionAttribute("selectedCarport", carport);
+
+        ctx.redirect("/admin/inquiries");
 
     }
 
@@ -39,12 +51,19 @@ public class AdminController {
 
         String email = InquiryMapper.getCustomerEmail(connectionPool, inquiryId);
 
-        ctx.attribute("customerEmail", email);
-        ctx.render("/inquiry");
+        ctx.sessionAttribute("customerEmail", email);
+        ctx.redirect("/admin/inquiries");
         }
 
 
-    public void deleteInquiry(Context ctx, ConnectionPool connectionPool) {
+    public static void deleteInquiry(Context ctx, ConnectionPool connectionPool) {
+        int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
+        try {
+            InquiryMapper.deleteInquiry(connectionPool, inquiryId);
 
+            ctx.redirect("/admin/inquiries");
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
