@@ -121,3 +121,41 @@ h1 {
     cursor: pointer;
     border-radius: 5px;
 }
+
+.payment-btn {
+    margin-top: 1rem;
+    background: #3ee33b;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+}
+
+.payment-btn:hover {
+    background: #38a336;
+}
+
+.delete-payment-btn-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.invoice-btn {
+    margin-top: 1rem;
+    background: #01509c;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+}
+
+.invoice-btn:hover {
+    background: #013D7A;
+}

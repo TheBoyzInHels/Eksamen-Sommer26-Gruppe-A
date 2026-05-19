@@ -46,8 +46,8 @@ public class InquiryMapper {
     }
 
 
-    public void findInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
-
+    public void findInquiry(ConnectionPool connectionPool, int inquiryId) {
+        String sql = "SELECT * FROM inquiries WHERE inquiry_id = ?";
     }
 
     public void editInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
@@ -75,10 +75,10 @@ public class InquiryMapper {
     public static void createInquiry(ConnectionPool connectionPool, Inquiry inquiry, Carport carport, User user) throws DatabaseException {
         String sql = "INSERT INTO inquiries( status, user_id, carport_id, date, price) VALUES (?,?,?,?,?)";
 
-        try(
+        try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql);
-                ) {
+        ) {
             ps.setString(1, inquiry.getStatus());
             ps.setInt(2, user.getId());
             ps.setInt(3, carport.getCarportId());
@@ -137,4 +137,19 @@ public class InquiryMapper {
         return null;
     }
 
+    public static void changeInquiryStatus(ConnectionPool connectionPool, int inquiryId, String status) throws DatabaseException{
+        String updateSql = "UPDATE inquiries SET status = ? WHERE inquiry_id = ?";
+
+        try (
+                Connection connection = connectionPool.getConnection();
+                PreparedStatement ps = connection.prepareStatement(updateSql);
+        ) {
+            ps.setString(1, status);
+            ps.setInt(2, inquiryId);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl ved at opdatere Inquiry Status: " + e.getMessage());
+        }
+    }
 }
