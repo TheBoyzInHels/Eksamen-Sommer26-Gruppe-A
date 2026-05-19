@@ -9,8 +9,8 @@ import io.javalin.http.Context;
 public class AdminController {
 
     public void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.post("/seeCustomerEmail", ctx -> seeCustomerEmail(ctx, connectionPool));
-        app.post("/setInquiryStatus", ctx -> setInquiryStatus(ctx, connectionPool));
+        app.post("/admin/seeCustomerEmail", ctx -> seeCustomerEmail(ctx, connectionPool));
+        app.post("/admin/setInquiryStatus", ctx -> setInquiryStatus(ctx, connectionPool));
     }
 
     public void connectToInquiryMapper(Context ctx, ConnectionPool connectionPool, String actiom) {
@@ -44,9 +44,7 @@ public class AdminController {
         }
 
 
-
-
-    public void deleteInquory(Context ctx, ConnectionPool connectionPool) {
+    public void deleteInquiry(Context ctx, ConnectionPool connectionPool) {
 
     }
 }
