@@ -53,14 +53,15 @@ CREATE TABLE IF NOT EXISTS public.parts
 (
     part_id bigserial NOT NULL,
     part_name character varying NOT NULL,
+    part_description character varying,
     part_price numeric,
     part_length bigint,
     PRIMARY KEY (part_id)
     );
 
-INSERT INTO parts (part_name, Part_price, part_length) VALUES ('Spær',479.70, 600);
-INSERT INTO parts (part_name, Part_price, part_length) VALUES ('Remme',479.70, 600);
-INSERT INTO parts (part_name, Part_price, part_length) VALUES ('Remme',254.15, 480);
-INSERT INTO parts (part_name, Part_price, part_length) VALUES ('Stolpe',221.85, 300);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',479.70, 600);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',479.70, 600);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',254.15, 480);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Stolpe','97X97 MM',221.85, 300);
 
 END;
