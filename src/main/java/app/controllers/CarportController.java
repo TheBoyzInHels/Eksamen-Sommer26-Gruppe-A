@@ -114,12 +114,42 @@ public class CarportController {
     public static void generatePartsList(Context ctx, ConnectionPool connectionPool) {
         int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
         try {
-            Carport carport = CarportMapper.findCarport(connectionPool, carportId);
-            ArrayList<Part> partsList = CarportService.generatePartsList(carport);
+            Carport carport2 = CarportMapper.findCarport(connectionPool, carportId);
+            //ArrayList<Part> partsList = CarportService.generatePartsList(carport); //Vi kommer nok til at bruge denne
+            Carport carport = new Carport(4, 2, 780, 600, true, 220, 530, true);
+            ArrayList<Part> listOfParts = new ArrayList<>();
+
+            Part raft = new Part(1, "Spær", 479.70);
+            Part straps = new Part(2, "Remme", 479.70);
+            Part post= new Part(3, "Stolpe", 221.85);
+
+            listOfParts.add(raft);
+            listOfParts.add(straps);
+            listOfParts.add(post);
+
+            ArrayList<Part> partsList = CarportService.generatePartsList(carport, listOfParts); //Tester med en oprette carport
 
         }catch(DatabaseException e){
             throw new RuntimeException(e);
         }
+    }
+    public static void testGeneratePartsList() {
+
+
+
+            //ArrayList<Part> partsList = CarportService.generatePartsList(carport); //Vi kommer nok til at bruge denne
+            Carport carport = new Carport(4, 2, 780, 600, true, 220, 530, true);
+            ArrayList<Part> listOfParts = new ArrayList<>();
+
+            Part raft = new Part(1, "Spær", 479.70);
+            Part straps = new Part(2, "Remme", 479.70);
+            Part post= new Part(3, "Stolpe", 221.85);
+
+            listOfParts.add(raft);
+            listOfParts.add(straps);
+            listOfParts.add(post);
+
+            ArrayList<Part> partsList = CarportService.generatePartsList(carport, listOfParts); //Tester med en oprette carport
     }
 }
 

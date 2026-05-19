@@ -21,6 +21,8 @@ public class Main {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
     public static void main(String[] args) {
+        CarportController.testGeneratePartsList();
+        /*
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
@@ -30,6 +32,6 @@ public class Main {
         // Routing
         UserController.addRoutes(app,connectionPool);
         CarportController.addRoutes(app,connectionPool);
-        InquiryController.addRoutes(app,connectionPool);
+        InquiryController.addRoutes(app,connectionPool);*/
     }
 }
