@@ -75,4 +75,12 @@ public class Inquiry {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    public int getUserId() { return userId; }
+
+    public void setUserId(int userId) { this.userId = userId; }
+
+    public int getCarportId() { return carportId; }
+
+    public void setCarportId(int carportId) { this.carportId = carportId; }
 }

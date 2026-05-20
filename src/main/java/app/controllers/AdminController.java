@@ -27,8 +27,9 @@ public class AdminController {
 
        Carport carport = CarportMapper.findCarport(connectionPool, carportId);
 
-        ctx.sessionAttribute("selectedCarport", carport);
+        ctx.sessionAttribute("customerEmail", null);
 
+        ctx.sessionAttribute("selectedCarport", carport);
         ctx.redirect("/admin/inquiries");
 
     }
@@ -50,6 +51,8 @@ public class AdminController {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
 
         String email = InquiryMapper.getCustomerEmail(connectionPool, inquiryId);
+
+        ctx.sessionAttribute("selectedCarport", null);
 
         ctx.sessionAttribute("customerEmail", email);
         ctx.redirect("/admin/inquiries");

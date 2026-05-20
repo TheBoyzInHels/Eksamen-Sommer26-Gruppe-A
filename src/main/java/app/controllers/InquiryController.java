@@ -47,7 +47,7 @@ public class InquiryController {
         CarportController.saveCarport(ctx, connectionPool);
         Carport carport = ctx.sessionAttribute("newestCarport");
 
-        String status = "venter";
+        String status = "pending";
 
         User user = ctx.sessionAttribute("currentUser");
 

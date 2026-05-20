@@ -37,7 +37,7 @@ public class InquiryMapper {
                 Date date = rs.getDate("date");
                 int price = rs.getInt("price");
 
-                inquiries.add(new Inquiry(inquiryId, status, carportId, userId, date, price));
+                inquiries.add(new Inquiry(inquiryId, status, userId, carportId, date, price));
             }
         } catch (SQLException e) {
             throw new DatabaseException("Fejl med databasen" + e.getMessage());

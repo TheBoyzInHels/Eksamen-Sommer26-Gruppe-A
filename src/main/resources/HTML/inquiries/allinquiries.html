@@ -61,10 +61,21 @@
                 Vis email
             </button>
         </form>
+        <form th:action="@{/admin/seeCarportUnderInquiries}" method="post">
 
+            <input type="hidden"
+                   name="selectedCarportId"
+                   th:value="${inquiry.carportId}" />
+
+            <button type="submit" class="see-btn">
+                Se carport
+            </button>
+
+        </form>
     </div>
 
 </div>
+
 
 <div id="emailModal" class="modal" th:if="${session.customerEmail != null}">
     <div class="modal-content">
@@ -86,6 +97,77 @@
     window.onload = function () {
         document.getElementById("emailModal").style.display = "flex";
     };
+</script>
+
+
+<div id="carportModal"
+     class="modal"
+     th:if="${session.selectedCarport != null}">
+
+    <div class="modal-content">
+
+        <h2>Kundens Carport Design</h2>
+
+        <div class="detail-row">
+            <strong>Antal biler:</strong>
+            <span th:text="${session.selectedCarport.amountOfCars}"></span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Længde:</strong>
+            <span th:text="${session.selectedCarport.length}"></span>
+            cm
+        </div>
+
+        <div class="detail-row">
+            <strong>Bredde:</strong>
+            <span th:text="${session.selectedCarport.width}"></span>
+            cm
+        </div>
+
+        <div class="detail-row">
+            <strong>Redskabsskur:</strong>
+            <span th:text="${session.selectedCarport.hasShed ? 'Ja' : 'Nej'}"></span>
+        </div>
+
+        <div th:if="${session.selectedCarport.hasShed}">
+
+            <div class="detail-row">
+                <strong>Skur længde:</strong>
+                <span th:text="${session.selectedCarport.shedLength}"></span>
+                cm
+            </div>
+
+            <div class="detail-row">
+                <strong>Skur bredde:</strong>
+                <span th:text="${session.selectedCarport.shedWidth}"></span>
+                cm
+            </div>
+
+        </div>
+
+        <div class="detail-row">
+            <strong>Tagrender:</strong>
+            <span th:text="${session.selectedCarport.hasGutter ? 'Ja' : 'Nej'}"></span>
+        </div>
+
+        <button onclick="closeCarportModal()" class="modal-close-btn">
+            Luk
+        </button>
+
+    </div>
+</div>
+
+<script th:if="${session.selectedCarport != null}">
+
+    function closeCarportModal() {
+        document.getElementById("carportModal").style.display = "none";
+    }
+
+    window.onload = function () {
+        document.getElementById("carportModal").style.display = "flex";
+    };
+
 </script>
 
 </body>
