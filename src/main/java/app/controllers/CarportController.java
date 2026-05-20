@@ -9,11 +9,15 @@ import app.persistence.ConnectionPool;
 import app.persistence.PartMapper;
 import app.service.CarportService;
 import app.service.PartService;
+import app.service.PdfGenerator;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,11 @@ public class CarportController {
         app.post("/editCarport", ctx -> editCarport(ctx, connectionPool));
         app.get("/", ctx -> ctx.render("carports/partsListTest.html"));
         app.post("/generatePartsList", ctx -> generatePartsList(ctx, connectionPool));
+        app.get("/partslist", ctx -> {ctx.header("Cache-Control", "no-cache, no-store, must-revalidate");
+            ctx.result(Files.readAllBytes(Paths.get("src/main/resources/public/pdf/partslist.pdf")));
+            ctx.contentType("application/pdf");
+        });
+
     }
 
 
@@ -124,7 +133,13 @@ public class CarportController {
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
 
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
-            PartService.printPartsList(partsList);
+            PartService.printPartsList(partsList);//Printer i console
+            try {
+                PdfGenerator.generatePartsListPdf(partsList);
+            }catch(Exception e){
+                e.getMessage();
+            }
+            ctx.redirect("/partslist");
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }

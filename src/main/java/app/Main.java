@@ -28,10 +28,10 @@ public class Main {
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
-        // Routing
-        //UserController.addRoutes(app,connectionPool);
-        CarportController.addRoutes(app,connectionPool);
 
-        //InquiryController.addRoutes(app,connectionPool);
+        // Routing
+        UserController.addRoutes(app,connectionPool);
+        CarportController.addRoutes(app,connectionPool);
+        InquiryController.addRoutes(app,connectionPool);
     }
 }
