@@ -1,45 +1,64 @@
 <!DOCTYPE html>
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Faktura</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/invoice.css}">
 </head>
+
 <body>
+<div th:replace="~{templates/header.html :: header}"></div>
+<div class="invoice-container">
 
-<h1>Faktura</h1>
-<p>
-    <strong>Forespørgselsid</strong>
-    <span th:text="${inquiryId}">null</span>
-</p>
+    <h1>Faktura</h1>
 
-<p>
-    <strong>Navn:</strong>
-    <span th:text="${firstName}">null</span>
-</p>
+    <div class="info-row">
+        <span class="label">Inquiry ID:</span>
+        <span th:text="${inquiry.inquiryId}"></span>
+    </div>
 
-<p>
-    <strong>Efternavn:</strong>
-    <span th:text="${lastName}">null</span>
-</p>
+    <div class="info-row">
+        <span class="label">Fornavn:</span>
+        <span th:text="${user.firstName}"></span>
+    </div>
 
-<p>
-    <strong>Email:</strong>
-    <span th:text="${email}">john@example.com</span>
-</p>
+    <div class="info-row">
+        <span class="label">Efternavn:</span>
+        <span th:text="${user.lastName}"></span>
+    </div>
 
-<p>
-    <strong>Telefonnummer:</strong>
-    <span th:text="${phoneNumber}">12345678</span>
-</p>
-<hr>
-    <strong>Kvittering:</strong>
+    <div class="info-row">
+        <span class="label">Email:</span>
+        <span th:text="${user.email}"></span>
+    </div>
 
-<hr>
+    <div class="info-row">
+        <span class="label">Telefonnummer:</span>
+        <span th:text="${user.phoneNumber}"></span>
+    </div>
 
-<p>
-    <strong>Totalpris:</strong>
-    <span th:text="${price}">0.00 DKK</span>
-</p>
+    <div class="section">
+
+        <h3>Bestillingsinformation</h3>
+
+        <p>
+            Pris: ______________________
+        </p>
+
+        <p>
+            Leveringsdato: ______________________
+        </p>
+
+    </div>
+
+</div>
 
 </body>
+<footer>
+    <div th:replace="~{templates/footer.html :: footer}"></div>
+</footer>
 </html>

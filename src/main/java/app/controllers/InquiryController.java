@@ -25,6 +25,7 @@ public class InquiryController {
     app.get("/inquiry", ctx -> myInquiries(ctx, connectionPool));
     app.post("/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
     app.post("/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
+    app.post("/createInvoice", ctx -> createInvoice(ctx, connectionPool));
     }
 
     public void connectToMapper(Context ctx, ConnectionPool connectionPool, String action) {
@@ -104,21 +105,11 @@ public class InquiryController {
             assert user != null;
             Inquiry chosenInquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
 
-            ctx.attribute("inquiryId", inquiryId);
+            ctx.attribute("user", user);
 
-            ctx.attribute("firstName", user.getFirstName());
+            ctx.attribute("inquiry", chosenInquiry);
 
-            ctx.attribute("lastName", user.getLastName());
-
-            ctx.attribute("email", user.getEmail());
-
-            ctx.attribute("phoneNumber", user.getPhoneNumber());
-
-            ctx.attribute("carport", chosenInquiry.getCarportId());
-
-            ctx.attribute("price", chosenInquiry.getPrice());
-
-            ctx.render("invoice/invoice");
+            ctx.render("invoice/invoice.html");
 
         } catch (DatabaseException e) {
             throw new RuntimeException(e);

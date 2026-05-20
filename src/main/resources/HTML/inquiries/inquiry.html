@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Fog - Mine Forespørgsler</title>
 
+    <script th:src="@{/js/invoicePopup.js}" defer></script>
+
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/myInquiries.css}">
@@ -71,7 +73,7 @@
         <form th:if="${inquiry.status == 'betalt'}"
               th:action="@{/createInvoice}"
               method="post"
-              target="_blank">
+              class="invoice-form">
 
             <input type="hidden"
                    name="selectedInquiryId"
