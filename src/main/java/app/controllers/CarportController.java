@@ -2,11 +2,13 @@ package app.controllers;
 
 import app.entities.Carport;
 import app.entities.Part;
+import app.entities.PartsList;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.PartMapper;
 import app.service.CarportService;
+import app.service.PartService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -18,17 +20,14 @@ import java.util.List;
 public class CarportController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        /*
         app.get("/carport", ctx -> ctx.render("/carports/carport.html"));
         app.post("/submit", ctx -> submitCarport(ctx, connectionPool));
         app.get("/saved", ctx -> myCarports(ctx, connectionPool));
         app.post("/saved", ctx -> saveCarport(ctx, connectionPool));
         app.post("/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
         app.post("/editCarport", ctx -> editCarport(ctx, connectionPool));
-
-         */
-        app.get("/", ctx -> ctx.render("/carports/partsListTest.html"));
-        app.post("/generatePartsList", ctx -> testGeneratePartsList(ctx, connectionPool));
+        app.get("/", ctx -> ctx.render("carports/partsListTest.html"));
+        app.post("/generatePartsList", ctx -> generatePartsList(ctx, connectionPool));
     }
 
 
@@ -119,40 +118,13 @@ public class CarportController {
     public static void generatePartsList(Context ctx, ConnectionPool connectionPool) {
         int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
         try {
-            Carport carport2 = CarportMapper.findCarport(connectionPool, carportId);
-            //ArrayList<Part> partsList = CarportService.generatePartsList(carport); //Vi kommer nok til at bruge denne
-            Carport carport = new Carport(4, 2, 780, 600, true, 220, 530, true);
-
+            Carport carport = CarportMapper.findCarport(connectionPool, carportId);
 
             ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
-            ArrayList<Part> matchingParts = CarportService.generateListOfParts(carport, availableParts);
-            ArrayList<Part> partsList = CarportService.generatePartsList(carport, matchingParts); //Tester med en oprette carport
+            ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
 
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void testGeneratePartsList(Context ctx, ConnectionPool connectionPool) {
-        try {
-
-        //ArrayList<Part> partsList = CarportService.generatePartsList(carport); //Vi kommer nok til at bruge denne
-        Carport carport = new Carport(4, 2, 780, 600, true, 220, 530, true);
-        ArrayList<Part> listOfParts = new ArrayList<>();
-
-        /*
-        Part raft = new Part(1, "Spær", "45X195MM", 479.70, 600);
-        Part straps = new Part(2, "Remme", "45X195MM", 479.70, 600);
-        Part post = new Part(3, "Stolpe", "97X97MM", 221.85, 300);
-
-        listOfParts.add(raft);
-        listOfParts.add(straps);
-        listOfParts.add(post);
-        */
-        ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
-        ArrayList<Part> matchingParts = CarportService.generateListOfParts(carport, availableParts);
-
-        ArrayList<Part> partsList = CarportService.generatePartsList(carport, listOfParts); //Tester med en oprette carport
+            PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
+            PartService.printPartsList(partsList);
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }

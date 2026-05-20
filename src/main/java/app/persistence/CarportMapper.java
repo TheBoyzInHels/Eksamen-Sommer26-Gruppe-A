@@ -1,6 +1,8 @@
 package app.persistence;
 
 import app.entities.Carport;
+import app.entities.Part;
+import app.entities.PartsList;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import io.javalin.http.Context;
@@ -151,4 +153,5 @@ public class CarportMapper {
             throw new DatabaseException("Error with saveCarport", e.getMessage());
         }
     }
+
 }

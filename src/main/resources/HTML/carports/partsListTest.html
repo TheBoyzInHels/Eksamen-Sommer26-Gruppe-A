@@ -6,11 +6,11 @@
 </head>
 
 <body>
-<form th:action="@{/generateCarportPartsList}" method="post">
-    <input type="hidden"
-           name="selectedCarportId"
-           th:value="${carport.carportID}"/>
+<form th:action="@{/generatePartsList}" method="post">
     <button type="submit">
+        <input type="hidden"
+               name="selectedCarportId"
+               value="2"/>
         generer stykliste
     </button>
     </form>

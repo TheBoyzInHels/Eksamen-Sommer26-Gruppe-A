@@ -2,10 +2,10 @@ package app.service;
 
 import app.entities.Carport;
 import app.entities.Part;
+import app.entities.PartsList;
 
 import java.util.ArrayList;
-
-import static java.lang.Math.ceil;
+import java.util.HashMap;
 
 public class CarportService {
 
@@ -13,11 +13,11 @@ public class CarportService {
 
     }
 
-    public static ArrayList<Part> generatePartsList(Carport carport, ArrayList<Part> listOfParts) {
-        ArrayList<Part> partsList = new ArrayList<>();
-        Part raft = listOfParts.get(0);
-        Part straps = listOfParts.get(1);
-        Part post = listOfParts.get(2);
+    public static PartsList generatePartsList(Carport carport, ArrayList<Part> matchingParts) {
+        ArrayList<Part> listOfParts = new ArrayList<>();
+        Part raft = matchingParts.get(0);
+        Part straps = matchingParts.get(1);
+        Part post = matchingParts.get(2);
 
         int strapsTotalLength = ((carport.getLength() * 2 + carport.getWidth() * 2));
         int strapsAmount = ((strapsTotalLength + straps.getLength() - 1) / straps.getLength());
@@ -28,28 +28,30 @@ public class CarportService {
             postAmount += 3;
         }
         for (int i = 0; i < postAmount; i++) {
-            partsList.add(post);
+            listOfParts.add(post);
         }
 
         for (int i = 0; i < raftsAmount; i++) {
-            partsList.add(raft);
+            listOfParts.add(raft);
         }
 
         for (int i = 0; i < strapsAmount; i++) {
-            partsList.add(straps);
+            listOfParts.add(straps);
         }
 
-        for (Part p : partsList) {
-            System.out.println(p);
-        }
+        HashMap<Part,Integer> partCounts = new HashMap<>();
+        PartsList partsList = new PartsList(partCounts);
 
+        for (Part p : listOfParts){
+            partsList.addPart(p);
+        }
         return partsList;
     }
 
-    public static ArrayList<Part> generateListOfParts(Carport carport, ArrayList<Part> allParts) {
+    public static ArrayList<Part> findMatchingParts(Carport carport, ArrayList<Part> allParts) {
         ArrayList<Part> listOfRafts = new ArrayList<>();
-        ArrayList<Part> listOfPost = new ArrayList<>();
         ArrayList<Part> listOfStraps = new ArrayList<>();
+        ArrayList<Part> listOfPost = new ArrayList<>();
 
         ArrayList<Part>matchingParts = new ArrayList<>();
 
