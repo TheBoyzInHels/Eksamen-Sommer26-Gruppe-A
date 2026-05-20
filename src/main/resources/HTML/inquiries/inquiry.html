@@ -70,7 +70,9 @@
         </div>
         <form th:if="${inquiry.status == 'betalt'}"
               th:action="@{/createInvoice}"
-              method="post">
+              method="post"
+              target="_blank">
+
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}"/>

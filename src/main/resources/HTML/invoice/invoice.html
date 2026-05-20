@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Faktura</title>
+</head>
+<body>
+
+<h1>Faktura</h1>
+<p>
+    <strong>Forespørgselsid</strong>
+    <span th:text="${inquiryId}">null</span>
+</p>
+
+<p>
+    <strong>Navn:</strong>
+    <span th:text="${firstName}">null</span>
+</p>
+
+<p>
+    <strong>Efternavn:</strong>
+    <span th:text="${lastName}">null</span>
+</p>
+
+<p>
+    <strong>Email:</strong>
+    <span th:text="${email}">john@example.com</span>
+</p>
+
+<p>
+    <strong>Telefonnummer:</strong>
+    <span th:text="${phoneNumber}">12345678</span>
+</p>
+<hr>
+    <strong>Kvittering:</strong>
+
+<hr>
+
+<p>
+    <strong>Totalpris:</strong>
+    <span th:text="${price}">0.00 DKK</span>
+</p>
+
+</body>
+</html>

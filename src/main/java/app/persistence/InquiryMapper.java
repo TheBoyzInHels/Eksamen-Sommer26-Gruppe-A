@@ -47,8 +47,33 @@ public class InquiryMapper {
 
     }
 
-    public void findInquiry(ConnectionPool connectionPool, int inquiryId) {
-        String sql = "SELECT * FROM inquiries WHERE inquiry_id = ?";
+    public static Inquiry findInquiry(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
+        Inquiry inquiry = null;
+        String findSQL = "SELECT * FROM inquiries WHERE inquiry_id = ?";
+
+        try
+                (
+                        Connection connection = connectionPool.getConnection();
+                        PreparedStatement ps = connection.prepareStatement(findSQL);
+                ) {
+            ps.setInt(1, inquiryId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("inquiry_id");
+                String status = rs.getString("status");
+                int userId = rs.getInt("user_id");
+                int carportId = rs.getInt("carport_id");
+                Date date = rs.getDate("date");
+                int price = rs.getInt("price");
+
+                inquiry = new Inquiry(id, status, userId, carportId, date, price);
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error with saveCarport", e.getMessage());
+        }
+        return inquiry;
     }
 
     public void editInquiry(ConnectionPool connectionPool, Inquiry inquiry) {

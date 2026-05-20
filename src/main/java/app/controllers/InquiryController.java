@@ -97,13 +97,33 @@ public class InquiryController {
 
     }
 
-    /*public static void createInvoice(Context ctx, ConnectionPool connectionPool) {
+    public static void createInvoice(Context ctx, ConnectionPool connectionPool) {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
         User user = ctx.sessionAttribute("currentUser");
 
         try {
-            InquiryService.createInvoice(inquiryId, user);
+            assert user != null;
+            Inquiry chosenInquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
+
+            ctx.attribute("inquiryId", inquiryId);
+
+            ctx.attribute("firstName", user.getFirstName());
+
+            ctx.attribute("lastName", user.getLastName());
+
+            ctx.attribute("email", user.getEmail());
+
+            ctx.attribute("phoneNumber", user.getPhoneNumber());
+
+            ctx.attribute("carport", chosenInquiry.getCarportId());
+
+            ctx.attribute("price", chosenInquiry.getPrice());
+
+            ctx.render("invoice/invoice");
+
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
         }
 
-    }*/
+    }
 }
