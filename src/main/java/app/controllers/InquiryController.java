@@ -7,7 +7,6 @@ import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.InquiryMapper;
-import app.service.InquiryService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
