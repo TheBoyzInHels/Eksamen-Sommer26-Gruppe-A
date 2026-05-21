@@ -17,10 +17,10 @@ CREATE TABLE IF NOT EXISTS public.carports
     amount_of_cars bigint NOT NULL DEFAULT 1,
     carport_length bigint NOT NULL,
     carport_width bigint NOT NULL,
-    has_shed boolean NOT NULL DEFAULT false,
-    shed_length bigint NOT NULL DEFAULT 0,
-    shed_width bigint NOT NULL DEFAULT 0,
-    has_gutter boolean NOT NULL DEFAULT false,
+    has_shed boolean DEFAULT false,
+    shed_length bigint DEFAULT 0,
+    shed_width bigint DEFAULT 0,
+    has_gutter boolean DEFAULT false,
     user_id bigint NOT NULL,
     CONSTRAINT carports_pkey PRIMARY KEY (carport_id)
     );
