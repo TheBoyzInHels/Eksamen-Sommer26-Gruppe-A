@@ -20,12 +20,12 @@ import java.util.List;
 public class InquiryController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-    app.get("/inquiries", ctx -> ctx.render("/inquiries/inquiry.html"));
-    app.post("/inquiry", ctx -> createInquiry(ctx, connectionPool));
-    app.get("/inquiry", ctx -> myInquiries(ctx, connectionPool));
-    app.post("/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
-    app.post("/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
-    app.post("/createInvoice", ctx -> createInvoice(ctx, connectionPool));
+    app.get("/user/inquiries", ctx -> ctx.render("/inquiries/inquiry.html"));
+    app.post("/user/inquiry", ctx -> createInquiry(ctx, connectionPool));
+    app.get("/user/inquiry", ctx -> myInquiries(ctx, connectionPool));
+    app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
+    app.post("/user/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
+    app.post("/user/createInvoice", ctx -> createInvoice(ctx, connectionPool));
     }
 
     public void connectToMapper(Context ctx, ConnectionPool connectionPool, String action) {
