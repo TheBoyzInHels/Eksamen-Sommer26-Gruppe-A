@@ -103,16 +103,17 @@ public class CarportService {
 
     public static PartsList generatePartsList(Carport carport, ArrayList<Part> matchingParts) {
         ArrayList<Part> listOfParts = new ArrayList<>();
+
         Part raft = matchingParts.get(0);
         Part straps = matchingParts.get(1);
-        Part shedStraps = matchingParts.get(2);
+
         Part post = matchingParts.get(3);
 
         int raftsAmount = carport.getLength() / 55 + 1;
         int strapsTotalLength = ((carport.getLength() + carport.getWidth()) * 2);
-        int shedStrapsTotalLength = ((carport.getShedLength() + carport.getShedWidth()) * 2);
+
         int strapsAmount = ((strapsTotalLength + straps.getLength() - 1) / straps.getLength());
-        int shedStrapsAmount = ((shedStrapsTotalLength + shedStraps.getLength() - 1) / shedStraps.getLength());
+
 
         int postAmount = (carport.getLength() / 310 + 1) * 2 + 1;
 
@@ -128,14 +129,18 @@ public class CarportService {
             listOfParts.add(straps);
         }
 
-        for (int i = 0; i < shedStrapsAmount; i++) {
-            listOfParts.add(shedStraps);
-        }
-
         for (int i = 0; i < postAmount; i++) {
             listOfParts.add(post);
         }
 
+        if(carport.isHasShed()) {
+            Part shedStraps = matchingParts.get(2);
+            int shedStrapsTotalLength = ((carport.getShedLength() + carport.getShedWidth()) * 2);
+            int shedStrapsAmount = ((shedStrapsTotalLength + shedStraps.getLength() - 1) / shedStraps.getLength());
+            for (int i = 0; i < shedStrapsAmount; i++) {
+                listOfParts.add(shedStraps);
+            }
+        }
         HashMap<Part, Integer> partCounts = new HashMap<>();
         PartsList partsList = new PartsList(partCounts);
 
