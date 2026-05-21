@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Faktura</title>
+
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/invoice.css}">
+</head>
+
+<body>
+<div th:replace="~{templates/header.html :: header}"></div>
+<div class="invoice-container">
+
+    <h1>Faktura</h1>
+
+    <div class="info-row">
+        <span class="label">Inquiry ID:</span>
+        <span th:text="${inquiry.inquiryId}"></span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">Fornavn:</span>
+        <span th:text="${user.firstName}"></span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">Efternavn:</span>
+        <span th:text="${user.lastName}"></span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">Email:</span>
+        <span th:text="${user.email}"></span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">Telefonnummer:</span>
+        <span th:text="${user.phoneNumber}"></span>
+    </div>
+
+    <div class="section">
+
+        <h3>Bestillingsinformation</h3>
+
+        <p>
+            Pris: ______________________
+        </p>
+
+        <p>
+            Leveringsdato: ______________________
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+<footer>
+    <div th:replace="~{templates/footer.html :: footer}"></div>
+</footer>
+</html>

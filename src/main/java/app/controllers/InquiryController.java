@@ -25,6 +25,7 @@ public class InquiryController {
     app.get("/user/inquiry", ctx -> myInquiries(ctx, connectionPool));
     app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
     app.post("/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
+    app.post("/user/createInvoice", ctx -> createInvoice(ctx, connectionPool));
     }
 
 
@@ -47,7 +48,7 @@ public class InquiryController {
         CarportController.saveCarport(ctx, connectionPool);
         Carport carport = ctx.sessionAttribute("newestCarport");
 
-        String status = "udkast";
+        String status = "venter";
 
         User user = ctx.sessionAttribute("currentUser");
 
@@ -92,13 +93,23 @@ public class InquiryController {
 
     }
 
-    /*public static void createInvoice(Context ctx, ConnectionPool connectionPool) {
+    public static void createInvoice(Context ctx, ConnectionPool connectionPool) {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
         User user = ctx.sessionAttribute("currentUser");
 
         try {
-            InquiryService.createInvoice(inquiryId, user);
+            assert user != null;
+            Inquiry chosenInquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
+
+            ctx.attribute("user", user);
+
+            ctx.attribute("inquiry", chosenInquiry);
+
+            ctx.render("invoice/invoice.html");
+
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
         }
 
-    }*/
+    }
 }
