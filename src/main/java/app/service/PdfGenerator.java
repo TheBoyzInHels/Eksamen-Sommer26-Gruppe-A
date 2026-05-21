@@ -37,7 +37,6 @@ public class PdfGenerator {
         table.addCell("Beskrivelse");
 
         for (Part part : partList.getParts().keySet()) {
-
             int amount = partList.getParts().get(part);
 
             table.addCell(part.getDescription());
