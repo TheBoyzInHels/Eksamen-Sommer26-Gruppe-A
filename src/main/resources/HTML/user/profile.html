@@ -62,6 +62,7 @@
                 </button>
             </form>
 
+
             <div th:if="${session.currentUser.isAdmin}">
                 <form th:action="@{/admin/inquiries}" method="get">
                     <button type="submit" class="edit-btn">
@@ -69,6 +70,12 @@
                     </button>
                 </form>
             </div>
+
+            <form th:action="@{/user/logout}" method="get">
+                <button type="submit" class="delete-btn">
+                    Log ud
+                </button>
+            </form>
 
         </div>
 

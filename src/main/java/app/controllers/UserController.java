@@ -16,6 +16,7 @@ public class UserController {
         app.get("/register", ctx -> ctx.render("login/register.html"));
         app.post("/register", ctx -> register(ctx, connectionPool));
         app.get("/user/profile", ctx -> profile(ctx, connectionPool));
+        app.get("/user/logout", ctx -> logout(ctx));
 
     }
 
@@ -53,5 +54,10 @@ public class UserController {
         User user = new User(email,password,firstName,lastName,phoneNumber);
         UserMapper.createUser(user, connectionPool);
         login(ctx, connectionPool);
+    }
+
+    public static void logout(Context ctx) {
+        ctx.req().getSession().invalidate();
+        ctx.redirect("/");
     }
 }
