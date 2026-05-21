@@ -16,19 +16,44 @@
 <main class="content-placeholder">
 
     <div class="info-box">
-        <h1>Bestil Quick-Byg tilbud - carport med fladt tag</h1>
+        <div class="left-column">
 
-        <h3>
-            Med et specialudviklet computerprogram kan vi lynhurtigt
-            beregne prisen og udskrive en skitsetegning på en
-            carport indenfor vores standardprogram. 
-            Tilbud og skitsetegning fremsendes på mail hurtigst
-            muligt. 
-            Ved bestilling medfølger standardbyggevejledning.
+            <div class="info-box">
+                <h1>Bestil Quick-Byg tilbud - carport med fladt tag</h1>
 
-            Udfyld formularen omhyggeligt og klik på "Bestil tilbud". 
-            Felter markeret med * SKAL udfyldes!
-        </h3>
+                <p>
+                    Med et specialudviklet computerprogram kan vi lynhurtigt
+                    beregne prisen og udskrive en skitsetegning på en
+                    carport indenfor vores standardprogram. 
+                    Tilbud og skitsetegning fremsendes på mail hurtigst
+                    muligt. 
+                    Ved bestilling medfølger standardbyggevejledning.
+
+                    Udfyld formularen omhyggeligt og klik på "Bestil tilbud". 
+                    Felter markeret med * SKAL udfyldes!
+                </p>
+            </div>
+
+            <div class="svg-carport">
+                <h2>Ekstra indhold</h2>
+
+                <svg width="400" height="400">
+                    <rect
+                            id="frame"
+                            x="20"
+                            y="20"
+                            width="150"
+                            height="210"
+                            fill="none"
+                            stroke="black"
+                            stroke-width="2"
+                    />
+                </svg>
+
+            </div>
+
+        </div>
+
     </div>
 
     <form th:action="@{/user/carport/saved}" method="post">
@@ -60,6 +85,7 @@
             <div class="form-group">
                 <label>Carport længde</label>
                 <select id="length" name="length">
+                    <option value="">Vælg bredde</option>
                     <option value="420">420 cm</option>
                     <option value="480">480 cm</option>
                     <option value="600">600 cm</option>
@@ -132,6 +158,26 @@
     </form>
 
 </main>
+
+<script>
+    const frame = document.getElementById("frame")
+
+    const widthSelect = document.getElementById("width")
+    const lengthSelect = document.getElementById("length")
+
+    function updateCarport() {
+
+        const selectedWidth = widthSelect.value
+        const selectedLength = lengthSelect.value
+
+        frame.setAttribute("width", selectedWidth / 2)
+        frame.setAttribute("height", selectedLength / 2)
+    }
+
+    widthSelect.addEventListener("change", updateCarport)
+    lengthSelect.addEventListener("change", updateCarport)
+</script>
+
 </body>
 
 <footer>
