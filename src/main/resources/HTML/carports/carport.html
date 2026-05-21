@@ -212,23 +212,81 @@
 
 </main>
 
-<script>
-    const frame = document.getElementById("frame")
 
-    const widthSelect = document.getElementById("width")
-    const lengthSelect = document.getElementById("length")
+<script>
+    const frame = document.getElementById("frame");
+
+    const amountOfCars = document.getElementById("amountOfCars");
+
+    const widthSelect = document.getElementById("width");
+    const lengthSelect = document.getElementById("length");
+
+    const shedWidthSelect = document.getElementById("shedWidth");
+    const shedLengthSelect = document.getElementById("shedLength");
+
+    // Muligheder til 1 bil
+    const oneCarWidths = [240, 270, 300, 330, 360, 390];
+    const oneCarLengths = [240, 270, 300, 330, 360, 390, 420, 450];
+
+    // Muligheder til 2 biler
+    const twoCarWidths = [420, 450, 480, 510, 540, 570, 600];
+    const twoCarLengths = [480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780];
+
+    function populateSelect(selectElement, values, placeholder) {
+
+        selectElement.innerHTML = "";
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = placeholder;
+        selectElement.appendChild(defaultOption);
+
+        values.forEach(value => {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value + " cm";
+            selectElement.appendChild(option);
+        });
+    }
+
+    function updateOptions() {
+
+        const cars = amountOfCars.value;
+
+        if (cars === "1") {
+
+            populateSelect(widthSelect, oneCarWidths, "Vælg bredde");
+            populateSelect(lengthSelect, oneCarLengths, "Vælg længde");
+
+            populateSelect(shedWidthSelect, oneCarWidths, "Vælg skur bredde");
+            populateSelect(shedLengthSelect, oneCarLengths, "Vælg skur længde");
+
+        } else if (cars === "2") {
+
+            populateSelect(widthSelect, twoCarWidths, "Vælg bredde");
+            populateSelect(lengthSelect, twoCarLengths, "Vælg længde");
+
+            populateSelect(shedWidthSelect, twoCarWidths, "Vælg skur bredde");
+            populateSelect(shedLengthSelect, twoCarLengths, "Vælg skur længde");
+        }
+    }
 
     function updateCarport() {
 
-        const selectedWidth = widthSelect.value
-        const selectedLength = lengthSelect.value
+        const selectedWidth = widthSelect.value;
+        const selectedLength = lengthSelect.value;
 
-        frame.setAttribute("width", selectedWidth / 2)
-        frame.setAttribute("height", selectedLength / 2)
+        if (selectedWidth && selectedLength) {
+            frame.setAttribute("width", selectedWidth / 2);
+            frame.setAttribute("height", selectedLength / 2);
+        }
     }
 
-    widthSelect.addEventListener("change", updateCarport)
-    lengthSelect.addEventListener("change", updateCarport)
+    amountOfCars.addEventListener("change", updateOptions);
+
+    widthSelect.addEventListener("change", updateCarport);
+    lengthSelect.addEventListener("change", updateCarport);
+
 </script>
 
 </body>
