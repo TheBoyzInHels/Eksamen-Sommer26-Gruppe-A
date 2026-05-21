@@ -1,14 +1,24 @@
 package app.controllers;
 
 import app.entities.Carport;
+import app.entities.Part;
+import app.entities.PartsList;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.PartMapper;
+import app.service.CarportService;
+import app.service.PartService;
+import app.service.PdfGenerator;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarportController {
@@ -20,6 +30,11 @@ public class CarportController {
         app.post("/user/saved", ctx -> saveCarport(ctx, connectionPool));
         app.post("/user/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
         app.post("/user/editCarport", ctx -> editCarport(ctx, connectionPool));
+        app.post("/user/generatePartsList", ctx -> generatePartsList(ctx, connectionPool));
+        app.get("/user/partslist", ctx -> {ctx.header("Cache-Control", "no-cache, no-store, must-revalidate");
+            ctx.result(Files.readAllBytes(Paths.get("src/main/resources/public/pdf/partslist.pdf")));
+            ctx.contentType("application/pdf");
+        });
     }
 
 
@@ -107,6 +122,27 @@ public class CarportController {
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
-     }
     }
+
+    public static void generatePartsList(Context ctx, ConnectionPool connectionPool) {
+        int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
+        try {
+            Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+
+            ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
+            ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
+
+            PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
+            PartService.printPartsList(partsList);//Printer i console
+            try {
+                PdfGenerator.generatePartsListPdf(partsList);
+            }catch(Exception e){
+                e.getMessage();
+            }
+            ctx.redirect("/partslist");
+        } catch (DatabaseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
 
