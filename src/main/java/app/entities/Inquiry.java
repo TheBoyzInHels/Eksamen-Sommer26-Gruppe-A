@@ -17,6 +17,7 @@ public class Inquiry {
         this.inquiryId = id;
         this.status = status;
         this.userId = userId;
+
         this.carportId = carportId;
         this.creationDate = creationDate;
         this.price = price;

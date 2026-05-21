@@ -8,7 +8,6 @@ import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.PartMapper;
 import app.service.CarportService;
-import app.service.PartService;
 import app.service.PdfGenerator;
 import app.service.UserService;
 import io.javalin.Javalin;
@@ -133,7 +132,6 @@ public class CarportController {
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
 
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
-            PartService.printPartsList(partsList);//Printer i console
             try {
                 PdfGenerator.generatePartsListPdf(partsList);
             }catch(Exception e){

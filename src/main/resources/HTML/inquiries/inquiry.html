@@ -5,6 +5,7 @@
     <title>Fog - Mine Forespørgsler</title>
 
     <script th:src="@{/js/invoicePopup.js}" defer></script>
+    <script th:src="@{/js/partsListPopup.js}" defer></script>
 
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
@@ -70,6 +71,7 @@
             </button>
         </form>
         </div>
+        <div class="invoice-partList-btn-group">
         <form th:if="${inquiry.status == 'Betalt'}"
               th:action="@{/user/createInvoice}"
               method="post"
@@ -79,9 +81,23 @@
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}"/>
             <button type="submit" class="invoice-btn">
-                Se Faktura
+                Faktura
             </button>
         </form>
+
+        <form th:if="${inquiry.status == 'Betalt'}"
+              th:action="@{/user/generatePartsList}"
+              method="post"
+              class="partsList-form">
+
+            <input type="hidden"
+                   name="selectedCarportId"
+                   th:value="${inquiry.carportId}"/>
+            <button type="submit" class="partsList-btn">
+                    Stykliste
+            </button>
+        </form>
+        </div>
 
     </div>
 
