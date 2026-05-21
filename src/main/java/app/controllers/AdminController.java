@@ -38,10 +38,14 @@ public class AdminController {
         String inquiryStatus = ctx.formParam("setInquiryStatus");
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
 
+        ctx.sessionAttribute("customerEmail", null);
+        ctx.sessionAttribute("selectedCarport", null);
+
         try {
             InquiryMapper.setInquiryStatus(connectionPool, inquiryId, inquiryStatus);
 
-            ctx.redirect("/inquiry");
+            ctx.redirect("/admin/inquiries");
+
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
