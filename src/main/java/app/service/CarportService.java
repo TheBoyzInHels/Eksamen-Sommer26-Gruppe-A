@@ -98,7 +98,7 @@ public class CarportService {
             }
         }
 
-        int strapsTotalLength = ((carport.getLength() * 2 + carport.getWidth() * 2));
+        int strapsTotalLength = ((carport.getLength() + carport.getWidth())*2);
         int strapsBestTotalLength = Integer.MAX_VALUE;
         if (currentStraps == null) {
             for(Part p : listOfStraps) {
@@ -111,8 +111,23 @@ public class CarportService {
                 }
             }
         }
+        int shedStrapsTotalLength = (carport.getShedLength() + carport.getShedWidth()*2);
+        int shedStrapsBestTotalLength = Integer.MAX_VALUE;
+        Part currentShedStraps = null;
+        if (currentShedStraps == null) {
+            for(Part p : listOfStraps) {
+
+                int strapsAmount = ((shedStrapsTotalLength + p.getLength() - 1) / p.getLength());
+                int totalLength = (strapsAmount * p.getLength());
+                if (totalLength < shedStrapsBestTotalLength ) {
+                    shedStrapsBestTotalLength = totalLength;
+                    currentShedStraps = p;
+                }
+            }
+        }
         matchingParts.add(currentRaft);
         matchingParts.add(currentStraps);
+        matchingParts.add(currentShedStraps);
         matchingParts.add(listOfPost.get(0));
         return matchingParts;
     }

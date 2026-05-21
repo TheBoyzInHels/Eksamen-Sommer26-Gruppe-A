@@ -30,7 +30,6 @@ public class PdfGenerator {
 
         table.setWidthPercentage(100);
 
-
         table.addCell("Beskrivelse");
         table.addCell("Længde");
         table.addCell("Antal");
@@ -40,8 +39,6 @@ public class PdfGenerator {
         for (Part part : partList.getParts().keySet()) {
 
             int amount = partList.getParts().get(part);
-
-
 
             table.addCell(part.getDescription());
             table.addCell(String.valueOf(part.getLength()));
