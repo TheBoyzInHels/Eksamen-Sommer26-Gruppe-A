@@ -80,7 +80,7 @@ public class CarportController {
             Carport newestCarport = CarportMapper.findNewestCarport(connectionPool, ctx);
             ctx.sessionAttribute("newestCarport", newestCarport);
 
-            ctx.redirect("/saved");
+            ctx.redirect("/user/saved");
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         } catch (DatabaseException e) {
@@ -103,7 +103,7 @@ public class CarportController {
 
             CarportMapper.editCarport(connectionPool, carport);
 
-            ctx.redirect("/saved");
+            ctx.redirect("/user/saved");
 
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
@@ -117,7 +117,7 @@ public class CarportController {
         try {
             CarportMapper.deleteCarport(connectionPool, carportId);
 
-            ctx.redirect("/saved");
+            ctx.redirect("/user/saved");
 
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
@@ -139,7 +139,7 @@ public class CarportController {
             }catch(Exception e){
                 e.getMessage();
             }
-            ctx.redirect("/partslist");
+            ctx.redirect("/user/partslist");
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }

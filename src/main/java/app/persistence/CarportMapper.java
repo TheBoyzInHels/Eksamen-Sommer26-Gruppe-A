@@ -157,7 +157,7 @@ public class CarportMapper {
     }
 
     public static void saveCarport(ConnectionPool connectionPool, Carport carport, Context ctx) throws DatabaseException {
-        String sql = "INSERT INTO carports (amount_of_cars, carport_length, carport_width, has_shed, shed_width, shed_length, has_gutter, user_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carports (amount_of_cars, carport_length, carport_width, has_shed, shed_length, shed_width, has_gutter, user_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try
                 (
@@ -168,8 +168,8 @@ public class CarportMapper {
             ps.setInt(2, carport.getLength());
             ps.setInt(3, carport.getWidth());
             ps.setBoolean(4, carport.isHasShed());
-            ps.setInt(5, carport.getShedWidth());
             ps.setInt(6, carport.getShedLength());
+            ps.setInt(5, carport.getShedWidth());
             ps.setBoolean(7, carport.isHasGutter());
             ps.setInt(8, ((User) ctx.sessionAttribute("currentUser")).getId());
 

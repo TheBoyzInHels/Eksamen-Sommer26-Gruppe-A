@@ -43,8 +43,8 @@
         </div>
 
         <div class="delete-payment-btn-group">
-        <form   th:if="${inquiry.status == 'accepteret'}"
-                th:action="@{user/deleteInquiry}"
+        <form   th:if="${inquiry.status == 'Godkendt'}"
+                th:action="@{/user/deleteInquiry}"
                 method="post">
             <input type="hidden"
                    name="selectedInquiryId"
@@ -55,23 +55,23 @@
             </button>
         </form>
 
-        <form   th:if="${inquiry.status == 'accepteret'}"
-                th:action="@{/completeInquiryPayment}"
+        <form   th:if="${inquiry.status == 'Godkendt'}"
+                th:action="@{/user/completeInquiryPayment}"
                 method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
             <input type="hidden"
                    name="status"
-                   th:value="betalt" />
+                   th:value="Betalt" />
 
             <button type="submit" class="payment-btn">
                 Betal
             </button>
         </form>
         </div>
-        <form th:if="${inquiry.status == 'betalt'}"
-              th:action="@{/createInvoice}"
+        <form th:if="${inquiry.status == 'Betalt'}"
+              th:action="@{/user/createInvoice}"
               method="post"
               class="invoice-form">
 

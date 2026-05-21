@@ -24,7 +24,7 @@ public class InquiryController {
     app.post("/user/inquiry", ctx -> createInquiry(ctx, connectionPool));
     app.get("/user/inquiry", ctx -> myInquiries(ctx, connectionPool));
     app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
-    app.post("/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
+    app.post("/user/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
     app.post("/user/createInvoice", ctx -> createInvoice(ctx, connectionPool));
     }
 
@@ -48,7 +48,7 @@ public class InquiryController {
         CarportController.saveCarport(ctx, connectionPool);
         Carport carport = ctx.sessionAttribute("newestCarport");
 
-        String status = "venter";
+        String status = "Venter";
 
         User user = ctx.sessionAttribute("currentUser");
 
@@ -63,7 +63,7 @@ public class InquiryController {
             myInquiries(ctx,connectionPool);
             ctx.redirect("/user/inquiry");
         } catch (RuntimeException e) {
-            throw new DatabaseException("Fejl ved createInquiry eller Databse" + e.getMessage());
+            throw new DatabaseException("Fejl ved createInquiry eller Database" + e.getMessage());
         }
     }
 

@@ -1,16 +1,15 @@
-BEGIN;
+CREATE DATABASE "CarportDB"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.utf8'
+    LC_CTYPE = 'en_US.utf8'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
 
-CREATE TABLE IF NOT EXISTS public.users
-(
-    user_id bigserial NOT NULL,
-    email varchar NOT NULL UNIQUE,
-    password character varying NOT NULL,
-    first_name character varying NOT NULL,
-    last_name character varying NOT NULL,
-    phone_number character varying NOT NULL,
-    is_admin boolean DEFAULT false,
-    CONSTRAINT users_pkey PRIMARY KEY (user_id)
-    );
+BEGIN;
 
 CREATE TABLE IF NOT EXISTS public.carports
 (
@@ -19,45 +18,63 @@ CREATE TABLE IF NOT EXISTS public.carports
     carport_length bigint NOT NULL,
     carport_width bigint NOT NULL,
     has_shed boolean NOT NULL DEFAULT false,
-    shed_width bigint,
-    shed_length bigint,
+    shed_length bigint NOT NULL DEFAULT 0,
+    shed_width bigint NOT NULL DEFAULT 0,
     has_gutter boolean NOT NULL DEFAULT false,
     user_id bigint NOT NULL,
-
-    CONSTRAINT carport_pkey PRIMARY KEY (carport_id),
-    CONSTRAINT fk_carport_user
-    FOREIGN KEY (user_id)
-    REFERENCES public.users(user_id)
+    CONSTRAINT carports_pkey PRIMARY KEY (carport_id)
     );
-
 CREATE TABLE IF NOT EXISTS public.inquiries
 (
     inquiry_id bigserial NOT NULL,
-    status character varying NOT NULL CHECK (status IN ('pending', 'offered', 'accepted', 'rejected')),
+    status varchar(20) NOT NULL CHECK (status IN ('Venter', 'Godkendt', 'Afvist', 'Betalt')),
     user_id bigint NOT NULL,
     carport_id bigint NOT NULL,
     date date NOT NULL,
     price numeric,
-    PRIMARY KEY (inquiry_id),
-
-    CONSTRAINT fk_inquiry_user
-    FOREIGN KEY (user_id)
-    REFERENCES public.users (user_id),
-
-    CONSTRAINT fk_inquiry_carport
-    FOREIGN KEY (carport_id)
-    REFERENCES public.carports (carport_id)
+    CONSTRAINT inquiries_pkey PRIMARY KEY (inquiry_id)
     );
 
 CREATE TABLE IF NOT EXISTS public.parts
 (
     part_id bigserial NOT NULL,
-    part_name character varying NOT NULL,
-    part_description character varying,
-    part_price numeric,
-    part_length bigint,
-    PRIMARY KEY (part_id)
+    part_name character varying COLLATE pg_catalog."default" NOT NULL,
+    part_description character varying COLLATE pg_catalog."default" NOT NULL,
+    part_price numeric(10,2) NOT NULL,
+    part_length integer NOT NULL,
+    CONSTRAINT parts_pkey PRIMARY KEY (part_id)
     );
+CREATE TABLE IF NOT EXISTS public.users
+(
+    user_id bigserial NOT NULL,
+    email character varying COLLATE pg_catalog."default" NOT NULL,
+    password character varying COLLATE pg_catalog."default" NOT NULL,
+    first_name character varying COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying COLLATE pg_catalog."default" NOT NULL,
+    phone_number character varying COLLATE pg_catalog."default" NOT NULL,
+    is_admin boolean NOT NULL DEFAULT false,
+    CONSTRAINT users_pkey PRIMARY KEY (user_id)
+    );
+
+ALTER TABLE IF EXISTS public.carports
+    ADD CONSTRAINT carport_fk_user_id FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+       ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.inquiries
+    ADD CONSTRAINT inquiries_fk_carport_id FOREIGN KEY (carport_id)
+    REFERENCES public.carports (carport_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+       ON DELETE NO ACTION;
+
+
+ALTER TABLE IF EXISTS public.inquiries
+    ADD CONSTRAINT inquiries_fk_user_id FOREIGN KEY (user_id)
+    REFERENCES public.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+       ON DELETE NO ACTION;
 
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',479.70, 600);
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',479.70, 600);

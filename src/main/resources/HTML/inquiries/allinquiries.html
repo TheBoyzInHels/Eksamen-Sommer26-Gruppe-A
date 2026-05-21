@@ -80,12 +80,12 @@
                    th:value="${inquiry.inquiryId}" />
 
             <select name="setInquiryStatus">
-                <option value="udkast"
-                        th:selected="${inquiry.status == 'udkast'}">Udkast</option>
-                <option value="ikke godkendt"
-                        th:selected="${inquiry.status == 'ikke godkendt'}">Ikke godkendt</option>
-                <option value="godkendt"
-                        th:selected="${inquiry.status == 'godkendt'}">Godkendt</option>
+                <option value="Venter"
+                        th:selected="${inquiry.status == 'Venter'}">Venter</option>
+                <option value="Afvist"
+                        th:selected="${inquiry.status == 'Afvist'}">Afvist</option>
+                <option value="Godkendt"
+                        th:selected="${inquiry.status == 'Godkendt'}">Godkendt</option>
             </select>
 
             <button type="submit" class="status-btn">
