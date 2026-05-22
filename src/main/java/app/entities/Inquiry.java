@@ -31,24 +31,8 @@ public class Inquiry {
         this.price = price;
     }
 
-    public int getCarportId() {
-        return carportId;
-    }
-
-    public int getInquiryId() {
-        return inquiryId;
-    }
-
-    public void setInquiryId(int inquiryId) {
-        this.inquiryId = inquiryId;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public User getUser() {
@@ -69,15 +53,7 @@ public class Inquiry {
 
     public Date getDate() {return creationDate;}
 
-    public void setDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public int getPrice() {
         return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 }

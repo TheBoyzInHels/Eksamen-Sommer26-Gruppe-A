@@ -4,9 +4,7 @@ import app.entities.Carport;
 import app.entities.Inquiry;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +71,6 @@ public class InquiryMapper {
             throw new DatabaseException("Error with saveCarport", e.getMessage());
         }
         return inquiry;
-    }
-
-    public void editInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
-
     }
 
     public static void deleteInquiry(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
