@@ -92,6 +92,7 @@ public class InquiryController {
             Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
 
             InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
+            CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
 
             ctx.redirect("/user/inquiry");
 
