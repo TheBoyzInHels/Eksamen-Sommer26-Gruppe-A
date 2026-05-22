@@ -17,6 +17,7 @@ public class CarportService {
         ArrayList<Part> listOfRafts = new ArrayList<>();
         ArrayList<Part> listOfStraps = new ArrayList<>();
         ArrayList<Part> listOfPost = new ArrayList<>();
+        ArrayList<Part> listOfGutters = new ArrayList<>();
 
         ArrayList<Part> matchingParts = new ArrayList<>();
 
@@ -29,6 +30,9 @@ public class CarportService {
             }
             if (p.getName().equals("Stolpe")) {
                 listOfPost.add(p);
+            }
+            if (p.getName().equals("Tagrende")) {
+                listOfGutters.add(p);
             }
         }
 
@@ -92,12 +96,28 @@ public class CarportService {
                 }
             }
         }
+        int gutterTotalLength = (carport.getLength());
+        int guttersBestTotalLength = Integer.MAX_VALUE;
+        Part currentGutter = null;
+        if (carport.isHasGutter()) {
+            if (currentGutter == null) {
+                for (Part p : listOfGutters) {
+                    int gutterAmount = (gutterTotalLength + p.getLength() -1 / p.getLength());
+                    int totalLength = (gutterAmount + p.getLength());
+                    if(totalLength < guttersBestTotalLength){
+                        guttersBestTotalLength = totalLength;
+                        currentGutter = p;
+                    }
+
+                }
+            }
+        }
         matchingParts.add(currentRaft);
         matchingParts.add(currentStraps);
         matchingParts.add(currentShedStraps);
         matchingParts.add(listOfPost.get(0));
-        for (Part p : matchingParts) {
-        }
+        matchingParts.add(currentGutter);
+
         return matchingParts;
     }
 
@@ -111,9 +131,22 @@ public class CarportService {
 
         int raftsAmount = carport.getLength() / 55 + 1;
         int strapsTotalLength = ((carport.getLength() + carport.getWidth()) * 2);
-
+        if (carport.isHasShed()) {
+            Part shedStraps = matchingParts.get(2);
+            int shedStrapsTotalLength = ((carport.getShedLength() + carport.getShedWidth()) * 2);
+            int shedStrapsAmount = ((shedStrapsTotalLength + shedStraps.getLength() - 1) / shedStraps.getLength());
+            for (int i = 0; i < shedStrapsAmount; i++) {
+                listOfParts.add(shedStraps);
+            }
+        }
         int strapsAmount = ((strapsTotalLength + straps.getLength() - 1) / straps.getLength());
-
+        if (carport.isHasGutter()) {
+            Part gutter = matchingParts.get(4);
+            int guttersAmount = ((strapsTotalLength + gutter.getLength() - 1) / gutter.getLength());
+            for (int i = 0; i < guttersAmount; i++) {
+                listOfParts.add(gutter);
+            }
+        }
 
         int postAmount = (carport.getLength() / 310 + 1) * 2 + 1;
 
@@ -133,14 +166,7 @@ public class CarportService {
             listOfParts.add(post);
         }
 
-        if(carport.isHasShed()) {
-            Part shedStraps = matchingParts.get(2);
-            int shedStrapsTotalLength = ((carport.getShedLength() + carport.getShedWidth()) * 2);
-            int shedStrapsAmount = ((shedStrapsTotalLength + shedStraps.getLength() - 1) / shedStraps.getLength());
-            for (int i = 0; i < shedStrapsAmount; i++) {
-                listOfParts.add(shedStraps);
-            }
-        }
+
         HashMap<Part, Integer> partCounts = new HashMap<>();
         PartsList partsList = new PartsList(partCounts);
 
