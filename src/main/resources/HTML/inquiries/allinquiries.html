@@ -172,6 +172,11 @@
             <span th:text="${session.selectedCarport.hasGutter ? 'Ja' : 'Nej'}"></span>
         </div>
 
+        <div class="detail-row">
+            <strong>Kunde bemærkning:</strong>
+            <span th:text="${session.selectedCarport.notes}"></span>
+        </div>
+
         <button onclick="closeCarportModal()" class="modal-close-btn">
             Luk
         </button>

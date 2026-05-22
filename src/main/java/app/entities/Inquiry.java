@@ -56,4 +56,8 @@ public class Inquiry {
     public int getPrice() {
         return price;
     }
+
+    public int getInquiryId() { return inquiryId; }
+
+    public int getCarportId() { return carportId; }
 }
