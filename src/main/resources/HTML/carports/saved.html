@@ -43,7 +43,8 @@
         <div class="button-group">
 
             <!-- Edit knap -->
-            <form th:action="@{/user/editCarport}" method="get">
+            <form th:if="${carport.canEdit}"
+                  th:action="@{/user/editCarport}" method="get">
                 <input type="hidden"
                        name="selectedCarportId"
                        th:value="${carport.carportId}"/>
@@ -53,13 +54,20 @@
                         th:onclick="'openPopup('
         + ${carport.carportId} + ','
         + ${carport.width} + ','
-        + ${carport.length} + ')'">
+        + ${carport.length} + ','
+        + ${carport.hasShed} + ','
+        + ${carport.shedLength} + ','
+        + ${carport.shedWidth} + ','
+        + ${carport.hasGutter}
+        + ')'">
                     Edit
                 </button>
             </form>
 
-            <!-- Delete knap -->
-            <form th:action="@{/user/deleteCarport}" method="post">
+            <form th:if="${carport.canEdit}"
+                  th:action="@{/user/deleteCarport}"
+                  method="post">
+
                 <input type="hidden"
                        name="selectedCarportId"
                        th:value="${carport.carportId}"/>
@@ -94,15 +102,110 @@
 
             <label>Bredde</label>
 
-            <input type="text"
-                   id="popupWidth"
-                   name="width">
+            <select id="popupWidth" name="width">
+                <option value="">Vælg bredde</option>
+                <option value="240">240 cm</option>
+                <option value="270">270 cm</option>
+                <option value="300">300 cm</option>
+                <option value="330">330 cm</option>
+                <option value="360">360 cm</option>
+                <option value="390">390 cm</option>
+                <option value="420">420 cm</option>
+                <option value="450">450 cm</option>
+                <option value="480">480 cm</option>
+                <option value="510">510 cm</option>
+                <option value="540">540 cm</option>
+                <option value="570">570 cm</option>
+                <option value="600">600 cm</option>
+            </select>
 
             <label>Længde</label>
 
-            <input type="text"
-                   id="popupLength"
-                   name="length">
+            <select id="popupLength" name="length">
+                <option value="">Vælg længde</option>
+                <option value="240">240 cm</option>
+                <option value="270">270 cm</option>
+                <option value="300">300 cm</option>
+                <option value="330">330 cm</option>
+                <option value="360">360 cm</option>
+                <option value="390">390 cm</option>
+                <option value="420">420 cm</option>
+                <option value="450">450 cm</option>
+                <option value="480">480 cm</option>
+                <option value="510">510 cm</option>
+                <option value="540">540 cm</option>
+                <option value="570">570 cm</option>
+                <option value="600">600 cm</option>
+                <option value="630">630 cm</option>
+                <option value="660">660 cm</option>
+                <option value="690">690 cm</option>
+                <option value="720">720 cm</option>
+                <option value="750">750 cm</option>
+                <option value="780">780 cm</option>
+            </select>
+
+            <label>Har skur</label>
+
+            <select id="popupHasShed" name="hasShed">
+                <option value="true">Ja</option>
+                <option value="false">Nej</option>
+            </select>
+
+            <label>Skur længde</label>
+
+            <select id="popupShedLength" name="shedLength">
+                <option value="0">Ingen</option>
+                <option value="150">210 cm</option>
+                <option value="180">240 cm</option>
+                <option value="210">210 cm</option>
+                <option value="240">240 cm</option>
+                <option value="270">270 cm</option>
+                <option value="300">300 cm</option>
+                <option value="330">330 cm</option>
+                <option value="360">360 cm</option>
+                <option value="390">390 cm</option>
+                <option value="420">420 cm</option>
+                <option value="450">450 cm</option>
+                <option value="480">480 cm</option>
+                <option value="510">510 cm</option>
+                <option value="540">540 cm</option>
+                <option value="570">570 cm</option>
+                <option value="600">600 cm</option>
+                <option value="630">630 cm</option>
+                <option value="660">660 cm</option>
+                <option value="690">690 cm</option>
+            </select>
+
+            <label>Skur bredde</label>
+
+            <select id="popupShedWidth" name="shedWidth">
+                <option value="0">Vælg bredde</option>
+                <option value="210">210 cm</option>
+                <option value="240">240 cm</option>
+                <option value="270">270 cm</option>
+                <option value="300">300 cm</option>
+                <option value="330">330 cm</option>
+                <option value="360">360 cm</option>
+                <option value="390">390 cm</option>
+                <option value="420">420 cm</option>
+                <option value="450">450 cm</option>
+                <option value="480">480 cm</option>
+                <option value="510">510 cm</option>
+                <option value="540">540 cm</option>
+                <option value="570">570 cm</option>
+                <option value="600">600 cm</option>
+                <option value="630">630 cm</option>
+                <option value="660">660 cm</option>
+                <option value="690">690 cm</option>
+                <option value="720">720 cm</option>
+            </select>
+
+            <label>Tagrende</label>
+
+            <select id="popupHasGutter" name="hasGutter">
+                <option value="true">Ja</option>
+                <option value="false">Nej</option>
+            </select>
 
             <button type="submit">
                 Gem ændringer
@@ -115,20 +218,21 @@
 </div>
 
 <script>
-
-    function openPopup(id, width, length) {
+    function openPopup(id, width, length, hasShed, shedLength, shedWidth, hasGutter) {
 
         document.getElementById("popupCarportId").value = id;
+
         document.getElementById("popupWidth").value = width;
         document.getElementById("popupLength").value = length;
 
+        document.getElementById("popupHasShed").value = hasShed;
+        document.getElementById("popupShedLength").value = shedLength;
+        document.getElementById("popupShedWidth").value = shedWidth;
+
+        document.getElementById("popupHasGutter").value = hasGutter;
+
         document.getElementById("editPopup").style.display = "flex";
     }
-
-    function closePopup() {
-        document.getElementById("editPopup").style.display = "none";
-    }
-
 </script>
 
 </body>
