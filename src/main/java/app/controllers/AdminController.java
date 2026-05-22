@@ -20,6 +20,9 @@ public class AdminController {
 
     public static void seeAllInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         InquiryController.seeSubmittedInquiries(ctx, connectionPool);
+
+        ctx.sessionAttribute("customerEmail", null);
+        ctx.sessionAttribute("selectedCarport", null);
     }
 
     public static void seeCarportUnderInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
