@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Fog - Mine Forespørgsler</title>
 
+    <script th:src="@{/js/partsListPopup.js}" defer></script>
+
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <link rel="stylesheet" th:href="@{/css/myInquiries.css}">
@@ -92,6 +94,17 @@
                 Ændr status
             </button>
 
+        </form>
+        <form th:action="@{/user/generatePartsList}"
+              method="post"
+              class="partsList-form">
+
+            <input type="hidden"
+                   name="selectedCarportId"
+                   th:value="${inquiry.carportId}"/>
+            <button type="submit" class="partsList-btn">
+                Stykliste
+            </button>
         </form>
     </div>
 

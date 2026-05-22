@@ -31,6 +31,10 @@ public class Inquiry {
         this.price = price;
     }
 
+    public int getCarportId() {return carportId;}
+
+    public int getInquiryId() {return inquiryId;}
+
     public String getStatus() {
         return status;
     }
