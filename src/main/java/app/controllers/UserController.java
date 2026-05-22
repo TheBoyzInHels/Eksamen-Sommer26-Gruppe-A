@@ -6,7 +6,6 @@ import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
 
 
 public class UserController {
@@ -25,9 +24,6 @@ public class UserController {
         ctx.render("/user/profile.html");
     }
 
-    public static void connectToMapper(Context ctx, ConnectionPool connectionPool, String action) {
-
-    }
 
     public static void login(Context ctx, ConnectionPool connectionPool) {
         String email = ctx.formParam("email");

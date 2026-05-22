@@ -13,8 +13,6 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.sql.Date;
-import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
