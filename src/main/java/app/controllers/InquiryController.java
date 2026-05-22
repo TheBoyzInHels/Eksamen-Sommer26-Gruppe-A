@@ -51,7 +51,7 @@ public class InquiryController {
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
 
-            price = InquiryService.generateInquiryPrice(partsList);
+            price = (InquiryService.generateInquiryPrice(partsList)*2);
 
         } catch (DatabaseException e) {
             throw new RuntimeException();

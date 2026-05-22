@@ -140,9 +140,10 @@ public class CarportService {
             }
         }
         int strapsAmount = ((strapsTotalLength + straps.getLength() - 1) / straps.getLength());
+        int gutterTotalLength = (carport.getLength());
         if (carport.isHasGutter()) {
             Part gutter = matchingParts.get(4);
-            int guttersAmount = ((strapsTotalLength + gutter.getLength() - 1) / gutter.getLength());
+            int guttersAmount = ((gutterTotalLength + gutter.getLength() - 1) / gutter.getLength());
             for (int i = 0; i < guttersAmount; i++) {
                 listOfParts.add(gutter);
             }
