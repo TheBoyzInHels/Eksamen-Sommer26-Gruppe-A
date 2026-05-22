@@ -96,9 +96,17 @@ public class CarportController {
 
             int length = Integer.parseInt(ctx.formParam("length"));
             int width = Integer.parseInt(ctx.formParam("width"));
+            boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
+            int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
+            int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
+            boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
 
             carport.setLength(length);
             carport.setWidth(width);
+            carport.setHasShed(hasShed);
+            carport.setShedLength(shedLength);
+            carport.setShedWidth(shedWidth);
+            carport.setHasGutter(hasGutter);
 
             CarportMapper.editCarport(connectionPool, carport);
 

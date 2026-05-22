@@ -47,6 +47,7 @@ public class InquiryController {
 
         CarportController.saveCarport(ctx, connectionPool);
         Carport carport = ctx.sessionAttribute("newestCarport");
+        CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
 
         String status = "Venter";
 

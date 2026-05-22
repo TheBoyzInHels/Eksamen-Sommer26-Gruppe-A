@@ -43,9 +43,10 @@ public class CarportMapper {
                 int shedWidth = Integer.parseInt(rs.getString("shed_width"));
                 boolean hasGutter = rs.getBoolean("has_gutter");
                 int userId = rs.getInt("user_id");
+                boolean canEdit = rs.getBoolean("can_edit");
 
 
-                carports.add(new Carport(carportId, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId));
+                carports.add(new Carport(carportId, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId, canEdit));
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error with finding carports", e.getMessage());
@@ -88,7 +89,7 @@ public class CarportMapper {
     }
 
     public static void editCarport(ConnectionPool connectionPool, Carport carport) throws DatabaseException {
-        String editSQL = " UPDATE carports SET carport_length = ?, carport_width = ? WHERE carport_id = ?";
+        String editSQL = " UPDATE carports SET carport_length = ?, carport_width = ?, has_shed = ?, shed_length = ?, shed_width = ?, has_gutter = ? WHERE carport_id = ?";
 
         try
                 (
@@ -97,7 +98,11 @@ public class CarportMapper {
                 ) {
             ps.setInt(1, carport.getLength());
             ps.setInt(2, carport.getWidth());
-            ps.setInt(3, carport.getCarportId());
+            ps.setBoolean(3, carport.isHasShed());
+            ps.setInt(4, carport.getShedLength());
+            ps.setInt(5, carport.getShedWidth());
+            ps.setBoolean(6, carport.isHasGutter());
+            ps.setInt(7, carport.getCarportId());
 
             ps.executeUpdate();
 
@@ -105,6 +110,24 @@ public class CarportMapper {
             throw new DatabaseException("Error with saveCarport", e.getMessage());
         }
 
+    }
+
+    public static void makeCarportFinal(Context ctx, ConnectionPool connectionPool, Carport carport) throws DatabaseException {
+        String editSQL = " UPDATE carports SET can_edit = ? WHERE carport_id = ?";
+
+        try
+                (
+                        Connection connection = connectionPool.getConnection();
+                        PreparedStatement ps = connection.prepareStatement(editSQL);
+                ) {
+            ps.setBoolean(1, false);
+            ps.setInt(2, carport.getCarportId());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error with saveCarport", e.getMessage());
+        }
     }
 
     public static void deleteCarport(ConnectionPool connectionPool, int carportId) throws DatabaseException {
@@ -146,9 +169,9 @@ public class CarportMapper {
                 int shedWidth = Integer.parseInt(rs.getString("shed_width"));
                 boolean hasGutter = rs.getBoolean("has_gutter");
                 int userId = rs.getInt("user_id");
+                boolean canEdit = rs.getBoolean("can_edit");
 
-
-                carport = new Carport(id, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId);
+                carport = new Carport(id, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId, canEdit);
             }
         } catch (SQLException e) {
             throw new DatabaseException("Error with saveCarport", e.getMessage());

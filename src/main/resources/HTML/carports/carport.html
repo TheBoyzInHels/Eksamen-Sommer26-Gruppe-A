@@ -35,19 +35,40 @@
             </div>
 
             <div class="svg-carport">
-                <h2>Ekstra indhold</h2>
+                <h2>Få overblik!</h2>
+                <p> - Vælg carportens specifikationer og det illustreres her. Du kan også trække den gule bil rundt med musen.</p>
 
-                <svg width="400" height="400">
+                <svg width="400" height="500">
                     <rect
                             id="frame"
                             x="20"
                             y="20"
-                            width="150"
-                            height="210"
+                            width="0"
+                            height="0"
                             fill="none"
                             stroke="black"
                             stroke-width="2"
                     />
+                    <rect
+                            id="innerFrame"
+                            x="20"
+                            y="20"
+                            width="0"
+                            height="0"
+                            fill="none"
+                            stroke="red"
+                            stroke-width="2"
+                    />
+                    <image
+                            id="car"
+                            href="/images/car_topview.svg"
+                            x="20"
+                            y="20"
+                            width="450"
+                            height="180"
+                    />
+                    <text id="widthLabel" x="20" y="15" font-size="14" fill="black"></text>
+                    <text id="heightLabel" x="5" y="40" font-size="14" fill="black"></text>
                 </svg>
 
             </div>
@@ -156,8 +177,8 @@
                 <label>Redskabsskur længde</label>
                 <select id="shedLength" name="shedLength">
                     <option value="0">Vælg længde</option>
-                    <option value="150">210 cm</option>
-                    <option value="180">240 cm</option>
+                    <option value="150">150 cm</option>
+                    <option value="180">180 cm</option>
                     <option value="210">210 cm</option>
                     <option value="240">240 cm</option>
                     <option value="270">270 cm</option>
@@ -224,13 +245,14 @@
     const shedWidthSelect = document.getElementById("shedWidth");
     const shedLengthSelect = document.getElementById("shedLength");
 
-    // Muligheder til 1 bil
-    const oneCarWidths = [240, 270, 300, 330, 360, 390];
-    const oneCarLengths = [240, 270, 300, 330, 360, 390, 420, 450];
+    const oneCarWidths = [240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600];
+    const oneCarLengths = [240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780];
 
-    // Muligheder til 2 biler
-    const twoCarWidths = [420, 450, 480, 510, 540, 570, 600];
-    const twoCarLengths = [480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780];
+    const twoCarWidths = [450, 480, 510, 540, 570, 600];
+    const twoCarLengths = [240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690, 720, 750, 780]
+
+    const widthLabel = document.getElementById("widthLabel");
+    const heightLabel = document.getElementById("heightLabel");
 
     function populateSelect(selectElement, values, placeholder) {
 
@@ -276,16 +298,113 @@
         const selectedWidth = widthSelect.value;
         const selectedLength = lengthSelect.value;
 
-        if (selectedWidth && selectedLength) {
-            frame.setAttribute("width", selectedWidth / 2);
-            frame.setAttribute("height", selectedLength / 2);
-        }
+        if (!selectedWidth || !selectedLength) return;
+
+        const x = 20;
+        const y = 20;
+
+        const svgW = 400;
+        const svgH = 500;
+
+        // ===== AUTO SCALE (LØSNING 2) =====
+        const scaleX = selectedWidth / (svgW * 0.8);
+        const scaleY = selectedLength / (svgH * 0.8);
+        const scale = Math.max(scaleX, scaleY);
+
+        const w = selectedWidth / scale;
+        const h = selectedLength / scale;
+
+        // ===== OUTER FRAME =====
+        frame.setAttribute("x", x);
+        frame.setAttribute("y", y);
+        frame.setAttribute("width", w);
+        frame.setAttribute("height", h);
+
+        // ===== LABELS =====
+        widthLabel.textContent = selectedWidth + " cm";
+        heightLabel.textContent = selectedLength + " cm";
+
+        widthLabel.setAttribute("x", x + w / 2);
+        widthLabel.setAttribute("y", y - 5);
+
+        heightLabel.setAttribute("x", x - 15);
+        heightLabel.setAttribute("y", y + h / 2);
+
+        // ===== INNER FRAME =====
+        const innerFrame = document.getElementById("innerFrame");
+
+        const innerW = (selectedWidth - 70) / scale;
+        const innerH = h;
+
+        const innerX = x + (70 / (2 * scale));
+        const innerY = y;
+
+        innerFrame.setAttribute("x", innerX);
+        innerFrame.setAttribute("y", innerY);
+        innerFrame.setAttribute("width", innerW);
+        innerFrame.setAttribute("height", innerH);
+
+        // ===== CAR (stadig fast fysisk størrelse) =====
+        const car = document.getElementById("car");
+
+        const carWidthCm = 180;
+        const carHeightCm = 430;
+
+        car.setAttribute("width", carWidthCm / scale);
+        car.setAttribute("height", carHeightCm / scale);
     }
 
     amountOfCars.addEventListener("change", updateOptions);
 
     widthSelect.addEventListener("change", updateCarport);
     lengthSelect.addEventListener("change", updateCarport);
+
+    //CAR MOVEMENT
+
+    const car = document.getElementById("car");
+    const svg = document.querySelector("svg");
+
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    car.addEventListener("mousedown", startDrag);
+    svg.addEventListener("mousemove", drag);
+    svg.addEventListener("mouseup", stopDrag);
+    svg.addEventListener("mouseleave", stopDrag);
+
+    function startDrag(e) {
+        isDragging = true;
+
+        const pt = getMousePosition(e);
+
+        offsetX = pt.x - parseFloat(car.getAttribute("x"));
+        offsetY = pt.y - parseFloat(car.getAttribute("y"));
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+
+        const pt = getMousePosition(e);
+
+        const newX = pt.x - offsetX;
+        const newY = pt.y - offsetY;
+
+        car.setAttribute("x", newX);
+        car.setAttribute("y", newY);
+    }
+
+    function stopDrag() {
+        isDragging = false;
+    }
+
+    function getMousePosition(evt) {
+        const CTM = svg.getScreenCTM();
+        return {
+            x: (evt.clientX - CTM.e) / CTM.a,
+            y: (evt.clientY - CTM.f) / CTM.d
+        };
+    }
 
 </script>
 

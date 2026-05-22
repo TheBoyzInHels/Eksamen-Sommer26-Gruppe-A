@@ -81,4 +81,7 @@ INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES 
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',254.15, 480);
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Stolpe','97X97 MM',221.85, 300);
 
+ALTER TABLE IF EXISTS public.carports
+    ADD COLUMN can_edit boolean DEFAULT true;
+
 END;
