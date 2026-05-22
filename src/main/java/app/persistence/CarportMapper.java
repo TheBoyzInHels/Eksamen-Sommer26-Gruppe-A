@@ -1,12 +1,9 @@
 package app.persistence;
 
 import app.entities.Carport;
-import app.entities.Part;
-import app.entities.PartsList;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import io.javalin.http.Context;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

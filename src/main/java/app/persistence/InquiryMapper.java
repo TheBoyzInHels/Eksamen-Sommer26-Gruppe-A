@@ -6,7 +6,6 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,9 +74,6 @@ public class InquiryMapper {
         return inquiry;
     }
 
-    public void editInquiry(ConnectionPool connectionPool, Inquiry inquiry) {
-
-    }
 
     public static void deleteInquiry(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
         String deleteSql = "DELETE FROM inquiries WHERE inquiry_id = ?";
