@@ -37,20 +37,6 @@ public class CarportController {
     }
 
 
-    public void connectToMapper(Context ctx, ConnectionPool connectionPool) {
-
-    }
-
-    public static void seeSavedCarports(Context ctx, ConnectionPool connectionPool) {
-        ctx.render("carports/saved.html");
-
-    }
-
-    public void allCarports(ConnectionPool connectionPool) {
-
-
-    }
-
     public static void myCarports(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         List<Carport> carports = CarportMapper.listCarports(connectionPool, UserService.currentUser(ctx));
 
