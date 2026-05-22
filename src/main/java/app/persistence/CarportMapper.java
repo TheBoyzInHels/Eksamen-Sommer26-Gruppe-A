@@ -74,9 +74,10 @@ public class CarportMapper {
                 int shedWidth = Integer.parseInt(rs.getString("shed_width"));
                 boolean hasGutter = rs.getBoolean("has_gutter");
                 int userId = rs.getInt("user_id");
+                String notes = rs.getString("customer_notes");
 
 
-                carport = new Carport(id, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId);
+                carport = new Carport(id, amountOfCars, carportLength, carportWidth, hasShed, shedLength, shedWidth, hasGutter, userId, notes);
             }
 
         } catch (SQLException e) {
@@ -177,7 +178,7 @@ public class CarportMapper {
     }
 
     public static void saveCarport(ConnectionPool connectionPool, Carport carport, Context ctx) throws DatabaseException {
-        String sql = "INSERT INTO carports (amount_of_cars, carport_length, carport_width, has_shed, shed_length, shed_width, has_gutter, user_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carports (amount_of_cars, carport_length, carport_width, has_shed, shed_length, shed_width, has_gutter, user_id, customer_notes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try
                 (
@@ -192,6 +193,7 @@ public class CarportMapper {
             ps.setInt(5, carport.getShedWidth());
             ps.setBoolean(7, carport.isHasGutter());
             ps.setInt(8, ((User) ctx.sessionAttribute("currentUser")).getId());
+            ps.setString(9, carport.getNotes());
 
 
             ps.executeUpdate();
