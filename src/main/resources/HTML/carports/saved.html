@@ -78,6 +78,20 @@
 
             </form>
 
+            <form th:if="${carport.canEdit}"
+                  th:action="@{/user/inquiry}"
+                  method="post">
+
+                <input type="hidden"
+                       name="selectedCarportId"
+                       th:value="${carport.carportId}"/>
+
+                <button type="submit" class="delete-btn">
+                    Send forespørgsel
+                </button>
+
+            </form>
+
         </div>
 
     </div>

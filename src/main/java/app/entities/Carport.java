@@ -138,4 +138,6 @@ public class Carport {
     }
 
     public String getNotes() { return notes; }
+
+    public void setNotes(String notes) { this.notes = notes; }
 }

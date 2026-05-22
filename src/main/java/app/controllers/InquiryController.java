@@ -43,37 +43,55 @@ public class InquiryController {
     }
 
     public static void createInquiry(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-        CarportController.saveCarport(ctx, connectionPool);
-        Carport carport = ctx.sessionAttribute("newestCarport");
-        int price = 0;
+
+        Carport carport;
+
+        String selectedCarportId = ctx.formParam("selectedCarportId");
+
         try {
+
+            if (selectedCarportId != null && !selectedCarportId.isEmpty()) {
+
+                int carportId = Integer.parseInt(selectedCarportId);
+
+                carport = CarportMapper.findCarport(connectionPool, carportId);
+
+            } else {
+
+                int amountOfCars = Integer.parseInt(ctx.formParam("amountOfCars"));
+                int width = Integer.parseInt(ctx.formParam("width"));
+                int length = Integer.parseInt(ctx.formParam("length"));
+                boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
+                int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
+                int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
+                boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
+                String notes = ctx.formParam("notes");
+
+                carport = new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter, notes);
+
+                CarportMapper.saveCarport(connectionPool, carport, ctx);
+
+                carport = CarportMapper.findNewestCarport(connectionPool, ctx);
+            }
+
             ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
 
-            price = InquiryService.generateInquiryPrice(partsList);
+            int price = InquiryService.generateInquiryPrice(partsList);
 
-        } catch (DatabaseException e) {
-            throw new RuntimeException();
-        }
-        CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
+            CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
 
-        String status = "Venter";
+            User user = ctx.sessionAttribute("currentUser");
 
-        User user = ctx.sessionAttribute("currentUser");
+            Inquiry inquiry = new Inquiry("Venter", user, carport, Date.valueOf(LocalDate.now()), price);
 
-        LocalDate today = LocalDate.now();
-        Date sqlDate = Date.valueOf(today);
-
-
-        try {
-            Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
             InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
 
-            myInquiries(ctx, connectionPool);
             ctx.redirect("/user/inquiry");
-        } catch (RuntimeException e) {
-            throw new DatabaseException("Fejl ved createInquiry eller Database" + e.getMessage());
+
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
         }
     }
 
