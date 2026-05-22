@@ -59,6 +59,16 @@
                             stroke="red"
                             stroke-width="2"
                     />
+                    <rect
+                            id="shed"
+                            x="20"
+                            y="20"
+                            width="0"
+                            height="0"
+                            fill="none"
+                            stroke="blue"
+                            stroke-width="2"
+                    />
                     <image
                             id="car"
                             href="/images/car_topview.svg"
@@ -86,7 +96,7 @@
             <div class="form-group">
                 <label>Antal biler</label>
                 <select id="amountOfCars" name="amountOfCars">
-                    <option value="">Vælg antal biler</option>
+                    <option value="1">Vælg antal biler</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                 </select>
@@ -95,7 +105,7 @@
             <div class="form-group">
                 <label>Carport bredde</label>
                 <select id="width" name="width">
-                    <option value="">Vælg bredde</option>
+                    <option value="0">Vælg bredde</option>
                     <option value="240">240 cm</option>
                     <option value="270">270 cm</option>
                     <option value="300">300 cm</option>
@@ -115,7 +125,7 @@
             <div class="form-group">
                 <label>Carport længde</label>
                 <select id="length" name="length">
-                    <option value="">Vælg længde</option>
+                    <option value="0">Vælg længde</option>
                     <option value="240">240 cm</option>
                     <option value="270">270 cm</option>
                     <option value="300">300 cm</option>
@@ -141,7 +151,7 @@
             <div class="form-group">
                 <label>Redskabsskur</label>
                 <select id="hasShed" name="hasShed">
-                    <option value="">Vælg om du vil have skur</option>
+                    <option value="false">Vælg om du vil have skur</option>
                     <option value="true">Ja</option>
                     <option value="false">Nej</option>
                 </select>
@@ -204,7 +214,7 @@
             <div class="form-group">
                 <label>Tagrende</label>
                 <select id="hasGutter" name="hasGutter">
-                    <option value="">Vælg om du vil have tagrende</option>
+                    <option value="false">Vælg om du vil have tagrende</option>
                     <option value="true">Ja</option>
                     <option value="false">Nej</option>
                 </select>
@@ -280,16 +290,12 @@
             populateSelect(widthSelect, oneCarWidths, "Vælg bredde");
             populateSelect(lengthSelect, oneCarLengths, "Vælg længde");
 
-            populateSelect(shedWidthSelect, oneCarWidths, "Vælg skur bredde");
-            populateSelect(shedLengthSelect, oneCarLengths, "Vælg skur længde");
 
         } else if (cars === "2") {
 
             populateSelect(widthSelect, twoCarWidths, "Vælg bredde");
             populateSelect(lengthSelect, twoCarLengths, "Vælg længde");
 
-            populateSelect(shedWidthSelect, twoCarWidths, "Vælg skur bredde");
-            populateSelect(shedLengthSelect, twoCarLengths, "Vælg skur længde");
         }
     }
 
@@ -300,13 +306,14 @@
 
         if (!selectedWidth || !selectedLength) return;
 
+        updateShedOptions();
+
         const x = 20;
         const y = 20;
 
         const svgW = 400;
         const svgH = 500;
 
-        // ===== AUTO SCALE (LØSNING 2) =====
         const scaleX = selectedWidth / (svgW * 0.8);
         const scaleY = selectedLength / (svgH * 0.8);
         const scale = Math.max(scaleX, scaleY);
@@ -314,13 +321,11 @@
         const w = selectedWidth / scale;
         const h = selectedLength / scale;
 
-        // ===== OUTER FRAME =====
         frame.setAttribute("x", x);
         frame.setAttribute("y", y);
         frame.setAttribute("width", w);
         frame.setAttribute("height", h);
 
-        // ===== LABELS =====
         widthLabel.textContent = selectedWidth + " cm";
         heightLabel.textContent = selectedLength + " cm";
 
@@ -330,7 +335,6 @@
         heightLabel.setAttribute("x", x - 15);
         heightLabel.setAttribute("y", y + h / 2);
 
-        // ===== INNER FRAME =====
         const innerFrame = document.getElementById("innerFrame");
 
         const innerW = (selectedWidth - 70) / scale;
@@ -344,7 +348,19 @@
         innerFrame.setAttribute("width", innerW);
         innerFrame.setAttribute("height", innerH);
 
-        // ===== CAR (stadig fast fysisk størrelse) =====
+        const shed = document.getElementById("shed");
+
+        const selectShedWidth = shedWidthSelect.value;
+        const selectShedLength = shedLengthSelect.value;
+
+        const sW = selectShedWidth / scale;
+        const sH = selectShedLength / scale;
+
+        shed.setAttribute("x", innerX);
+        shed.setAttribute("y", innerY);
+        shed.setAttribute("width", sW);
+        shed.setAttribute("height", sH);
+
         const car = document.getElementById("car");
 
         const carWidthCm = 180;
@@ -359,7 +375,8 @@
     widthSelect.addEventListener("change", updateCarport);
     lengthSelect.addEventListener("change", updateCarport);
 
-    //CAR MOVEMENT
+    shedWidthSelect.addEventListener("change", updateCarport);
+    shedLengthSelect.addEventListener("change", updateCarport);
 
     const car = document.getElementById("car");
     const svg = document.querySelector("svg");
@@ -404,6 +421,46 @@
             x: (evt.clientX - CTM.e) / CTM.a,
             y: (evt.clientY - CTM.f) / CTM.d
         };
+    }
+
+    function updateShedOptions() {
+
+        const selectedWidth = parseInt(widthSelect.value);
+        const selectedLength = parseInt(lengthSelect.value);
+
+        if (!selectedWidth || !selectedLength) return;
+
+        const currentShedWidth = parseInt(shedWidthSelect.value);
+        const currentShedLength = parseInt(shedLengthSelect.value);
+
+        const innerWidthCm = selectedWidth - 70;
+        const innerLengthCm = selectedLength;
+
+        const allShedWidths = [210, 240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690, 720];
+        const allShedLengths = [150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690];
+
+        const validShedWidths = allShedWidths.filter(w =>
+            w <= innerWidthCm + 0.0001
+        );
+
+        const validShedLengths = allShedLengths.filter(l =>
+            l <= innerLengthCm + 0.0001
+        );
+
+        populateSelect(shedWidthSelect, validShedWidths, "Vælg skur bredde");
+        populateSelect(shedLengthSelect, validShedLengths, "Vælg skur længde");
+
+        if (validShedWidths.includes(currentShedWidth)) {
+            shedWidthSelect.value = currentShedWidth;
+        } else {
+            shedWidthSelect.value = "";
+        }
+
+        if (validShedLengths.includes(currentShedLength)) {
+            shedLengthSelect.value = currentShedLength;
+        } else {
+            shedLengthSelect.value = "";
+        }
     }
 
 </script>
