@@ -4,7 +4,6 @@ import app.entities.Carport;
 import app.entities.Inquiry;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

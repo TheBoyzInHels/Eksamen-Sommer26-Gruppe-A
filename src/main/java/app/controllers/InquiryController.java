@@ -11,7 +11,6 @@ import app.service.InquiryService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
