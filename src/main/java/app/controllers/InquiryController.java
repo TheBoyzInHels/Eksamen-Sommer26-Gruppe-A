@@ -73,7 +73,10 @@ public class InquiryController {
     public static void deleteInquiry(Context ctx, ConnectionPool connectionPool) {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
         try {
+            Inquiry inquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
+
             InquiryMapper.deleteInquiry(connectionPool, inquiryId);
+            CarportMapper.deleteCarport(connectionPool, inquiry.getCarportId());
 
             ctx.redirect("/user/inquiry");
 
