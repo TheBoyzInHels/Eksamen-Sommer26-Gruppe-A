@@ -78,9 +78,7 @@
 
             </form>
 
-            <form th:if="${carport.canEdit}"
-                  th:action="@{/user/inquiry}"
-                  method="post">
+            <form th:if="${carport.canEdit}"  th:action="@{/user/createInquiryFromSaved}"  method="post">
 
                 <input type="hidden"
                        name="selectedCarportId"
