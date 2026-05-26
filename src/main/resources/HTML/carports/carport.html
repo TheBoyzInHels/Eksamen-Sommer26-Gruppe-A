@@ -269,7 +269,7 @@
         selectElement.innerHTML = "";
 
         const defaultOption = document.createElement("option");
-        defaultOption.value = "";
+        defaultOption.value = "0";
         defaultOption.textContent = placeholder;
         selectElement.appendChild(defaultOption);
 
@@ -453,13 +453,13 @@
         if (validShedWidths.includes(currentShedWidth)) {
             shedWidthSelect.value = currentShedWidth;
         } else {
-            shedWidthSelect.value = "";
+            shedWidthSelect.value = "0";
         }
 
         if (validShedLengths.includes(currentShedLength)) {
             shedLengthSelect.value = currentShedLength;
         } else {
-            shedLengthSelect.value = "";
+            shedLengthSelect.value = "0";
         }
     }
 
