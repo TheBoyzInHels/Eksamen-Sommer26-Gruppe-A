@@ -21,7 +21,6 @@ public class CarportController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/user/carport", ctx -> ctx.render("/carports/carport.html"));
-        app.post("/user/submit", ctx -> submitCarport(ctx, connectionPool));
         app.get("/user/saved", ctx -> myCarports(ctx, connectionPool));
         app.post("/user/saved", ctx -> saveCarport(ctx, connectionPool));
         app.post("/user/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
@@ -33,16 +32,11 @@ public class CarportController {
         });
     }
 
-
     public static void myCarports(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         List<Carport> carports = CarportMapper.listCarports(connectionPool, UserService.currentUser(ctx));
 
         ctx.sessionAttribute("carportList", carports);
         ctx.render("carports/saved.html");
-    }
-
-    public static void submitCarport(Context ctx, ConnectionPool connectionPool) {
-
     }
 
     public static void saveCarport(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
@@ -55,8 +49,9 @@ public class CarportController {
             int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
             int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
             boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
+            String notes = ctx.formParam("notes");
 
-            Carport carport = new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter);
+            Carport carport = new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter, notes);
 
             CarportMapper.saveCarport(connectionPool, carport, ctx);
             Carport newestCarport = CarportMapper.findNewestCarport(connectionPool, ctx);
@@ -83,6 +78,7 @@ public class CarportController {
             int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
             int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
             boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
+            String notes = ctx.formParam("notes");
 
             carport.setLength(length);
             carport.setWidth(width);
@@ -90,6 +86,7 @@ public class CarportController {
             carport.setShedLength(shedLength);
             carport.setShedWidth(shedWidth);
             carport.setHasGutter(hasGutter);
+            carport.setNotes(notes);
 
             CarportMapper.editCarport(connectionPool, carport);
 

@@ -86,4 +86,7 @@ INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES 
 ALTER TABLE IF EXISTS public.carports
     ADD COLUMN can_edit boolean DEFAULT true;
 
+ALTER TABLE IF EXISTS public.carports
+    ADD COLUMN customer_notes character varying DEFAULT 0;
+
 END;

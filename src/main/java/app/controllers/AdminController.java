@@ -1,5 +1,6 @@
 package app.controllers;
 import app.entities.Carport;
+import app.entities.Inquiry;
 import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
@@ -20,6 +21,9 @@ public class AdminController {
 
     public static void seeAllInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         InquiryController.seeSubmittedInquiries(ctx, connectionPool);
+
+        ctx.sessionAttribute("customerEmail", null);
+        ctx.sessionAttribute("selectedCarport", null);
     }
 
     public static void seeCarportUnderInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
@@ -66,7 +70,11 @@ public class AdminController {
     public static void deleteInquiry(Context ctx, ConnectionPool connectionPool) {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
         try {
+            Inquiry inquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
+
             InquiryMapper.deleteInquiry(connectionPool, inquiryId);
+            CarportMapper.deleteCarport(connectionPool, inquiry.getCarportId());
+
 
             ctx.redirect("/admin/inquiries");
         } catch (DatabaseException e) {

@@ -73,7 +73,19 @@
                        th:value="${carport.carportId}"/>
 
                 <button type="submit" class="delete-btn">
-                    Slet carport
+                    Slet
+                </button>
+
+            </form>
+
+            <form th:if="${carport.canEdit}"  th:action="@{/user/createInquiryFromSaved}"  method="post">
+
+                <input type="hidden"
+                       name="selectedCarportId"
+                       th:value="${carport.carportId}"/>
+
+                <button type="submit" class="delete-btn">
+                    Send forespørgsel
                 </button>
 
             </form>
@@ -100,6 +112,7 @@
                    id="popupCarportId"
                    name="carportId">
 
+            <div class="popup-form">
             <label>Bredde</label>
 
             <select id="popupWidth" name="width">
@@ -118,7 +131,9 @@
                 <option value="570">570 cm</option>
                 <option value="600">600 cm</option>
             </select>
+            </div>
 
+            <div class="popup-form">
             <label>Længde</label>
 
             <select id="popupLength" name="length">
@@ -143,14 +158,18 @@
                 <option value="750">750 cm</option>
                 <option value="780">780 cm</option>
             </select>
+            </div>
 
+            <div class="popup-form">
             <label>Har skur</label>
 
             <select id="popupHasShed" name="hasShed">
                 <option value="true">Ja</option>
                 <option value="false">Nej</option>
             </select>
+            </div>
 
+            <div class="popup-form">
             <label>Skur længde</label>
 
             <select id="popupShedLength" name="shedLength">
@@ -175,7 +194,9 @@
                 <option value="660">660 cm</option>
                 <option value="690">690 cm</option>
             </select>
+            </div>
 
+            <div class="popup-form">
             <label>Skur bredde</label>
 
             <select id="popupShedWidth" name="shedWidth">
@@ -199,13 +220,16 @@
                 <option value="690">690 cm</option>
                 <option value="720">720 cm</option>
             </select>
+            </div>
 
+            <div class="popup-form">
             <label>Tagrende</label>
 
             <select id="popupHasGutter" name="hasGutter">
                 <option value="true">Ja</option>
                 <option value="false">Nej</option>
             </select>
+            </div>
 
             <button type="submit">
                 Gem ændringer
@@ -232,6 +256,10 @@
         document.getElementById("popupHasGutter").value = hasGutter;
 
         document.getElementById("editPopup").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("editPopup").style.display = "none";
     }
 </script>
 

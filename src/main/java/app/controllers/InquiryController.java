@@ -11,6 +11,7 @@ import app.service.InquiryService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class InquiryController {
         app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
         app.post("/user/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
         app.post("/user/createInvoice", ctx -> createInvoice(ctx, connectionPool));
+        app.post("/user/createInquiryFromSaved", ctx -> createInquiryFromSaved(ctx, connectionPool));
     }
 
 
@@ -50,26 +52,18 @@ public class InquiryController {
             ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
-
             price = InquiryService.generateInquiryPrice(partsList);
-
         } catch (DatabaseException e) {
             throw new RuntimeException();
         }
         CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
-
         String status = "Venter";
-
         User user = ctx.sessionAttribute("currentUser");
-
         LocalDate today = LocalDate.now();
         Date sqlDate = Date.valueOf(today);
-
-
         try {
             Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
             InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
-
             myInquiries(ctx, connectionPool);
             ctx.redirect("/user/inquiry");
         } catch (RuntimeException e) {
@@ -77,10 +71,43 @@ public class InquiryController {
         }
     }
 
+    public static void createInquiryFromSaved(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+
+        int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
+
+        User user = ctx.sessionAttribute("currentUser");
+
+        try {
+            Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+
+            ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
+            ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
+            PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
+            int price = InquiryService.generateInquiryPrice(partsList);
+
+            String status = "Venter";
+            LocalDate today = LocalDate.now();
+            Date sqlDate = Date.valueOf(today);
+
+            Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
+
+            InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
+            CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
+
+            ctx.redirect("/user/inquiry");
+
+        } catch (Exception e) {
+            throw new DatabaseException("Fejl i createInquiryFromSaved: " + e.getMessage());
+        }
+    }
+
     public static void deleteInquiry(Context ctx, ConnectionPool connectionPool) {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
         try {
+            Inquiry inquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
+
             InquiryMapper.deleteInquiry(connectionPool, inquiryId);
+            CarportMapper.deleteCarport(connectionPool, inquiry.getCarportId());
 
             ctx.redirect("/user/inquiry");
 

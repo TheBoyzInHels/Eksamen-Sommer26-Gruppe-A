@@ -43,6 +43,7 @@
             <span th:text="${inquiry.date}">xx-xx-xxxx</span>
         </div>
 
+        <div class="delete-partslist-btn-group">
         <form th:action="@{/admin/deleteInquiry}" method="post">
             <input type="hidden"
                    name="selectedInquiryId"
@@ -54,6 +55,20 @@
 
         </form>
 
+        <form th:action="@{/user/generatePartsList}"
+              method="post"
+              class="partsList-form">
+
+            <input type="hidden"
+                   name="selectedCarportId"
+                   th:value="${inquiry.carportId}"/>
+            <button type="submit" class="partsList-btn">
+                Stykliste
+            </button>
+        </form>
+        </div>
+
+        <div class="email-carport-btn-group">
         <form th:action="@{/admin/seeCustomerEmail}" method="post">
             <input type="hidden"
                    name="selectedInquiryId"
@@ -73,9 +88,10 @@
                 Se carport
             </button>
 
-
         </form>
-        <form th:action="@{/admin/setInquiryStatus}" method="post">
+        </div>
+
+        <form th:action="@{/admin/setInquiryStatus}" method="post" class="status-form">
 
             <input type="hidden"
                    name="selectedInquiryId"
@@ -91,20 +107,9 @@
             </select>
 
             <button type="submit" class="status-btn">
-                Ændr status
+                Ændre status
             </button>
 
-        </form>
-        <form th:action="@{/user/generatePartsList}"
-              method="post"
-              class="partsList-form">
-
-            <input type="hidden"
-                   name="selectedCarportId"
-                   th:value="${inquiry.carportId}"/>
-            <button type="submit" class="partsList-btn">
-                Stykliste
-            </button>
         </form>
     </div>
 
@@ -183,6 +188,11 @@
         <div class="detail-row">
             <strong>Tagrender:</strong>
             <span th:text="${session.selectedCarport.hasGutter ? 'Ja' : 'Nej'}"></span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Kunde bemærkning:</strong>
+            <span th:text="${session.selectedCarport.notes}"></span>
         </div>
 
         <button onclick="closeCarportModal()" class="modal-close-btn">
