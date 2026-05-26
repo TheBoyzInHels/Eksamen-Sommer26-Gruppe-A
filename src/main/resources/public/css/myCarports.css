@@ -62,8 +62,12 @@ h1 {
     display: flex;
     gap: 10px;
     margin-top: 15px;
+    align-items: center;
 }
 
+.button-group form {
+    margin: 0;
+}
 .edit-btn {
     background-color: #777;
     color: white;
@@ -77,6 +81,22 @@ h1 {
 
 .edit-btn:hover {
     background-color: #5f5f5f;
+}
+
+.send-btn {
+    margin-top: 0;
+    background: #01509c;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+}
+
+.send-btn:hover {
+    background-color: #01509c;
 }
 
 .popup-overlay {
