@@ -17,6 +17,7 @@ public class CarportService {
         ArrayList<Part> listOfRafts = new ArrayList<>();
         ArrayList<Part> listOfStraps = new ArrayList<>();
         ArrayList<Part> listOfPost = new ArrayList<>();
+        ArrayList<Part> listOfGutters = new ArrayList<>();
 
         ArrayList<Part> matchingParts = new ArrayList<>();
 
@@ -30,6 +31,9 @@ public class CarportService {
             if (p.getName().equals("Stolpe")) {
                 listOfPost.add(p);
             }
+            if (p.getName().equals("Tagrende")) {
+                listOfGutters.add(p);
+            }
         }
 
         Part currentRaft = null;
@@ -40,64 +44,20 @@ public class CarportService {
                 }
             }
         }
-
-        int raftBestTotalLength = Integer.MAX_VALUE;
-        if (currentRaft == null) {
-            for (Part p : listOfRafts) {
-                int raftAmount = ((carport.getWidth() + p.getLength() - 1) / p.getLength());
-                int totalLength = (raftAmount * p.getLength());
-                if (totalLength < raftBestTotalLength) {
-                    raftBestTotalLength = totalLength;
-                    currentRaft = p;
-                }
-            }
-        }
-
-
-        Part currentStraps = null;
-        for (Part p : listOfStraps) {
-            if (p.getLength() >= carport.getLength()) {
-                if (currentStraps == null || p.getLength() < currentStraps.getLength()) {
-                    currentStraps = p;
-                }
-            }
-        }
-
         int strapsTotalLength = ((carport.getLength() + carport.getWidth()) * 2);
-        int strapsBestTotalLength = Integer.MAX_VALUE;
-        if (currentStraps == null) {
-            for (Part p : listOfStraps) {
-
-                int strapsAmount = ((strapsTotalLength + p.getLength() - 1) / p.getLength());
-                int totalLength = (strapsAmount * p.getLength());
-                if (totalLength < strapsBestTotalLength) {
-                    strapsBestTotalLength = totalLength;
-                    currentStraps = p;
-                }
-            }
-        }
         int shedStrapsTotalLength = (carport.getShedLength() + carport.getShedWidth() * 2);
-        int shedStrapsBestTotalLength = Integer.MAX_VALUE;
-        Part currentShedStraps = null;
-        if (carport.isHasShed()) {
-            if (currentShedStraps == null) {
-                for (Part p : listOfStraps) {
+        int gutterTotalLength = (carport.getLength());
 
-                    int strapsAmount = ((shedStrapsTotalLength + p.getLength() - 1) / p.getLength());
-                    int totalLength = (strapsAmount * p.getLength());
-                    if (totalLength < shedStrapsBestTotalLength) {
-                        shedStrapsBestTotalLength = totalLength;
-                        currentShedStraps = p;
-                    }
-                }
-            }
-        }
+        Part currentStraps = getCurrentPart(strapsTotalLength, listOfStraps);
+        Part currentShedStraps = getCurrentPart(shedStrapsTotalLength, listOfStraps);
+        Part currentGutter = getCurrentPart(gutterTotalLength, listOfGutters);
+
         matchingParts.add(currentRaft);
         matchingParts.add(currentStraps);
         matchingParts.add(currentShedStraps);
         matchingParts.add(listOfPost.get(0));
-        for (Part p : matchingParts) {
-        }
+        matchingParts.add(currentGutter);
+
         return matchingParts;
     }
 
@@ -111,9 +71,23 @@ public class CarportService {
 
         int raftsAmount = carport.getLength() / 55 + 1;
         int strapsTotalLength = ((carport.getLength() + carport.getWidth()) * 2);
-
+        if (carport.isHasShed()) {
+            Part shedStraps = matchingParts.get(2);
+            int shedStrapsTotalLength = ((carport.getShedLength() + carport.getShedWidth()) * 2);
+            int shedStrapsAmount = ((shedStrapsTotalLength + shedStraps.getLength() - 1) / shedStraps.getLength());
+            for (int i = 0; i < shedStrapsAmount; i++) {
+                listOfParts.add(shedStraps);
+            }
+        }
         int strapsAmount = ((strapsTotalLength + straps.getLength() - 1) / straps.getLength());
-
+        int gutterTotalLength = (carport.getLength());
+        if (carport.isHasGutter()) {
+            Part gutter = matchingParts.get(4);
+            int guttersAmount = ((gutterTotalLength + gutter.getLength() - 1) / gutter.getLength());
+            for (int i = 0; i < guttersAmount; i++) {
+                listOfParts.add(gutter);
+            }
+        }
 
         int postAmount = (carport.getLength() / 310 + 1) * 2 + 1;
 
@@ -133,14 +107,7 @@ public class CarportService {
             listOfParts.add(post);
         }
 
-        if(carport.isHasShed()) {
-            Part shedStraps = matchingParts.get(2);
-            int shedStrapsTotalLength = ((carport.getShedLength() + carport.getShedWidth()) * 2);
-            int shedStrapsAmount = ((shedStrapsTotalLength + shedStraps.getLength() - 1) / shedStraps.getLength());
-            for (int i = 0; i < shedStrapsAmount; i++) {
-                listOfParts.add(shedStraps);
-            }
-        }
+
         HashMap<Part, Integer> partCounts = new HashMap<>();
         PartsList partsList = new PartsList(partCounts);
 
@@ -157,5 +124,26 @@ public class CarportService {
 
     public void generateInvoice(Carport carport) {
 
+    }
+
+    public static Part getCurrentPart(int length, ArrayList<Part> listOfParts) {
+
+        int partBestTotalLength = Integer.MAX_VALUE;
+        Part currentPart = null;
+        if (currentPart == null) {
+            for (Part p : listOfParts) {
+                int partAmount = getAmount(length, p);
+                int totalLength = (partAmount * p.getLength());
+                if (totalLength < partBestTotalLength) {
+                    partBestTotalLength = totalLength;
+                    currentPart = p;
+                }
+            }
+        }
+        return currentPart;
+    }
+
+    public static int getAmount(int length, Part part) {
+        return (length + part.getLength() - 1) / part.getLength();
     }
 }
