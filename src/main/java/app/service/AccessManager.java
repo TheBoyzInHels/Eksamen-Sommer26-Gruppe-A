@@ -25,5 +25,18 @@ public class AccessManager {
                 ctx.redirect("/");
             }
         });
+
+        configure404(app);
+    }
+
+    public static void configure404(Javalin app) {
+
+        app.error(404, ctx -> {
+
+            ctx.status(404);
+
+            ctx.redirect("404");
+
+        });
     }
 }

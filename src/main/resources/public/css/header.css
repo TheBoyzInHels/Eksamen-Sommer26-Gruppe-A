@@ -20,6 +20,10 @@
     text-decoration: none;
 }
 
+.site-header-text:hover {
+    color: #0b5cab;
+}
+
 .site-header-search {
     display: flex;
     align-items: center;

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Side ikke fundet</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/404.css}">
+
+</head>
+<body>
+
+<nav th:fragment="header" class="site-header">
+
+    <img class="site-header-logo"
+         th:src="@{/images/FOG_logo.png}">
+
+    <span class="site-header-text">Bolig & design</span>
+    <span class="site-header-text">Byggematerialer</span>
+    <span class="site-header-text">El & belysning</span>
+    <span class="site-header-text">Have & fritid</span>
+    <span class="site-header-text">Værktøj</span>
+    <span class="site-header-text">Mærker</span>
+    <span class="site-header-text">Tilbud</span>
+    <span class="site-header-text">Fog Pro</span>
+
+    <span class="site-header-text"
+          onclick="window.location.href='/user/carport'">
+        Byg Carport
+    </span>
+
+    <div class="site-header-search">
+
+        <img class="site-header-search-icon"
+             th:src="@{/images/FOG_Search_Logo.png}">
+
+        <input type="text" placeholder="Søgning">
+
+    </div>
+
+    <img class="site-header-profile-icon"
+         th:src="@{/images/Profile.png}"
+         onclick="window.location.href='/user/profile'">
+
+    <img class="site-header-location-icon"
+         th:src="@{/images/Location_icon.png}">
+
+    <img class="site-header-cart-icon"
+         th:src="@{/images/Shopping_cart.png}">
+
+</nav>
+
+<main class="error-container">
+
+    <h1 class="error-code">404</h1>
+
+    <h2 class="error-title">
+        Siden blev ikke fundet
+    </h2>
+
+    <p class="error-text">
+        Den side du prøver at besøge eksisterer ikke,
+        eller også er den blevet flyttet.
+    </p>
+
+    <button class="error-button"
+            onclick="window.location.href='/'">
+        Tilbage til forsiden
+    </button>
+
+</main>
+
+</body>
+</html>

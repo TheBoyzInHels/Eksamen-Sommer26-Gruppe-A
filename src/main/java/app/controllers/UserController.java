@@ -11,6 +11,7 @@ import io.javalin.http.Context;
 public class UserController {
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/", ctx ->  ctx.render("login/login.html"));
+        app.get("/404", ctx -> ctx.render("404/404.html"));
         app.post("/login", ctx -> login(ctx, connectionPool));
         app.get("/register", ctx -> ctx.render("login/register.html"));
         app.post("/register", ctx -> register(ctx, connectionPool));
