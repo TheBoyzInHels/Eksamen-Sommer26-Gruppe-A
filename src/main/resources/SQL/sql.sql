@@ -77,10 +77,18 @@ ALTER TABLE IF EXISTS public.inquiries
        ON DELETE NO ACTION;
 
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',479.70, 600);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',285.93, 540);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',254.15, 480);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',222.39, 420);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',190.61, 360);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Spær','45X195MM',158.85, 300);
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',479.70, 600);
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',254.15, 480);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',222.39, 420);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',190.61, 360);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Remme','45X195MM',158.85, 300);
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Stolpe','97X97 MM',221.85, 300);
-INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Tagrende','ALUZINK 11 ALUZINK',649.95, 600);
+INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Tagrende','PLASTMO 11 ALUZINK',649.95, 600);
 INSERT INTO parts (part_name, part_description, part_price, part_length) VALUES ('Tagrende','PLASTMO TAGRENDE GRAFIT',649.00, 300);
 
 ALTER TABLE IF EXISTS public.carports
