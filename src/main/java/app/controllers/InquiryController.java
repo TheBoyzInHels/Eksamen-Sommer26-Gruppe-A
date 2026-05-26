@@ -11,7 +11,6 @@ import app.service.InquiryService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,7 +51,9 @@ public class InquiryController {
             ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
-            price = InquiryService.generateInquiryPrice(partsList);
+
+            price = (InquiryService.generateInquiryPrice(partsList)*2);
+
         } catch (DatabaseException e) {
             throw new RuntimeException();
         }
