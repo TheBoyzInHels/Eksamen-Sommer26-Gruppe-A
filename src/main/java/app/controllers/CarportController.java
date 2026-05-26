@@ -32,7 +32,6 @@ public class CarportController {
         });
     }
 
-
     public static void myCarports(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         List<Carport> carports = CarportMapper.listCarports(connectionPool, UserService.currentUser(ctx));
 

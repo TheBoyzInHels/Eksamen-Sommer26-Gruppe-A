@@ -337,10 +337,10 @@
 
         const innerFrame = document.getElementById("innerFrame");
 
-        const innerW = (selectedWidth - 70) / scale;
+        const innerW = (selectedWidth - 30) / scale;
         const innerH = h;
 
-        const innerX = x + (70 / (2 * scale));
+        const innerX = x + (30 / (2 * scale));
         const innerY = y;
 
         innerFrame.setAttribute("x", innerX);
@@ -433,8 +433,8 @@
         const currentShedWidth = parseInt(shedWidthSelect.value);
         const currentShedLength = parseInt(shedLengthSelect.value);
 
-        const innerWidthCm = selectedWidth - 70;
-        const innerLengthCm = selectedLength;
+        const innerWidthCm = selectedWidth - 30;
+        const innerLengthCm = selectedLength - 15;
 
         const allShedWidths = [210, 240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690, 720];
         const allShedLengths = [150, 180, 210, 240, 270, 300, 330, 360, 390, 420, 450, 480, 510, 540, 570, 600, 630, 660, 690];
