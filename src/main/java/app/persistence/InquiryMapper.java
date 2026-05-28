@@ -1,6 +1,5 @@
 package app.persistence;
 
-import app.entities.Carport;
 import app.entities.Inquiry;
 import app.entities.User;
 import app.exceptions.DatabaseException;
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InquiryMapper {
+
     public static List<Inquiry> listInquiry(ConnectionPool connectionPool, User user) throws DatabaseException {
         List<Inquiry> inquiries = new ArrayList<>();
         String listUserSQL;
@@ -20,7 +20,7 @@ public class InquiryMapper {
         }
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(listUserSQL);
+                PreparedStatement ps = connection.prepareStatement(listUserSQL)
         ) {
             if(user != null) {
                 ps.setInt(1, user.getId());
@@ -30,12 +30,11 @@ public class InquiryMapper {
             while (rs.next()) {
                 int inquiryId = rs.getInt("inquiry_id");
                 String status = rs.getString("status");
-                int userId = rs.getInt("user_id");
                 int carportId = rs.getInt("carport_id");
                 Date date = rs.getDate("date");
                 int price = rs.getInt("price");
 
-                inquiries.add(new Inquiry(inquiryId, status, userId, carportId  , date, price));
+                inquiries.add(new Inquiry(inquiryId, status, carportId  , date, price));
             }
         } catch (SQLException e) {
             throw new DatabaseException("Fejl med databasen" + e.getMessage());
@@ -47,11 +46,10 @@ public class InquiryMapper {
     public static Inquiry findInquiry(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
         Inquiry inquiry = null;
         String findSQL = "SELECT * FROM inquiries WHERE inquiry_id = ?";
-
         try
                 (
                         Connection connection = connectionPool.getConnection();
-                        PreparedStatement ps = connection.prepareStatement(findSQL);
+                        PreparedStatement ps = connection.prepareStatement(findSQL)
                 ) {
             ps.setInt(1, inquiryId);
 
@@ -59,12 +57,11 @@ public class InquiryMapper {
             while (rs.next()) {
                 int id = rs.getInt("inquiry_id");
                 String status = rs.getString("status");
-                int userId = rs.getInt("user_id");
                 int carportId = rs.getInt("carport_id");
                 Date date = rs.getDate("date");
                 int price = rs.getInt("price");
 
-                inquiry = new Inquiry(id, status, userId, carportId, date, price);
+                inquiry = new Inquiry(id, status, carportId, date, price);
             }
 
         } catch (SQLException e) {
@@ -76,67 +73,55 @@ public class InquiryMapper {
 
     public static void deleteInquiry(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
         String deleteSql = "DELETE FROM inquiries WHERE inquiry_id = ?";
-
         try
                 (
                         Connection connection = connectionPool.getConnection();
-                        PreparedStatement ps = connection.prepareStatement(deleteSql);
+                        PreparedStatement ps = connection.prepareStatement(deleteSql)
                 ) {
             ps.setInt(1, inquiryId);
 
             ps.executeUpdate();
-
         } catch (SQLException e) {
             throw new DatabaseException("Error with deleteInquiry", e.getMessage());
         }
-
     }
 
-    public static void createInquiry(ConnectionPool connectionPool, Inquiry inquiry, Carport carport, User user) throws DatabaseException {
+    public static void createInquiry(ConnectionPool connectionPool, Inquiry inquiry) throws DatabaseException {
         String sql = "INSERT INTO inquiries( status, user_id, carport_id, date, price) VALUES (?,?,?,?,?)";
-
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
+                PreparedStatement ps = connection.prepareStatement(sql)
         ) {
             ps.setString(1, inquiry.getStatus());
-            ps.setInt(2, user.getId());
-            ps.setInt(3, carport.getCarportId());
+            ps.setInt(2, inquiry.getUser().getId());
+            ps.setInt(3, inquiry.getCarport().getCarportId());
             ps.setDate(4, inquiry.getDate());
             ps.setInt(5, inquiry.getPrice());
 
             ps.executeUpdate();
-
         } catch (SQLException e) {
-            throw new DatabaseException("Error with database", e.getMessage());
+            throw new DatabaseException("Error with creating Inquiry in DB", e.getMessage());
         }
-
     }
 
     public static void setInquiryStatus(ConnectionPool connectionPool, int inquiryId, String status) throws DatabaseException{
         String sql = "UPDATE inquiries SET status = ? WHERE inquiry_id = ?";
-
         try(
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql);
+                PreparedStatement ps = connection.prepareStatement(sql)
         ) {
             ps.setString(1, status);
             ps.setInt(2, inquiryId);
 
 
             ps.executeUpdate();
-
         } catch (SQLException e) {
             throw new DatabaseException("Error with database", e.getMessage());
         }
-
     }
 
     public static String getCustomerEmail(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
-
         String sql = "SELECT u.email FROM inquiries i JOIN users u ON i.user_id = u.user_id WHERE i.inquiry_id = ?";
-
-
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
@@ -153,16 +138,14 @@ public class InquiryMapper {
         } catch (SQLException e) {
             throw new DatabaseException("Could not get email", e.getMessage());
         }
-
         return null;
     }
 
     public static void changeInquiryStatus(ConnectionPool connectionPool, int inquiryId, String status) throws DatabaseException{
         String updateSql = "UPDATE inquiries SET status = ? WHERE inquiry_id = ?";
-
         try (
                 Connection connection = connectionPool.getConnection();
-                PreparedStatement ps = connection.prepareStatement(updateSql);
+                PreparedStatement ps = connection.prepareStatement(updateSql)
         ) {
             ps.setString(1, status);
             ps.setInt(2, inquiryId);

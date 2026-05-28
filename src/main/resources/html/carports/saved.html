@@ -41,8 +41,6 @@
         </div>
 
         <div class="button-group">
-
-            <!-- Edit knap -->
             <form th:if="${carport.canEdit}"
                   th:action="@{/user/editCarport}" method="get">
                 <input type="hidden"
@@ -110,13 +108,13 @@
 
             <input type="hidden"
                    id="popupCarportId"
-                   name="carportId">
+                   name="selectedCarportId">
 
             <div class="popup-form">
             <label>Bredde</label>
 
             <select id="popupWidth" name="width">
-                <option value="">Vælg bredde</option>
+                <option value="0">Vælg bredde</option>
                 <option value="240">240 cm</option>
                 <option value="270">270 cm</option>
                 <option value="300">300 cm</option>
@@ -137,7 +135,7 @@
             <label>Længde</label>
 
             <select id="popupLength" name="length">
-                <option value="">Vælg længde</option>
+                <option value="0">Vælg længde</option>
                 <option value="240">240 cm</option>
                 <option value="270">270 cm</option>
                 <option value="300">300 cm</option>

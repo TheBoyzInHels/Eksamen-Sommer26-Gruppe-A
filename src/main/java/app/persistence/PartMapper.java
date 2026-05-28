@@ -19,7 +19,6 @@ public class PartMapper {
                 PreparedStatement ps = connection.prepareStatement(sql)
         ) {
             ResultSet rs = ps.executeQuery();
-
                 while (rs.next()) {
                     int id = rs.getInt("part_id");
                     String partName = rs.getString("part_name");

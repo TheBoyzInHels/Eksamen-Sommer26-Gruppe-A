@@ -7,7 +7,7 @@ public class Part {
     private int length;
     private String description;
 
-    public Part(int id, String name,String description, double price, int length) {
+    public Part(int id, String name, String description, double price, int length) {
         this.id = id;
         this.name = name;
         this.price = price;

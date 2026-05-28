@@ -1,8 +1,6 @@
 package app.entities;
 
 public class Carport {
-
-    /* v Variables v */
     int carportId;
     int amountOfCars;
     int length;
@@ -15,8 +13,6 @@ public class Carport {
     String notes;
     boolean canEdit;
 
-
-    /* v Constructors v */
     public Carport(int carportId, int amountOfCars, int length, int width, boolean hasShed, int shedLength, int shedWidth, boolean hasGutter, int userId, String notes) {
         this.carportId = carportId;
         this.amountOfCars = amountOfCars;
@@ -65,7 +61,6 @@ public class Carport {
         this.notes = notes;
     }
 
-    /* v Getters & Setters v */
     public int getCarportId() {
         return carportId;
     }
@@ -129,6 +124,7 @@ public class Carport {
     public void setHasGutter(boolean hasGutter) {
         this.hasGutter = hasGutter;
     }
+
     public boolean isCanEdit() {
         return canEdit;
     }
@@ -137,7 +133,11 @@ public class Carport {
         this.canEdit = canEdit;
     }
 
-    public String getNotes() { return notes; }
+    public String getNotes() {
+        return notes;
+    }
 
-    public void setNotes(String notes) { this.notes = notes; }
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }
