@@ -41,36 +41,27 @@
                        required/>
             </div>
             <p th:if="${error != null}" th:text="${error}" class="error-message"></p>
-            
             <button type="submit" class="login-btn">
                 Log ind
             </button>
-
             <div class="register-link">
                 <a th:href="@{/register}">
                     Ikke registreret endnu? Opret en konto
                 </a>
             </div>
-
         </form>
-
         <div class="login-message"
              th:if="${message}"
              th:text="${message}">
         </div>
-
         <div class="login-message"
              th:if="${session.username}">
 
             Du er logget ind som:
             <span th:text="${session.username}"></span>
-
         </div>
-
     </div>
-
 </div>
-
 </body>
 <footer>
     <div th:replace="~{templates/footer.html :: footer}"></div>
