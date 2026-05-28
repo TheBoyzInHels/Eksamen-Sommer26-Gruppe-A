@@ -12,14 +12,12 @@
 
 <body>
 
-<!-- Header -->
 <div th:replace="~{templates/header.html :: header}"></div>
 
 <h1>Min profil</h1>
 
 <div class="carport-grid">
 
-    <!-- Bruger info card -->
     <div class="carport-card">
 
         <div class="carport-title">
@@ -46,8 +44,6 @@
             <span th:text="${session.currentUser.phoneNumber}">12345678</span>
         </div>
 
-
-        <!-- Knapper -->
         <div class="button-group">
 
             <form th:action="@{/user/saved}" method="get">
@@ -82,8 +78,6 @@
     </div>
 
 </div>
-
-<!-- Footer -->
 <footer>
     <div th:replace="~{templates/footer.html :: footer}"></div>
 </footer>

@@ -16,13 +16,10 @@
 <div th:replace="~{templates/header.html :: header}"></div>
 
 <h1>Alle Forespørgsler</h1>
-
-<!-- Hvis listen er tom -->
 <div th:if="${#lists.isEmpty(session.inquiryList)}" class="empty-message">
     Ingen forespørgsler fundet.
 </div>
 
-<!-- Grid med carporte -->
 <div class="inquiry-grid" th:if="${not #lists.isEmpty(session.inquiryList)}">
 
     <div class="inquiry-card"
@@ -69,13 +66,13 @@
         </div>
 
         <div class="email-carport-btn-group">
-        <form th:action="@{/admin/seeCustomerEmail}" method="post">
+        <form th:action="@{/admin/seeCustomerInfo}" method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
 
             <button type="submit" class="email-btn">
-                Vis email
+                Vis Kunde Info
             </button>
         </form>
         <form th:action="@{/admin/seeCarportUnderInquiries}" method="post">
@@ -118,9 +115,11 @@
 
 <div id="emailModal" class="modal" th:if="${session.customerEmail != null}">
     <div class="modal-content">
-        <h2>Brugerens email</h2>
-
-        <p th:text="${session.customerEmail}"></p>
+        <h2>Kundens Info</h2>
+        <p th:text="'Kundenummer: ' + ${session.customerId}"></p>
+        <p th:text="'Email: ' + ${session.customerEmail}"></p>
+        <p th:text="'Navn: ' + ${session.customerFirstName} + ' ' + ${session.customerLastName}"></p>
+        <p th:text="'Telefonnummer: ' + ${session.customerPhoneNumber}"></p>
 
         <button onclick="closeModal()" class="modal-close-btn">
             Luk
@@ -128,15 +127,6 @@
     </div>
 </div>
 
-<script th:if="${session.customerEmail != null}">
-    function closeModal() {
-        document.getElementById("emailModal").style.display = "none";
-    }
-
-    window.onload = function () {
-        document.getElementById("emailModal").style.display = "flex";
-    };
-</script>
 
 
 <div id="carportModal"
@@ -202,6 +192,15 @@
     </div>
 </div>
 
+<script th:if="${session.customerEmail != null}">
+    function closeModal() {
+        document.getElementById("emailModal").style.display = "none";
+    }
+
+    window.onload = function () {
+        document.getElementById("emailModal").style.display = "flex";
+    };
+</script>
 <script th:if="${session.selectedCarport != null}">
 
     function closeCarportModal() {
@@ -213,7 +212,6 @@
     };
 
 </script>
-
 </body>
 
 <footer>

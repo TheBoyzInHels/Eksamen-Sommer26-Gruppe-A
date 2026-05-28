@@ -3,13 +3,11 @@ package app.config;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-public class ThymeleafConfig
-{
-    public static TemplateEngine templateEngine()
-    {
+public class ThymeleafConfig {
+    public static TemplateEngine templateEngine() {
         TemplateEngine templateEngine = new TemplateEngine();
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("HTML/"); // assuming templates are in resources/templates/
+        templateResolver.setPrefix("HTML/");
         templateResolver.setSuffix(".html");
         templateEngine.setTemplateResolver(templateResolver);
         return templateEngine;

@@ -12,6 +12,8 @@ import app.service.PdfGenerator;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,10 +28,7 @@ public class CarportController {
         app.post("/user/deleteCarport", ctx -> deleteCarport(ctx, connectionPool));
         app.post("/user/editCarport", ctx -> editCarport(ctx, connectionPool));
         app.post("/user/generatePartsList", ctx -> generatePartsList(ctx, connectionPool));
-        app.get("/user/partslist", ctx -> {ctx.header("Cache-Control", "no-cache, no-store, must-revalidate");
-            ctx.result(Files.readAllBytes(Paths.get("src/main/resources/public/pdf/partslist.pdf")));
-            ctx.contentType("application/pdf");
-        });
+        app.get("/user/partsList", ctx -> viewPartsList(ctx));
     }
 
     public static void myCarports(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
@@ -39,62 +38,33 @@ public class CarportController {
         ctx.render("carports/saved.html");
     }
 
-    public static void saveCarport(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-
+    public static void saveCarport(Context ctx, ConnectionPool connectionPool) {
         try {
-            int amountOfCars = Integer.parseInt(ctx.formParam("amountOfCars"));
-            int width = Integer.parseInt(ctx.formParam("width"));
-            int length = Integer.parseInt(ctx.formParam("length"));
-            boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
-            int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
-            int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
-            boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
-            String notes = ctx.formParam("notes");
-
-            Carport carport = new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter, notes);
+            Carport carport = CarportService.CarportFromParameters(ctx);
 
             CarportMapper.saveCarport(connectionPool, carport, ctx);
-            Carport newestCarport = CarportMapper.findNewestCarport(connectionPool, ctx);
-            ctx.sessionAttribute("newestCarport", newestCarport);
+            Carport newestCarport = CarportMapper.findNewestCarport(connectionPool);
 
+            ctx.sessionAttribute("newestCarport", newestCarport);
             ctx.redirect("/user/saved");
-        } catch (NumberFormatException e) {
-            throw new RuntimeException(e);
-        } catch (DatabaseException e) {
+        } catch (NumberFormatException | DatabaseException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void editCarport(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-        int carportId = Integer.parseInt(ctx.formParam("carportId"));
-
+    public static void editCarport(Context ctx, ConnectionPool connectionPool) {
+        int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
         try {
             Carport carport = CarportMapper.findCarport(connectionPool, carportId);
+
             ctx.sessionAttribute("selectedCarport", carport);
-
-            int length = Integer.parseInt(ctx.formParam("length"));
-            int width = Integer.parseInt(ctx.formParam("width"));
-            boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
-            int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
-            int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
-            boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
-            String notes = ctx.formParam("notes");
-
-            carport.setLength(length);
-            carport.setWidth(width);
-            carport.setHasShed(hasShed);
-            carport.setShedLength(shedLength);
-            carport.setShedWidth(shedWidth);
-            carport.setHasGutter(hasGutter);
-            carport.setNotes(notes);
+            CarportService.EditWithParameters(ctx, carport);
 
             CarportMapper.editCarport(connectionPool, carport);
+            UserService.resetAttributes(ctx);
 
             ctx.redirect("/user/saved");
-
-        } catch (DatabaseException e) {
-            throw new RuntimeException(e);
-        } catch (NumberFormatException e) {
+        } catch (DatabaseException | NumberFormatException e) {
             throw new RuntimeException(e);
         }
     }
@@ -105,13 +75,12 @@ public class CarportController {
             CarportMapper.deleteCarport(connectionPool, carportId);
 
             ctx.redirect("/user/saved");
-
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void generatePartsList(Context ctx, ConnectionPool connectionPool) {
+    public static void generatePartsList(Context ctx, ConnectionPool connectionPool) throws Exception {
         int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
         try {
             Carport carport = CarportMapper.findCarport(connectionPool, carportId);
@@ -120,15 +89,17 @@ public class CarportController {
             ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
 
             PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
-            try {
-                PdfGenerator.generatePartsListPdf(partsList);
-            }catch(Exception e){
-                e.getMessage();
-            }
-            ctx.redirect("/user/partslist");
+            PdfGenerator.generatePartsListPdf(partsList);
+            ctx.redirect("/user/partsList");
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void viewPartsList(Context ctx) throws IOException {
+        ctx.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        ctx.result(Files.readAllBytes(Paths.get("src/main/resources/public/pdf/parts_list.pdf")));
+        ctx.contentType("application/pdf");
     }
 }
 

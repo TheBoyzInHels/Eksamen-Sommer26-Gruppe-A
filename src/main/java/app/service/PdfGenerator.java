@@ -11,16 +11,12 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.io.FileOutputStream;
 
 public class PdfGenerator {
-    public static void generatePartsListPdf(PartsList partList)
-            throws Exception {
-
+    public static void generatePartsListPdf(PartsList partList) throws Exception {
         Document document = new Document();
-
         PdfWriter.getInstance(
                 document,
-                new FileOutputStream("src/main/resources/public/pdf/partslist.pdf")
+                new FileOutputStream("src/main/resources/public/pdf/parts_list.pdf")
         );
-
         document.open();
 
         document.add(new Paragraph("Stykliste"));
@@ -29,7 +25,6 @@ public class PdfGenerator {
         PdfPTable table = new PdfPTable(5);
 
         table.setWidthPercentage(100);
-
         table.addCell("Beskrivelse");
         table.addCell("Længde");
         table.addCell("Antal");
@@ -46,9 +41,7 @@ public class PdfGenerator {
             table.addCell(part.getName());
         }
         document.add(table);
-
         document.close();
-
         Thread.sleep(200);
     }
 }

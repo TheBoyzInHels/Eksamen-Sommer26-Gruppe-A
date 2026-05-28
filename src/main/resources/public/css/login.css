@@ -1,3 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px;
+
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
+
 .login-page-body {
     margin: 0;
     background: linear-gradient(135deg, #013D7A, #013D7A);

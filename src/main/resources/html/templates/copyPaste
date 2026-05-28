@@ -1,11 +1,11 @@
-SKRIV I HEADER:
+TYPE IN HEADER:
 <link rel="stylesheet" th:href="@{/css/header.css}">
 <link rel="stylesheet" th:href="@{/css/footer.css}">
 
-SKRIV EFTER HEADER:
+TYPE AFTER HEADER:
 <div th:replace="~{templates/header.html :: header}"></div>
 
-SKRIV EFTER BODY:
+TYPE AFTER HEADER:
 <footer>
     <div th:replace="~{templates/footer.html :: footer}"></div>
 </footer>

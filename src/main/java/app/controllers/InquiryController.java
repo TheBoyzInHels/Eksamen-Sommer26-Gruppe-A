@@ -5,98 +5,62 @@ import app.exceptions.DatabaseException;
 import app.persistence.CarportMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.InquiryMapper;
-import app.persistence.PartMapper;
-import app.service.CarportService;
 import app.service.InquiryService;
 import app.service.UserService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class InquiryController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
-        app.get("/user/inquiries", ctx -> myInquiries(ctx, connectionPool));
         app.post("/user/inquiry", ctx -> createInquiry(ctx, connectionPool));
-        app.get("/user/inquiry", ctx -> myInquiries(ctx, connectionPool));
+        app.get("/user/inquiries", ctx -> seeInquiries(ctx, connectionPool, false));
         app.post("/user/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
         app.post("/user/completeInquiryPayment", ctx -> completeInquiryPayment(ctx, connectionPool));
         app.post("/user/createInvoice", ctx -> createInvoice(ctx, connectionPool));
         app.post("/user/createInquiryFromSaved", ctx -> createInquiryFromSaved(ctx, connectionPool));
     }
 
-
-    public static void seeSubmittedInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-        List<Inquiry> inquiries = InquiryMapper.listInquiry(connectionPool, null);
-
-        ctx.sessionAttribute("inquiryList", inquiries);
-        ctx.render("inquiries/allinquiries");
-    }
-
-    public static void myInquiries(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-        List<Inquiry> inquiries = InquiryMapper.listInquiry(connectionPool, UserService.currentUser(ctx));
+    public static void seeInquiries(Context ctx, ConnectionPool connectionPool, boolean isAdminView) throws DatabaseException {
+        User user = UserService.currentUser(ctx);
+        String html = "inquiries/inquiries.html";
+        if(isAdminView) {
+            user = null;
+            html = "inquiries/allInquiries.html";
+        }
+        List<Inquiry> inquiries = InquiryMapper.listInquiry(connectionPool, user);
 
         ctx.sessionAttribute("inquiryList", inquiries);
-        ctx.render("inquiries/inquiry.html");
+        ctx.render(html);
     }
 
     public static void createInquiry(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         CarportController.saveCarport(ctx, connectionPool);
         Carport carport = ctx.sessionAttribute("newestCarport");
-        int price = 0;
         try {
-            ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
-            ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
-            PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
+            Inquiry inquiry = InquiryService.createInquiryObject(ctx, carport, connectionPool);
 
-            price = (InquiryService.generateInquiryPrice(partsList)*2);
+            InquiryMapper.createInquiry(connectionPool, inquiry);
 
-        } catch (DatabaseException e) {
-            throw new RuntimeException();
-        }
-        CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
-        String status = "Venter";
-        User user = ctx.sessionAttribute("currentUser");
-        LocalDate today = LocalDate.now();
-        Date sqlDate = Date.valueOf(today);
-        try {
-            Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
-            InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
-            myInquiries(ctx, connectionPool);
-            ctx.redirect("/user/inquiry");
+            seeInquiries(ctx, connectionPool, false);
+            ctx.redirect("/user/inquiries");
         } catch (RuntimeException e) {
             throw new DatabaseException("Fejl ved createInquiry eller Database" + e.getMessage());
         }
     }
 
     public static void createInquiryFromSaved(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
-
         int carportId = Integer.parseInt(ctx.formParam("selectedCarportId"));
-
-        User user = ctx.sessionAttribute("currentUser");
-
         try {
             Carport carport = CarportMapper.findCarport(connectionPool, carportId);
 
-            ArrayList<Part> availableParts = PartMapper.getAvailableParts(connectionPool);
-            ArrayList<Part> matchingParts = CarportService.findMatchingParts(carport, availableParts);
-            PartsList partsList = CarportService.generatePartsList(carport, matchingParts);
-            int price = InquiryService.generateInquiryPrice(partsList);
+            Inquiry inquiry = InquiryService.createInquiryObject(ctx, carport, connectionPool);
 
-            String status = "Venter";
-            LocalDate today = LocalDate.now();
-            Date sqlDate = Date.valueOf(today);
+            InquiryMapper.createInquiry(connectionPool, inquiry);
+            CarportMapper.makeCarportFinal(connectionPool, carport);
 
-            Inquiry inquiry = new Inquiry(status, user, carport, sqlDate, price);
-
-            InquiryMapper.createInquiry(connectionPool, inquiry, carport, user);
-            CarportMapper.makeCarportFinal(ctx, connectionPool, carport);
-
-            ctx.redirect("/user/inquiry");
-
+            ctx.redirect("/user/inquiries");
         } catch (Exception e) {
             throw new DatabaseException("Fejl i createInquiryFromSaved: " + e.getMessage());
         }
@@ -110,8 +74,7 @@ public class InquiryController {
             InquiryMapper.deleteInquiry(connectionPool, inquiryId);
             CarportMapper.deleteCarport(connectionPool, inquiry.getCarportId());
 
-            ctx.redirect("/user/inquiry");
-
+            ctx.redirect("/user/inquiries");
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
@@ -124,33 +87,25 @@ public class InquiryController {
             InquiryMapper.changeInquiryStatus(connectionPool, inquiryId, status);
 
             ctx.render("inquiries/paymentComplete");
-
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static void createInvoice(Context ctx, ConnectionPool connectionPool) {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
         User user = ctx.sessionAttribute("currentUser");
-
         try {
             assert user != null;
             Inquiry chosenInquiry = InquiryMapper.findInquiry(connectionPool, inquiryId);
 
             ctx.attribute("user", user);
-
             ctx.attribute("inquiry", chosenInquiry);
-
             ctx.attribute("price", chosenInquiry.getPrice());
 
             ctx.render("invoice/invoice.html");
-
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
-
     }
-
 }
