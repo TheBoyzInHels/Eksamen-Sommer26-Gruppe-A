@@ -120,19 +120,18 @@ public class InquiryMapper {
         }
     }
 
-    public static String getCustomerEmail(ConnectionPool connectionPool, int inquiryId) throws DatabaseException {
-        String sql = "SELECT u.email FROM inquiries i JOIN users u ON i.user_id = u.user_id WHERE i.inquiry_id = ?";
+    public static String getCustomerInfo(ConnectionPool connectionPool, int inquiryId, String collumLabel) throws DatabaseException {
+        String sql = "SELECT * FROM inquiries i JOIN users u ON i.user_id = u.user_id WHERE i.inquiry_id = ?";
         try (
                 Connection connection = connectionPool.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)
         ) {
-
             ps.setInt(1, inquiryId);
 
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getString("email");
+                return rs.getString(collumLabel);
             }
 
         } catch (SQLException e) {

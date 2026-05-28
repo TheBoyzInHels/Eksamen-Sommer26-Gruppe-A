@@ -14,7 +14,7 @@ public class AdminController {
 
     public static void addRoutes(Javalin app, ConnectionPool connectionPool) {
         app.get("/admin/inquiries", ctx -> seeAllInquiries(ctx, connectionPool));
-        app.post("/admin/seeCustomerEmail", ctx -> seeCustomerEmail(ctx, connectionPool));
+        app.post("/admin/seeCustomerInfo", ctx -> seeCustomerInfo(ctx, connectionPool));
         app.post("/admin/setInquiryStatus", ctx -> setInquiryStatus(ctx, connectionPool));
         app.post("/admin/deleteInquiry", ctx -> deleteInquiry(ctx, connectionPool));
         app.post("/admin/seeCarportUnderInquiries", ctx -> seeCarportUnderInquiry(ctx, connectionPool));
@@ -48,12 +48,20 @@ public class AdminController {
         }
     }
 
-    public static void seeCustomerEmail(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
+    public static void seeCustomerInfo(Context ctx, ConnectionPool connectionPool) throws DatabaseException {
         int inquiryId = Integer.parseInt(ctx.formParam("selectedInquiryId"));
-        String email = InquiryMapper.getCustomerEmail(connectionPool, inquiryId);
+        String userId = InquiryMapper.getCustomerInfo(connectionPool, inquiryId, "user_id");
+        String email = InquiryMapper.getCustomerInfo(connectionPool, inquiryId, "email");
+        String firstName = InquiryMapper.getCustomerInfo(connectionPool, inquiryId, "first_name");
+        String lastName = InquiryMapper.getCustomerInfo(connectionPool, inquiryId, "last_name");
+        String phoneNumber = InquiryMapper.getCustomerInfo(connectionPool, inquiryId, "phone_number");
 
         UserService.resetAttributes(ctx);
+        ctx.sessionAttribute("customerId", userId);
         ctx.sessionAttribute("customerEmail", email);
+        ctx.sessionAttribute("customerFirstName", firstName);
+        ctx.sessionAttribute("customerLastName", lastName);
+        ctx.sessionAttribute("customerPhoneNumber", phoneNumber);
         ctx.redirect("/admin/inquiries");
     }
 

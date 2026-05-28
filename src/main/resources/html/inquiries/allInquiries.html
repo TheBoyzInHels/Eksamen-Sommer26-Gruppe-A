@@ -69,13 +69,13 @@
         </div>
 
         <div class="email-carport-btn-group">
-        <form th:action="@{/admin/seeCustomerEmail}" method="post">
+        <form th:action="@{/admin/seeCustomerInfo}" method="post">
             <input type="hidden"
                    name="selectedInquiryId"
                    th:value="${inquiry.inquiryId}" />
 
             <button type="submit" class="email-btn">
-                Vis email
+                Vis Kunde Info
             </button>
         </form>
         <form th:action="@{/admin/seeCarportUnderInquiries}" method="post">
@@ -118,9 +118,11 @@
 
 <div id="emailModal" class="modal" th:if="${session.customerEmail != null}">
     <div class="modal-content">
-        <h2>Brugerens email</h2>
-
-        <p th:text="${session.customerEmail}"></p>
+        <h2>Kundens Info</h2>
+        <p th:text="'Kundenummer: ' + ${session.customerId}"></p>
+        <p th:text="'Email: ' + ${session.customerEmail}"></p>
+        <p th:text="'Navn: ' + ${session.customerFirstName} + ' ' + ${session.customerLastName}"></p>
+        <p th:text="'Telefonnummer: ' + ${session.customerPhoneNumber}"></p>
 
         <button onclick="closeModal()" class="modal-close-btn">
             Luk
