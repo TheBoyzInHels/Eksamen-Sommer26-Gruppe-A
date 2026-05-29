@@ -9,7 +9,6 @@ public class User {
     private String phoneNumber;
     private boolean isAdmin;
 
-
     public User(int id, String email, String password, String firstName, String lastName, String phoneNumber, boolean isAdmin) {
         this.id = id;
         this.email = email;

@@ -1,3 +1,3 @@
 setTimeout(function () {
-    window.location.href = "/user/inquiry";
+    window.location.href = "/user/inquiries";
 }, 3000);

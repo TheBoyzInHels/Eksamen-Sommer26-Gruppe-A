@@ -1,3 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    padding: 20px;
+
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+}
 
 .content-placeholder {
     display: flex;
@@ -28,7 +44,6 @@
     gap: 18px;
 }
 
-/* FORM */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -41,7 +56,6 @@ select, textarea {
     border: 1px solid #cfcfcf;
 }
 
-/* Button to send inquiry */
 .sidebar-btn {
     padding: 16px;
     background: #003b7a;
@@ -50,7 +64,6 @@ select, textarea {
     cursor: pointer;
 }
 
-/* Button to save carport for later */
 .sidebar-save-btn {
     padding: 16px;
     background: #003b7a;

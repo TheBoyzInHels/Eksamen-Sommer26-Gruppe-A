@@ -3,14 +3,42 @@ package app.service;
 import app.entities.Carport;
 import app.entities.Part;
 import app.entities.PartsList;
+import io.javalin.http.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CarportService {
 
-    public void carportToSVGString(Carport carport, String SVGType) {
+    public static Carport CarportFromParameters(Context ctx) {
+        int amountOfCars = Integer.parseInt(ctx.formParam("amountOfCars"));
+        int width = Integer.parseInt(ctx.formParam("width"));
+        int length = Integer.parseInt(ctx.formParam("length"));
+        boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
+        int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
+        int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
+        boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
+        String notes = ctx.formParam("notes");
 
+        return new Carport(amountOfCars, length, width, hasShed, shedWidth, shedLength, hasGutter, notes);
+    }
+
+    public static void EditWithParameters(Context ctx, Carport carport) {
+        int width = Integer.parseInt(ctx.formParam("width"));
+        int length = Integer.parseInt(ctx.formParam("length"));
+        boolean hasShed = Boolean.parseBoolean(ctx.formParam("hasShed"));
+        int shedWidth = Integer.parseInt(ctx.formParam("shedWidth"));
+        int shedLength = Integer.parseInt(ctx.formParam("shedLength"));
+        boolean hasGutter = Boolean.parseBoolean(ctx.formParam("hasGutter"));
+        String notes = ctx.formParam("notes");
+
+        carport.setLength(length);
+        carport.setWidth(width);
+        carport.setHasShed(hasShed);
+        carport.setShedLength(shedLength);
+        carport.setShedWidth(shedWidth);
+        carport.setHasGutter(hasGutter);
+        carport.setNotes(notes);
     }
 
     public static ArrayList<Part> findMatchingParts(Carport carport, ArrayList<Part> allParts) {
@@ -18,7 +46,6 @@ public class CarportService {
         ArrayList<Part> listOfStraps = new ArrayList<>();
         ArrayList<Part> listOfPost = new ArrayList<>();
         ArrayList<Part> listOfGutters = new ArrayList<>();
-
         ArrayList<Part> matchingParts = new ArrayList<>();
 
         for (Part p : allParts) {
@@ -66,7 +93,6 @@ public class CarportService {
 
         Part raft = matchingParts.get(0);
         Part straps = matchingParts.get(1);
-
         Part post = matchingParts.get(3);
 
         int raftsAmount = carport.getLength() / 55 + 1;
@@ -90,23 +116,18 @@ public class CarportService {
         }
 
         int postAmount = (carport.getLength() / 310 + 1) * 2 + 1;
-
         if (carport.isHasShed()) {
             postAmount += 3;
         }
-
         for (int i = 0; i < raftsAmount; i++) {
             listOfParts.add(raft);
         }
-
         for (int i = 0; i < strapsAmount; i++) {
             listOfParts.add(straps);
         }
-
         for (int i = 0; i < postAmount; i++) {
             listOfParts.add(post);
         }
-
 
         HashMap<Part, Integer> partCounts = new HashMap<>();
         PartsList partsList = new PartsList(partCounts);
@@ -117,17 +138,7 @@ public class CarportService {
         return partsList;
     }
 
-
-    public double generatePrice(Carport carport) {
-        return 0.0;
-    }
-
-    public void generateInvoice(Carport carport) {
-
-    }
-
     public static Part getCurrentPart(int length, ArrayList<Part> listOfParts) {
-
         int partBestTotalLength = Integer.MAX_VALUE;
         Part currentPart = null;
         if (currentPart == null) {
