@@ -42,6 +42,11 @@
             <span th:text="${inquiry.date}">xx-xx-xxxx</span>
         </div>
 
+        <div th:if="${inquiry.status == 'Godkendt' || inquiry.status == 'Betalt'}" class="inquiry-info">
+            <strong>Pris:</strong>
+            <span th:text="${inquiry.price} + ' kr.'"></span>
+        </div>
+
         <div class="delete-payment-btn-group">
         <form   th:if="${inquiry.status == 'Godkendt'}"
                 th:action="@{/user/deleteInquiry}"
