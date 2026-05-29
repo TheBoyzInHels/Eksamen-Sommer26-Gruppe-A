@@ -15,8 +15,7 @@ class CarportServiceTest {
     @Test
     void generatePartsListWithoutShedAndGutter() {
         // Arrange
-        Carport carport = new Carport(1, 2, 600, 300, true, 210, 210, true, 5, "Carport med redskabsskur og tagrender"
-        );
+        Carport carport = new Carport(1, 2, 600, 300, true, 210, 210, true, 5, "Carport med redskabsskur og tagrender");
 
         Part raft = new Part(1, "Spær", "45x 195", 500.00, 400);
         Part straps = new Part(2, "Remme", "45x 195", 500.00, 400);
@@ -92,13 +91,22 @@ class CarportServiceTest {
         Carport carport = new Carport(1, 2, 600, 300, true, 210, 210, true, 5, "Carport med redskabsskur og tagrender");
 
         Part raftTooShort = new Part(1, "Spær", "for kort", 100.00, 240);
-        Part raft300 = new Part(2, "Spær", "passer næsten, er lidt for kort", 150.00, 299);
+        Part raft300 = new Part(2, "Spær", "passer næsten, er lidt for kort", 150.00, 300);
         Part raftAlso300= new Part(3, "Spær", "passer bedst", 150.00, 300);
+
+        Part straps400 = new Part(6, "Remme", "rem 400", 300.00, 400);
+        Part post = new Part(8, "Stolpe", "stolpe", 200.00, 300);
+        Part gutter600 = new Part(9, "Tagrende", "tagrende 600", 300.00, 600);
 
         ArrayList<Part> allParts = new ArrayList<>();
         allParts.add(raftTooShort);
-        allParts.add(raftAlso300);
+
         allParts.add(raft300);
+        allParts.add(raftAlso300);
+
+        allParts.add(straps400);
+        allParts.add(post);
+        allParts.add(gutter600);
 
         // Act
         ArrayList<Part> result = CarportService.findMatchingParts(carport, allParts);
@@ -106,10 +114,7 @@ class CarportServiceTest {
         // Assert
         assertNotNull(result);
 
-        assertEquals(raft300, result.get(0)); // Spær: mindste længde der passer til bredde 300
-        assertEquals(raftAlso300, result.get(0));   // Spær: mindste længde der passer til bredde 300,
-        // men fejlet, grundet parts, med samme længde. Da koden i CarportService.findMatchingParts p.getLength() < currentRaft.getLength()
-        // gør at den skal være mindre ellers skipper den. Derfor tager den kun den første kørte spær med længden 300
-
+        assertEquals(raft300, result.get(0));
+        assertNotEquals(raftAlso300, result.get(0));
     }
 }
