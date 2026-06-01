@@ -22,7 +22,7 @@ public class Main {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
 
 
         Javalin app = Javalin.create(config -> {
