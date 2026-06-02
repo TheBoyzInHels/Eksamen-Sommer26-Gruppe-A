@@ -1,8 +1,13 @@
-**EKSAMEN SOMMER 2026 GRUPPE A**
+# Eksamensprojekt – Sommer 2026 (Gruppe A)
 
----Medlemmer---
+## Gruppemedlemmer
+- Christopher Christensen (Hold B)
+- Gabriel Marcussen (Hold B)
+- Nicolai Faellesgaard (Hold A)
+- Peter Mærsk (Hold A)
 
-Christopher Christensen (Hold B),
-Gabriel Marcussen (Hold B),
-Nicolai Faellesgaard (Hold A),
-Peter Maersk (Hold A)
+## Udvikling og brug
+
+`main`-branchen indeholder den færdige og godkendte version af projektet og bruges til deployment.
+
+Hvis man vil teste eller videreudvikle projektet, skal man arbejde i `develop`-branchen.
