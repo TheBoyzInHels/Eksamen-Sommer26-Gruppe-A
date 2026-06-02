@@ -11,3 +11,5 @@
 `main`-branchen indeholder den færdige og godkendte version af projektet og bruges til deployment.
 
 Hvis man vil teste eller videreudvikle projektet, skal man arbejde i `develop`-branchen.
+
+Projektet kan desuden tilgås her: https://godeksamen.com/
