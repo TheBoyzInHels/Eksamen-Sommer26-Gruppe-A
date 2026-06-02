@@ -11,6 +11,18 @@ CREATE DATABASE "CarportDB"
 
 BEGIN;
 
+CREATE TABLE IF NOT EXISTS public.users
+(
+    user_id bigserial NOT NULL,
+    email character varying COLLATE pg_catalog."default" NOT NULL,
+    password character varying COLLATE pg_catalog."default" NOT NULL,
+    first_name character varying COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying COLLATE pg_catalog."default" NOT NULL,
+    phone_number character varying COLLATE pg_catalog."default" NOT NULL,
+    is_admin boolean NOT NULL DEFAULT false,
+    CONSTRAINT users_pkey PRIMARY KEY (user_id)
+    );
+
 CREATE TABLE IF NOT EXISTS public.carports
 (
     carport_id bigserial NOT NULL,
@@ -24,6 +36,7 @@ CREATE TABLE IF NOT EXISTS public.carports
     user_id bigint NOT NULL,
     CONSTRAINT carports_pkey PRIMARY KEY (carport_id)
     );
+
 CREATE TABLE IF NOT EXISTS public.inquiries
 (
     inquiry_id bigserial NOT NULL,
@@ -44,17 +57,6 @@ CREATE TABLE IF NOT EXISTS public.parts
     part_length integer NOT NULL,
     CONSTRAINT parts_pkey PRIMARY KEY (part_id)
     );
-CREATE TABLE IF NOT EXISTS public.users
-(
-    user_id bigserial NOT NULL,
-    email character varying COLLATE pg_catalog."default" NOT NULL,
-    password character varying COLLATE pg_catalog."default" NOT NULL,
-    first_name character varying COLLATE pg_catalog."default" NOT NULL,
-    last_name character varying COLLATE pg_catalog."default" NOT NULL,
-    phone_number character varying COLLATE pg_catalog."default" NOT NULL,
-    is_admin boolean NOT NULL DEFAULT false,
-    CONSTRAINT users_pkey PRIMARY KEY (user_id)
-    );
 
 ALTER TABLE IF EXISTS public.carports
     ADD CONSTRAINT carport_fk_user_id FOREIGN KEY (user_id)
@@ -62,13 +64,11 @@ ALTER TABLE IF EXISTS public.carports
     ON UPDATE NO ACTION
        ON DELETE NO ACTION;
 
-
 ALTER TABLE IF EXISTS public.inquiries
     ADD CONSTRAINT inquiries_fk_carport_id FOREIGN KEY (carport_id)
     REFERENCES public.carports (carport_id) MATCH SIMPLE
     ON UPDATE NO ACTION
        ON DELETE NO ACTION;
-
 
 ALTER TABLE IF EXISTS public.inquiries
     ADD CONSTRAINT inquiries_fk_user_id FOREIGN KEY (user_id)
@@ -95,6 +95,6 @@ ALTER TABLE IF EXISTS public.carports
     ADD COLUMN can_edit boolean DEFAULT true;
 
 ALTER TABLE IF EXISTS public.carports
-    ADD COLUMN customer_notes character varying DEFAULT 0;
+    ADD COLUMN customer_notes character varying DEFAULT '';
 
-END;
+COMMIT;
